@@ -126,5 +126,27 @@
   "defaultProject": "EcoTechCart",
   "cli": {
     "analytics": "252ae011-2b23-466d-823e-c0f16e7b1e7f"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "skipTests": true,
+      "inlineStyle": false
+    },
+    "@schematics/angular:module": {
+      "skipTests":true,
+      "inlineStyle":false
+    },
+    "@schematics/angular:directive": {
+      "skipTests": true,
+      "inlineStyle":false
+    },
+    "@schematics/angular:class": {
+      "skipTests": true,
+      "inlineStyle":false
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true,
+      "inlineStyle":false
+    }
   }
 }
