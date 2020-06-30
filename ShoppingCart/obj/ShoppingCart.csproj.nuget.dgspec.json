@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Amrik\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj": {}
+    "F:\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Amrik\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj": {
+    "F:\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Amrik\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj",
+        "projectUniqueName": "F:\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj",
         "projectName": "ShoppingCart",
-        "projectPath": "C:\\Users\\Amrik\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj",
-        "packagesPath": "C:\\Users\\Owner\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Amrik\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\obj\\",
+        "projectPath": "F:\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\ShoppingCart.csproj",
+        "packagesPath": "C:\\Users\\Anita\\.nuget\\packages\\",
+        "outputPath": "F:\\Workspc\\EcoTechDoors\\ECommerce\\ShoppingCart\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Owner\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Anita\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -55,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

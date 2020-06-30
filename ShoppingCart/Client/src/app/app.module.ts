@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './public/home/home.component';
+import { LoginComponent } from './public/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -20,3 +22,4 @@ import { HomeComponent } from './public/home/home.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
