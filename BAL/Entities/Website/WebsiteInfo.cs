@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EcoTechAPIs.Models
+namespace BAL.Entities
 {
+    #region [ Multiple Website Information Details ]
     public class WebsiteInfo
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WebsiteID { get; set; }
+        
+        [Column(TypeName ="nvarchar")]
+        [StringLength(100)]
         public string WebsiteName { get; set; }
+
+        [Column(TypeName = "nvarchar")]
+        [StringLength(500)]
         public string URL { get; set; }
         public string CpanelUser { get; set; }
         public string CpanelPassword { get; set; }
@@ -36,4 +43,5 @@ namespace EcoTechAPIs.Models
         public string Address { get; set; }
         public string AddressMap { get; set; }
     }
+    #endregion
 }
