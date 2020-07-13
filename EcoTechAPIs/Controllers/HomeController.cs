@@ -35,7 +35,7 @@ namespace EcoTechAPIs.Controllers
         private List<WebsiteInfo> GetWebsiteInfoDetails(int? id)
         {
             db.WebsiteInfoRepo.DbInitialize();
-            return db.WebsiteInfoRepo.GetAll().Where(w => w.WebsiteID == id).ToList();
+            return db.WebsiteInfoRepo.GetAll().Where(w => (id!=null ? w.WebsiteID == id: w.WebsiteID== w.WebsiteID)).ToList();
         }
 
         // POST: api/Home
