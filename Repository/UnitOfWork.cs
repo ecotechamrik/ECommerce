@@ -27,6 +27,17 @@ namespace Repository
             }
         }
 
+        private IWebsiteInfoRepository _websiteInfoRepo;
+        public IWebsiteInfoRepository WebsiteInfoRepo
+        {
+            get
+            {
+                if (_websiteInfoRepo == null)
+                    _websiteInfoRepo = new WebsiteInfoRepository(db);
+                return _websiteInfoRepo;
+            }
+        }
+
         private IProductRepository _productRepo;
         public IProductRepository ProductRepo
         {

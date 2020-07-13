@@ -2,15 +2,15 @@
 using System.Linq;
 using BAL.Entities;
 
-namespace DAL
+namespace DAL.DBInitializer
 {
-    public static class DbInitializer
+    public class ProductDbInitializer
     {
         public static void Initialize(DatabaseContext context)
         {
             //context.Database.EnsureCreated();
 
-            // Look for any students.
+            // Look for any Categories.
             if (context.Categories.Any())
             {
                 return;   // DB has been seeded

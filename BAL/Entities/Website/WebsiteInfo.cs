@@ -7,16 +7,8 @@ namespace BAL.Entities
     #region [ Multiple Website Information Details ]
     public class WebsiteInfo
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WebsiteID { get; set; }
-        
-        [Column(TypeName ="nvarchar")]
-        [StringLength(100)]
         public string WebsiteName { get; set; }
-
-        [Column(TypeName = "nvarchar")]
-        [StringLength(500)]
         public string URL { get; set; }
         public string CpanelUser { get; set; }
         public string CpanelPassword { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BAL.Entities;
 using DAL;
+using DAL.DBInitializer;
 using BAL.ViewModels;
 using Repository.Abstraction;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ namespace Repository.Implementation
         /// </summary>
         public void DbInitialize()
         {
-            DbInitializer.Initialize(Context);
+            ProductDbInitializer.Initialize(Context);
         }
     }
 }

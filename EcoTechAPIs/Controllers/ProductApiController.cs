@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EcoTechAPIs.Models;
+using BAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace EcoTechAPIs.Controllers
 {
@@ -19,7 +20,7 @@ namespace EcoTechAPIs.Controllers
         {
             if (products.Count == 0)
             {
-                Product p = new Product { ProductId = 1, ProductName = "sold", ProductCode = "P001", Price = 200, IsActive = true, Color = "Blue" };
+                Product p = new Product { ProductID = 1, ProductName = "sold", ProductCode = "P001", LivePrice = "200", IsActive = true };
                 products.Add(p);
             }
         }
@@ -60,7 +61,7 @@ namespace EcoTechAPIs.Controllers
         public Product GetProductById(int productid)
         {
             var prod = (from p in products
-                        where p.ProductId == productid
+                        where p.ProductID == productid
                         select p).FirstOrDefault();
             return prod;
         }
@@ -69,7 +70,7 @@ namespace EcoTechAPIs.Controllers
         public Product GetProductById(int productid, string name)
         {
             var prod = (from p in products
-                        where p.ProductId == productid
+                        where p.ProductID == productid
                         select p).FirstOrDefault();
             return prod;
         }
