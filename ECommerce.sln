@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart", "ShoppingCart\ShoppingCart.csproj", "{4C2FCCD6-D659-49CC-8FE2-D58D037A9BC4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoTechAPIs", "EcoTechAPIs\EcoTechAPIs.csproj", "{C798BA08-87B3-4422-BC48-7F46545E6ECF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{A47D42FB-F52A-4352-9C46-21500F9A991D}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAL", "BAL\BAL.csproj", "{0F0D0AA2-A8BE-406B-970A-255AE513FD10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTechAdmin", "EcoTechAdmin\EcoTechAdmin.csproj", "{0673F01A-A500-45F7-A302-2282552FC14D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C2FCCD6-D659-49CC-8FE2-D58D037A9BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C2FCCD6-D659-49CC-8FE2-D58D037A9BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C2FCCD6-D659-49CC-8FE2-D58D037A9BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C2FCCD6-D659-49CC-8FE2-D58D037A9BC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C798BA08-87B3-4422-BC48-7F46545E6ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C798BA08-87B3-4422-BC48-7F46545E6ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C798BA08-87B3-4422-BC48-7F46545E6ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{0F0D0AA2-A8BE-406B-970A-255AE513FD10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F0D0AA2-A8BE-406B-970A-255AE513FD10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F0D0AA2-A8BE-406B-970A-255AE513FD10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0673F01A-A500-45F7-A302-2282552FC14D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0673F01A-A500-45F7-A302-2282552FC14D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0673F01A-A500-45F7-A302-2282552FC14D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0673F01A-A500-45F7-A302-2282552FC14D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

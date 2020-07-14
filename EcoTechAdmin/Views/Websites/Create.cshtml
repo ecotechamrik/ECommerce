@@ -1,0 +1,91 @@
+﻿@model BAL.ViewModels.WebsiteInfoViewModel
+
+@{
+    ViewData["Title"] = Model != null ? "Edit" : "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Website Info</h4>
+<div> <a asp-action="Index">Back to List</a> </div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="@ViewData["Title"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span class="text-danger font-weight-bold">"@ViewBag.Message"</span>
+            <div class="form-group">
+                <input type="hidden" asp-for="WebsiteID" />
+                <label asp-for="WebsiteName" class="control-label font-weight-bold"></label>
+                <input asp-for="WebsiteName" class="form-control" />
+                <span asp-validation-for="WebsiteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WebsiteBannerTitle" class="control-label font-weight-bold"></label>
+                <input asp-for="WebsiteBannerTitle" class="form-control" />
+                <span asp-validation-for="WebsiteBannerTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WebsiteBannerTagLine" class="control-label font-weight-bold"></label>
+                <input asp-for="WebsiteBannerTagLine" class="form-control" />
+                <span asp-validation-for="WebsiteBannerTagLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label font-weight-bold"></label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyDesc" class="control-label font-weight-bold"></label>
+                <textarea asp-for="CompanyDesc" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="CompanyDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactEmailID" class="control-label font-weight-bold"></label>
+                <input asp-for="ContactEmailID" class="form-control" />
+                <span asp-validation-for="ContactEmailID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cell" class="control-label font-weight-bold"></label>
+                <input asp-for="Cell" class="form-control" />
+                <span asp-validation-for="Cell" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficePhone" class="control-label font-weight-bold"></label>
+                <input asp-for="OfficePhone" class="form-control" />
+                <span asp-validation-for="OfficePhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fax" class="control-label font-weight-bold"></label>
+                <input asp-for="Fax" class="form-control" />
+                <span asp-validation-for="Fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DevelopedBy" class="control-label font-weight-bold"></label>
+                <input asp-for="DevelopedBy" class="form-control" />
+                <span asp-validation-for="DevelopedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label font-weight-bold"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddressMap" class="control-label font-weight-bold"></label>
+                <textarea asp-for="AddressMap" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="AddressMap" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
