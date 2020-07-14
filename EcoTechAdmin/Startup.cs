@@ -35,7 +35,7 @@ namespace EcoTechAdmin
             options.DefaultFileNames.Add("index.html");
             app.UseDefaultFiles(options);
 
-            //app.UseDefaultFiles();
+            app.UseDefaultFiles();
 
             if (env.IsDevelopment())
             {

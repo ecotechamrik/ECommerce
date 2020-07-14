@@ -64,7 +64,7 @@ namespace EcoTechAdmin.Controllers
         public IActionResult Edit(int id)
         {
             var response = client.GetAsync(client.BaseAddress + "website" + "/" + id).Result;
-            WebsiteInfoViewModel _website = new WebsiteInfoViewModel();
+            WebsiteInfoViewModel model = new WebsiteInfoViewModel();
 
             if (response.IsSuccessStatusCode)
             {
@@ -72,13 +72,35 @@ namespace EcoTechAdmin.Controllers
 
                 if (data != "" && data.StartsWith('['))
                     data = data.Substring(1, data.Length - 2);
-                _website = JsonConvert.DeserializeObject<WebsiteInfoViewModel>(data);
+                model = JsonConvert.DeserializeObject<WebsiteInfoViewModel>(data);
                 
-                if(_website!=null)
-                    return View("Create", _website);
+                if(model != null)
+                    return View("Create", model);
             }
 
             return View("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(WebsiteInfoViewModel model)
+        {
+            try
+            {
+                string data = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+                var response = client.PostAsync(client.BaseAddress + "website/" + model.WebsiteID, content).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Something went wrong: " + ex.Message;
+            }
+            return View("Create", model);
         }
     }
 }
