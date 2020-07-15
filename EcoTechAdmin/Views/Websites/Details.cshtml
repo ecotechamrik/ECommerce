@@ -1,0 +1,191 @@
+﻿@model BAL.ViewModels.WebsiteInfoViewModel
+
+<style type="text/css">
+    .backcolor {
+        background-color: #D3D3D3;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1> @Html.DisplayFor(model => model.WebsiteName) Website Details</h1>
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WebsiteID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.WebsiteID }, new { onclick = "return confirm('Do you want to delete this?')" }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.WebsiteID)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.WebsiteID)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.WebsiteName)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.WebsiteName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.WebsiteBannerTitle)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.WebsiteBannerTitle)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.WebsiteBannerTagLine)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.WebsiteBannerTagLine)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CompanyDesc)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.CompanyDesc)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ContactEmailID)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ContactEmailID)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Cell)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.Cell)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.OfficePhone)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.OfficePhone)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Fax)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.Fax)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.DevelopedBy)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.DevelopedBy)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AddressMap)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AddressMap)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.URL)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.URL)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CpanelUser)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CpanelUser)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CpanelPassword)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.CpanelPassword)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.FTPUser)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.FTPUser)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.FTPPassword)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.FTPPassword)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.DBUser)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.DBUser)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.DBPassword)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.DBPassword)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AdminUser)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AdminUser)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AdminPassword)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.AdminPassword)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.DomainRenewDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.DomainRenewDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.HostingRenewDate)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.HostingRenewDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.HostingProviderName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.HostingProviderName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.HostingProviderDesc)
+        </dt>
+        <dd class="col-sm-9 backcolor">
+            @Html.DisplayFor(model => model.HostingProviderDesc)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.HostingProviderContactNo)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.HostingProviderContactNo)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WebsiteID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.WebsiteID }, new { onclick= "return confirm('Do you want to delete this?')" }) |
+    <a asp-action="Index">Back to List</a>
+</div>

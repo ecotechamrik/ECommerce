@@ -4,11 +4,19 @@
     ViewData["Title"] = "Websites";
 }
 
-<h1>Index</h1>
+<h1>All Websites</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@if (ViewBag.Message!=null)
+{
+<p>
+    <code class="@ViewBag.Class font-weight-bold">@ViewBag.Message</code>
+</p>
+}
+
 <table class="table">
     <thead>
         <tr>

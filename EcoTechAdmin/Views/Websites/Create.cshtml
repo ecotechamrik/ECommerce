@@ -4,16 +4,18 @@
     ViewData["Title"] = Model != null ? "Edit" : "Create";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] Website Details</h1>
 
-<h4>Website Info</h4>
 <div> <a asp-action="Index">Back to List</a> </div>
 <hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="@ViewData["Title"]">
+            <div class="form-group text-right">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <span class="text-danger font-weight-bold">"@ViewBag.Message"</span>
+            <span class="text-danger font-weight-bold">@ViewBag.Message</span>
             <div class="form-group">
                 <input type="hidden" asp-for="WebsiteID" />
                 <label asp-for="WebsiteName" class="control-label font-weight-bold"></label>
@@ -22,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="WebsiteBannerTitle" class="control-label font-weight-bold"></label>
-                <input asp-for="WebsiteBannerTitle" class="form-control" />
+                <input asp-for="WebsiteBannerTitle" class="form-control" asp-placeholder-for="WebsiteBannerTitle" />
                 <span asp-validation-for="WebsiteBannerTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -76,6 +78,76 @@
                 <span asp-validation-for="AddressMap" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="URL" class="control-label"></label>
+                <input asp-for="URL" class="form-control" />
+                <span asp-validation-for="URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CpanelUser" class="control-label"></label>
+                <input asp-for="CpanelUser" class="form-control" />
+                <span asp-validation-for="CpanelUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CpanelPassword" class="control-label"></label>
+                <input asp-for="CpanelPassword" class="form-control" />
+                <span asp-validation-for="CpanelPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FTPUser" class="control-label"></label>
+                <input asp-for="FTPUser" class="form-control" />
+                <span asp-validation-for="FTPUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FTPPassword" class="control-label"></label>
+                <input asp-for="FTPPassword" class="form-control" />
+                <span asp-validation-for="FTPPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DBUser" class="control-label"></label>
+                <input asp-for="DBUser" class="form-control" />
+                <span asp-validation-for="DBUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DBPassword" class="control-label"></label>
+                <input asp-for="DBPassword" class="form-control" />
+                <span asp-validation-for="DBPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdminUser" class="control-label"></label>
+                <input asp-for="AdminUser" class="form-control" />
+                <span asp-validation-for="AdminUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdminPassword" class="control-label"></label>
+                <input asp-for="AdminPassword" class="form-control" />
+                <span asp-validation-for="AdminPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DomainRenewDate" class="control-label"></label>
+                <input asp-for="DomainRenewDate" class="form-control" />
+                <span asp-validation-for="DomainRenewDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostingRenewDate" class="control-label"></label>
+                <input asp-for="HostingRenewDate" class="form-control" />
+                <span asp-validation-for="HostingRenewDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostingProviderName" class="control-label"></label>
+                <input asp-for="HostingProviderName" class="form-control" />
+                <span asp-validation-for="HostingProviderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostingProviderDesc" class="control-label"></label>
+                <input asp-for="HostingProviderDesc" class="form-control" />
+                <span asp-validation-for="HostingProviderDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostingProviderContactNo" class="control-label"></label>
+                <input asp-for="HostingProviderContactNo" class="form-control" />
+                <span asp-validation-for="HostingProviderContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group text-right">
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
         </form>
