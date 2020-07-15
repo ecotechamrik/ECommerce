@@ -45,12 +45,34 @@ namespace EcoTechAdmin
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
+            #region [ Page Not Found Handling ]
+            // Option 1:
+            // app.UseStatusCodePages(); // Will Redirect to - Status Code: 404; Not Found 
+
+            // Option 2:
+            // app.UseStatusCodePagesWithReExecute("/Home/404/{0}");
+
+            // Option 3:
+            app.Use(async (ctx, next) =>
+            {
+                await next();
+
+                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                {
+                    string originalPath = ctx.Request.Path.Value;
+                    ctx.Items["originalPath"] = originalPath;
+                    ctx.Request.Path = "/Home/404";
+                    await next();
+                }
+            });
+            #endregion
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthorization();            
 
             app.UseEndpoints(endpoints =>
             {

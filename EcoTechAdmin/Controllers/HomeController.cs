@@ -33,5 +33,36 @@ namespace EcoTechAdmin.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        #region [ 404 - Page Not Found ]
+        /// <summary>
+        /// 404 - Page Not Found
+        /// </summary>
+        /// <returns></returns>
+
+        [Route("Home/404")]
+        public IActionResult PageNotFound()
+        {
+            string originalPath = "unknown";
+            if (HttpContext.Items.ContainsKey("originalPath"))
+            {
+                originalPath = HttpContext.Items["originalPath"] as string;
+            }
+            ViewData["ErrorMessage"] = originalPath;
+            return View();
+        }
+
+        /// <summary>
+        /// 404 - Page Not Found
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [Route("Home/404/{code:int}")]
+        public IActionResult PageNotFound(int code)
+        {
+            ViewData["ErrorMessage"] = $"Error occured. The ErrorCode is: {code}";
+            return View();
+        }
+        #endregion
     }
 }
