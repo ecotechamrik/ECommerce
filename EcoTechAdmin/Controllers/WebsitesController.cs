@@ -47,7 +47,7 @@ namespace EcoTechAdmin.Controllers
 
             if (search == null && !string.IsNullOrEmpty(currentFilter))
             {
-                search = currentFilter.ToLower();
+                search = currentFilter;
             }
             ViewData["CurrentFilter"] = search;
 
@@ -61,10 +61,10 @@ namespace EcoTechAdmin.Controllers
 
             if (!String.IsNullOrEmpty(search))
             {
-                _websites = _websites.Where(s => s.WebsiteName.ToLower().Contains(search)
-                                       || s.WebsiteBannerTitle.ToLower().Contains(search)
-                                       || s.WebsiteBannerTitle.ToLower().Contains(search)
-                                       || s.WebsiteBannerTagLine.ToLower().Contains(search)).ToList();
+                _websites = _websites.Where(s => s.WebsiteName.ToLower().Contains(search.ToLower())
+                                       || s.WebsiteBannerTitle.ToLower().Contains(search.ToLower())
+                                       || s.WebsiteBannerTitle.ToLower().Contains(search.ToLower())
+                                       || s.WebsiteBannerTagLine.ToLower().Contains(search.ToLower())).ToList();
             }
             return View(_websites);
         }

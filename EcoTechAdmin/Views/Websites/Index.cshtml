@@ -20,9 +20,9 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="search" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
+            Find by name: <input type="text" id="search" name="search" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-secondary" /> |
+            <a asp-action="Index">Show All</a>
         </p>
     </div>
 </form>
@@ -82,3 +82,9 @@
         }
     </tbody>
 </table>
+
+<script>
+    (function () {
+        document.getElementById("search").focus();
+    })();
+</script>
