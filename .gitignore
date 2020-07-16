@@ -27,6 +27,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 /ShoppingCart
+appsettings.json
+launchSettings.json
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

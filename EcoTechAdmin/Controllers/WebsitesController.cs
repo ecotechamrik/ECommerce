@@ -34,9 +34,39 @@ namespace EcoTechAdmin.Controllers
         /// Load the list of websites
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    return GetAllWebsiteData("Index");
+        //}
+
+        public IActionResult Index(string currentFilter, string search)
         {
-            return GetAllWebsiteData("Index");
+            //ViewData["CurrentSort"] = sortOrder;
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (search == null && !string.IsNullOrEmpty(currentFilter))
+            {
+                search = currentFilter.ToLower();
+            }
+            ViewData["CurrentFilter"] = search;
+
+            List<WebsiteInfoViewModel> _websites = new List<WebsiteInfoViewModel>();
+            var response = client.GetAsync(client.BaseAddress + "website").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                _websites = JsonConvert.DeserializeObject<List<WebsiteInfoViewModel>>(data);
+            }
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                _websites = _websites.Where(s => s.WebsiteName.ToLower().Contains(search)
+                                       || s.WebsiteBannerTitle.ToLower().Contains(search)
+                                       || s.WebsiteBannerTitle.ToLower().Contains(search)
+                                       || s.WebsiteBannerTagLine.ToLower().Contains(search)).ToList();
+            }
+            return View(_websites);
         }
 
         /// <summary>
@@ -117,8 +147,8 @@ namespace EcoTechAdmin.Controllers
                 if (data != "" && data.StartsWith('['))
                     data = data.Substring(1, data.Length - 2);
                 model = JsonConvert.DeserializeObject<WebsiteInfoViewModel>(data);
-                
-                if(model != null)
+
+                if (model != null)
                     return View("Create", model);
             }
 
