@@ -27,7 +27,11 @@ bld/
 [Oo]bj/
 [Ll]og/
 /ShoppingCart
+/PublishProfiles
+
+# Config Settings Files
 appsettings.json
+appsettings.Development.json
 launchSettings.json
 
 # Visual Studio 2015/2017 cache/options directory
