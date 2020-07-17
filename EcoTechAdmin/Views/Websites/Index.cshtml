@@ -1,35 +1,11 @@
-﻿
-
-@model IEnumerable<BAL.ViewModels.WebsiteInfoViewModel>
+﻿@model IEnumerable<BAL.ViewModels.WebsiteInfoViewModel>
 
 @{
     ViewData["Title"] = "Websites";
 }
-<h1>All Websites</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
-@if (ViewBag.Message != null)
-{
-    <div id="successMessage">
-        <code class="@ViewBag.Class font-weight-bold">@ViewBag.Message</code>
-    </div>
-}
-
-<div class="form-actions no-color">
-    <p>
-        Find Website: <input type="text" maxlength="500" id="searchText" name="search" value="@ViewData["currentFilter"]" />
-        <input type="button" value="Search" class="btn btn-secondary" id="btnSearch" /> |
-        <a id="lnkSearch" href="javascript:void(0);">Show All</a>
-    </p>
-</div>
-<div id="loading-image" class="text-center">
-    <img src="~/img/loader.gif" />
-</div>
-
-<div id="websitesResult"></div>
+@await Html.PartialAsync("_Websites")
 
 @section scripts {
     <script src="~/js/jquery-3.5.1.js" asp-append-version="true"></script>
@@ -37,26 +13,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            // Set Search Text Box Focus on Page Load
-            $('#searchText').focus();
-
             // Bind the Websites List on Page Load
-            loadTable();
-
-            $('#btnSearch').click(function () {
-                loadTable();
-            });
-
-            $('#lnkSearch').click(function () {
-                $('#searchText').val('');
-                loadTable();
-            });
-
-            $("#searchText").keyup(function (event) {
-                if(getIntKey(event) == 13) {
-                    $("#btnSearch").click();
-                }
-            });
+            LoadWebsitesList();
         });
 
         // Enter Key Code check with Null Value
@@ -66,17 +24,21 @@
             return keycode;
         }
 
-        // Hide Alert Message Div Automatically After 5 Secs
-        $(function () {            
-            //setTimeout(function () { $("#successMessage").hide('blind', {}, 500) }, 5000);
-            $('#successMessage').delay(5000).fadeOut('slow');
-        });
-
         // Load Websites List Table
-        function loadTable() {
+        function LoadWebsitesList(boolVal) {
+            // boolVal = true means Show All Clicked
+            if (boolVal)
+                $('#searchText').val('');
+
+            // Listing Table Hide till loading...
             $('#websitesResult').hide();
+
+            // Loader Show till Listing Table loading...
             $('#loading-image').show();
+
             var searchText = $('#searchText').val();
+
+            // Ajax Call
             $.ajax({
                 type: 'GET',
                 url: '/websites/search?search=' + searchText,
@@ -84,10 +46,115 @@
                     $('#websitesResult').html(result);
                 },
                 complete: function () {
-                    $('#loading-image').hide();
-                    $('#websitesResult').show();
+                    ShowHideDivMessages();
                 }
             });
         }
+
+        // Back to List / Cancel Click Event
+        function BackToWebsiteList(actionMessage) {
+            $('#loading-image').show();
+
+            $.ajax({
+                type: 'GET',
+                url: '/websites/websitesmainpage',
+                success: function (result) {
+                    $('#divWebsite').html(result);
+                    if (actionMessage == "delete") {
+                        $('#successMessage').html("Website record has been deleted successfully.");
+                        $('#successMessage').addClass("text-danger");
+                    }
+                    else if (actionMessage == "create") {
+                        $('#successMessage').html("Website record has been created successfully.");
+                        $('#successMessage').addClass("text-success");
+                    }
+                    else if (actionMessage == "edit") {
+                        $('#successMessage').html("Website record has been updated successfully.");
+                        $('#successMessage').addClass("text-success");
+                    }
+                    $('#successMessage').delay(5000).fadeOut('slow');
+                    
+                    LoadWebsitesList(false);
+                }
+            });
+        }
+
+        // Create New Website / Edit Website / Details Website
+        function CRUDActions(actionName, websiteID) {
+            var performAction = true;
+
+            if (actionName == 'delete') {
+                performAction = confirm('Do you want to delete this record?');
+            }
+            if (performAction) {
+                $('#websitesResult').hide();
+                $('#loading-image').show();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/websites/' + actionName + '/' + websiteID,
+                    success: function (result) {
+                        if (actionName == 'delete') {
+                            BackToWebsiteList("delete");
+                        }
+                        else {
+                            // Load Create/Edit/Details View
+                            $('#divWebsite').html(result);
+                        }
+                    },
+                    complete: function () { }
+                });
+            }
+        }
+
+        // Save + Update
+        function SaveWebsiteDetails() {
+            var _form = $("#websiteForm");
+            var _url = _form.attr("action");
+            var _formData = _form.serialize();
+            var alertMessage = "";
+
+            $.ajax({
+                type: "POST",
+                data: _formData,
+                url: _url,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (response) {
+                    if (response != 500) {
+                        if (_form.attr("action").toLowerCase().indexOf("create") != -1) {
+                            BackToWebsiteList("create");
+                        }
+                        else {
+                            BackToWebsiteList("edit");
+                        }                        
+                    }
+                    else {
+                        alert("Enter data in the form.");  //
+                    }
+                },
+                failure: function (response) {
+                    alert("Error: " + response);  //
+                }
+            });
+        }
+
+        // Show Hide Message/Loader Divs on Main Website Listing Page
+        function ShowHideDivMessages() {
+            $('#loading-image').hide();
+            $('#websitesResult').show();
+
+            $("#searchText").keyup(function (event) {
+                if (getIntKey(event) == 13) {
+                    LoadWebsitesList(false);
+                }
+            });
+
+            // Set Search Text Box Focus on Page Load
+            $('#searchText').focus();
+        }
+
     </script>
 }

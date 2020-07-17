@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+<div id="divWebsite">
+    <h1>All Websites</h1>
+
+    <p>
+        <a href="javascript:void(0)" onclick="CRUDActions('create','')">Create New</a>
+    </p>
+
+    <div style="padding-bottom:15px;" class="text-danger font-weight-bold">
+        <div id="successMessage"></div>
+    </div>
+
+    <div class="form-actions no-color">
+        <p>
+            Find Website: <input type="text" maxlength="500" id="searchText" name="search" value="@ViewData["currentFilter"]" />
+            <input type="button" value="Search" class="btn btn-secondary" onclick="LoadWebsitesList(false);" /> |
+            <a id="lnkSearch" href="javascript:void(0);" onclick="LoadWebsitesList(true);">Show All</a>
+        </p>
+    </div>
+    <div id="loading-image" class="text-center">
+        <img src="~/img/loader.gif" />
+    </div>
+
+    <div id="websitesResult"></div>
+
+</div>

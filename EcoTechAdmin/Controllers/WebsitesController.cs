@@ -9,6 +9,7 @@ using BAL.ViewModels;
 using Newtonsoft.Json;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using BAL.Entities;
 
 namespace EcoTechAdmin.Controllers
 {
@@ -34,8 +35,6 @@ namespace EcoTechAdmin.Controllers
         /// <summary>
         /// Index - Load the list of websites
         /// </summary>
-        /// <param name="currentFilter"></param>
-        /// <param name="search"></param>
         /// <returns></returns>
         public IActionResult Index()
         {
@@ -101,12 +100,22 @@ namespace EcoTechAdmin.Controllers
                 search = currentFilter;
             }
             ViewData["CurrentFilter"] = search;
+            return PartialView("_WebsitesList", await SearchResult(search));
+        }
+
+        /// <summary>
+        /// Search Website Results
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<WebsiteInfoViewModel>> SearchResult(string search)
+        {
             var searchResults = await GetAllWebsiteDataAsync(search);
             if (searchResults.Count() > 0)
                 ViewBag.HaveRecords = true;
             else
                 ViewBag.HaveRecords = false;
-            return PartialView("_WebsitesList", searchResults);
+            return searchResults;
         }
         #endregion
 
@@ -130,25 +139,7 @@ namespace EcoTechAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(WebsiteInfoViewModel model)
         {
-            try
-            {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync(client.BaseAddress + "website", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    ViewBag.Message = "Website record has been created successfully.";
-                    ViewBag.Class = "text-success";
-                    return View("Index");
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "Something went wrong: " + ex.Message;
-            }
-            return View();
+            return await SaveWebsiteDetails(model, "Create");
         }
         #endregion
 
@@ -188,18 +179,46 @@ namespace EcoTechAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(WebsiteInfoViewModel model)
         {
+            return await SaveWebsiteDetails(model, "Edit");
+        }
+        #endregion
+
+        #region [ Save & Update website Details with Post & Put Methods of the Web APIs ]
+        /// <summary>
+        /// Save & Update website Details with Post & Put Methods of the Web APIs.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private async Task<IActionResult> SaveWebsiteDetails(WebsiteInfoViewModel model, String action)
+        {
             try
             {
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-                var response = await client.PutAsync(client.BaseAddress + "website/" + model.WebsiteID, content);
+                var response = new HttpResponseMessage();
+
+                // Call Post Method to Create New Website Details
+                if (action.ToLower() == "create")
+                {
+                    response = await client.PostAsync(client.BaseAddress + "website", content);
+                }
+                // Call Put Method to Update Existing Website Details
+                else
+                {
+                    response = await client.PutAsync(client.BaseAddress + "website/" + model.WebsiteID, content);
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Website record has been updated successfully.";
                     ViewBag.Class = "text-success";
                     return View("Index");
+                }
+                else
+                {
+                    return Json(response.StatusCode);
                 }
             }
             catch (Exception ex)
@@ -243,7 +262,7 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
@@ -252,14 +271,27 @@ namespace EcoTechAdmin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Website record has been deleted successfully.";
-                    return View("Index");
+                    //return PartialView("_Websites", await SearchResult(""));
+                    return Ok(ViewBag.Message);
+
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index");            
+        }
+        #endregion
+
+        #region [ Load Website Main Page Partial View ]
+        /// <summary>
+        /// Load Website Main Page Partial View
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult WebsitesMainPage()
+        {
+            return PartialView("_Websites", SearchResult(""));
         }
         #endregion
     }
