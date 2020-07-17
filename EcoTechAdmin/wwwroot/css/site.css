@@ -77,3 +77,7 @@ body {
     font-weight: 700;
     color: #A24A13;
 }
+
+.error {
+    color:#dc3545 !important
+}

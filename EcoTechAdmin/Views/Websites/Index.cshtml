@@ -9,9 +9,12 @@
 
 @section scripts {
     <script src="~/js/jquery-3.5.1.js" asp-append-version="true"></script>
+    
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <script type="text/javascript">
-
+        
         $(document).ready(function () {
             // Bind the Websites List on Page Load
             LoadWebsitesList();
@@ -73,7 +76,7 @@
                         $('#successMessage').addClass("text-success");
                     }
                     $('#successMessage').delay(5000).fadeOut('slow');
-                    
+
                     LoadWebsitesList(false);
                 }
             });
@@ -110,35 +113,58 @@
         // Save + Update
         function SaveWebsiteDetails() {
             var _form = $("#websiteForm");
-            var _url = _form.attr("action");
-            var _formData = _form.serialize();
-            var alertMessage = "";
 
-            $.ajax({
-                type: "POST",
-                data: _formData,
-                url: _url,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
+            _form.validate({
+                rules: {
+                    WebsiteName: {
+                        required: true,
+                        minlength: 10,
+                        maxlength:200,
+                    },
                 },
-                success: function (response) {
-                    if (response != 500) {
-                        if (_form.attr("action").toLowerCase().indexOf("create") != -1) {
-                            BackToWebsiteList("create");
+                messages: {
+                    WebsiteName: {
+                        required: " Enter Website Name *",
+                        minlength: "Minimum length 10 digit",
+                        maxlength: "Minimum length 200 digit",
+                    },
+                },
+            });
+
+
+            if (_form.valid()) {
+                var _url = _form.attr("action");
+                var _formData = _form.serialize();
+                var alertMessage = "";
+
+                $.ajax({
+                    type: "POST",
+                    data: _formData,
+                    url: _url,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    success: function (response) {
+                        if (response != 500) {
+                            if (_form.attr("action").toLowerCase().indexOf("create") != -1) {
+                                BackToWebsiteList("create");
+                            }
+                            else {
+                                BackToWebsiteList("edit");
+                            }
                         }
                         else {
-                            BackToWebsiteList("edit");
-                        }                        
+                            alert("Enter data in the form.");  //
+                        }
+                    },
+                    failure: function (response) {
+                        alert("Error: " + response);  //
                     }
-                    else {
-                        alert("Enter data in the form.");  //
-                    }
-                },
-                failure: function (response) {
-                    alert("Error: " + response);  //
-                }
-            });
+                });
+            }
+            else
+                return false;
         }
 
         // Show Hide Message/Loader Divs on Main Website Listing Page
