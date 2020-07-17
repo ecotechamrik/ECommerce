@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BAL.ViewModels.WebsiteInfoViewModel>
+
+@if (ViewBag.HaveRecords == true)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.WebsiteID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WebsiteName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContactEmailID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cell)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OfficePhone)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WebsiteID)
+                </td>
+                <td>
+                    @Html.ActionLink(item.WebsiteName, "Details", new { id = item.WebsiteID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactEmailID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficePhone)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.WebsiteID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.WebsiteID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.WebsiteID }, new { onclick = "return confirm('Do you want to delete this?')" })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-center font-weight-bold m-5">No Records Found!</div>
+}

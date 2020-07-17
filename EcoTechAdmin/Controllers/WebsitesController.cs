@@ -8,6 +8,7 @@ using System.Net.Http;
 using BAL.ViewModels;
 using Newtonsoft.Json;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace EcoTechAdmin.Controllers
 {
@@ -31,59 +32,81 @@ namespace EcoTechAdmin.Controllers
 
         #region [ Index - Load the list of websites ]
         /// <summary>
-        /// Load the list of websites
+        /// Index - Load the list of websites
+        /// </summary>
+        /// <param name="currentFilter"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Get All Websites List from All Properties of the website
         /// </summary>
         /// <returns></returns>
-        //public IActionResult Index()
-        //{
-        //    return GetAllWebsiteData("Index");
-        //}
-
-        public IActionResult Index(string currentFilter, string search)
+        private async Task<IEnumerable<WebsiteInfoViewModel>> GetAllWebsiteDataAsync(String _search)
         {
-            //ViewData["CurrentSort"] = sortOrder;
-            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            IEnumerable<WebsiteInfoViewModel> _websites = new List<WebsiteInfoViewModel>();
 
+            var response = await client.GetAsync(client.BaseAddress + "website");
+            //var response1 = client.GetAsync(client.BaseAddress + "website").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                _websites = JsonConvert.DeserializeObject<IEnumerable<WebsiteInfoViewModel>>(data);
+            }
+
+            if (!String.IsNullOrEmpty(_search))
+            {
+                // Search website details into all properties
+                _websites = _websites.Where(s =>
+                                          (s.WebsiteName != null ? s.WebsiteName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.WebsiteBannerTitle != null ? s.WebsiteBannerTitle.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.WebsiteBannerTagLine != null ? s.WebsiteBannerTagLine.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.CompanyName != null ? s.CompanyName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.CompanyDesc != null ? s.CompanyDesc.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.ContactEmailID != null ? s.ContactEmailID.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.Cell != null ? s.Cell.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.OfficePhone != null ? s.OfficePhone.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.Fax != null ? s.Fax.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.DevelopedBy != null ? s.DevelopedBy.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.Address != null ? s.Address.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.URL != null ? s.URL.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.CpanelUser != null ? s.CpanelUser.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.FTPUser != null ? s.FTPUser.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.DBUser != null ? s.DBUser.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.AdminUser != null ? s.AdminUser.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.HostingProviderName != null ? s.HostingProviderName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.HostingProviderDesc != null ? s.HostingProviderDesc.ToLower().Contains(_search.ToLower()) : false)
+                                       || (s.HostingProviderContactNo != null ? s.HostingProviderContactNo.ToLower().Contains(_search.ToLower()) : false)
+                                       ).ToList();
+            }
+            return _websites;
+        }
+        #endregion
+
+        #region [ Search the particular website ]
+        /// <summary>
+        /// Search the selected website
+        /// </summary>
+        /// <param name="currentFilter"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Search(String currentFilter, String search)
+        {
             if (search == null && !string.IsNullOrEmpty(currentFilter))
             {
                 search = currentFilter;
             }
             ViewData["CurrentFilter"] = search;
-
-            List<WebsiteInfoViewModel> _websites = new List<WebsiteInfoViewModel>();
-            var response = client.GetAsync(client.BaseAddress + "website").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _websites = JsonConvert.DeserializeObject<List<WebsiteInfoViewModel>>(data);
-            }
-
-            if (!String.IsNullOrEmpty(search))
-            {
-                _websites = _websites.Where(s => s.WebsiteName.ToLower().Contains(search.ToLower())
-                                       || s.WebsiteBannerTitle.ToLower().Contains(search.ToLower())
-                                       || s.WebsiteBannerTitle.ToLower().Contains(search.ToLower())
-                                       || s.WebsiteBannerTagLine.ToLower().Contains(search.ToLower())).ToList();
-            }
-            return View(_websites);
-        }
-
-        /// <summary>
-        /// Get All Websites List
-        /// </summary>
-        /// <returns></returns>
-        private IActionResult GetAllWebsiteData(String _view)
-        {
-            List<WebsiteInfoViewModel> _websites = new List<WebsiteInfoViewModel>();
-            var response = client.GetAsync(client.BaseAddress + "website").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _websites = JsonConvert.DeserializeObject<List<WebsiteInfoViewModel>>(data);
-            }
-
-            return View(_view, _websites);
+            var searchResults = await GetAllWebsiteDataAsync(search);
+            if (searchResults.Count() > 0)
+                ViewBag.HaveRecords = true;
+            else
+                ViewBag.HaveRecords = false;
+            return PartialView("_WebsitesList", searchResults);
         }
         #endregion
 
@@ -105,20 +128,20 @@ namespace EcoTechAdmin.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Create(WebsiteInfoViewModel model)
+        public async Task<IActionResult> Create(WebsiteInfoViewModel model)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-                var response = client.PostAsync(client.BaseAddress + "website", content).Result;
+                var response = await client.PostAsync(client.BaseAddress + "website", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Website record has been created successfully.";
                     ViewBag.Class = "text-success";
-                    return GetAllWebsiteData("Index");
+                    return View("Index");
                 }
             }
             catch (Exception ex)
@@ -163,20 +186,20 @@ namespace EcoTechAdmin.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Edit(WebsiteInfoViewModel model)
+        public async Task<IActionResult> Edit(WebsiteInfoViewModel model)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-                var response = client.PutAsync(client.BaseAddress + "website/" + model.WebsiteID, content).Result;
+                var response = await client.PutAsync(client.BaseAddress + "website/" + model.WebsiteID, content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Website record has been updated successfully.";
                     ViewBag.Class = "text-success";
-                    return GetAllWebsiteData("Index");
+                    return View("Index");
                 }
             }
             catch (Exception ex)
@@ -220,16 +243,16 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var response = client.DeleteAsync(client.BaseAddress + "website/" + id).Result;
+                var response = await client.DeleteAsync(client.BaseAddress + "website/" + id);
 
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Website record has been deleted successfully.";
-                    return GetAllWebsiteData("Index");
+                    return View("Index");
                 }
             }
             catch (Exception ex)

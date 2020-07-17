@@ -1,9 +1,10 @@
-﻿@model IEnumerable<BAL.ViewModels.WebsiteInfoViewModel>
+﻿
+
+@model IEnumerable<BAL.ViewModels.WebsiteInfoViewModel>
 
 @{
     ViewData["Title"] = "Websites";
 }
-
 <h1>All Websites</h1>
 
 <p>
@@ -12,79 +13,81 @@
 
 @if (ViewBag.Message != null)
 {
-    <p>
+    <div id="successMessage">
         <code class="@ViewBag.Class font-weight-bold">@ViewBag.Message</code>
-    </p>
+    </div>
 }
 
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" id="search" name="search" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-secondary" /> |
-            <a asp-action="Index">Show All</a>
-        </p>
-    </div>
-</form>
+<div class="form-actions no-color">
+    <p>
+        Find Website: <input type="text" maxlength="500" id="searchText" name="search" value="@ViewData["currentFilter"]" />
+        <input type="button" value="Search" class="btn btn-secondary" id="btnSearch" /> |
+        <a id="lnkSearch" href="javascript:void(0);">Show All</a>
+    </p>
+</div>
+<div id="loading-image" class="text-center">
+    <img src="~/img/loader.gif" />
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WebsiteID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WebsiteName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactEmailID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cell)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OfficePhone)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WebsiteID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WebsiteName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompanyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactEmailID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cell)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfficePhone)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.WebsiteID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.WebsiteID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.WebsiteID }, new { onclick = "return confirm('Do you want to delete this?')" })
-                </td>
-            </tr>
+<div id="websitesResult"></div>
+
+@section scripts {
+    <script src="~/js/jquery-3.5.1.js" asp-append-version="true"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // Set Search Text Box Focus on Page Load
+            $('#searchText').focus();
+
+            // Bind the Websites List on Page Load
+            loadTable();
+
+            $('#btnSearch').click(function () {
+                loadTable();
+            });
+
+            $('#lnkSearch').click(function () {
+                $('#searchText').val('');
+                loadTable();
+            });
+
+            $("#searchText").keyup(function (event) {
+                if(getIntKey(event) == 13) {
+                    $("#btnSearch").click();
+                }
+            });
+        });
+
+        // Enter Key Code check with Null Value
+        function getIntKey(key) {
+            var keycode;
+            if (key == null) { keycode = event.keyCode; } else { keycode = key.keyCode; }
+            return keycode;
         }
-    </tbody>
-</table>
 
-<script>
-    (function () {
-        document.getElementById("search").focus();
-    })();
-</script>
+        // Hide Alert Message Div Automatically After 5 Secs
+        $(function () {            
+            //setTimeout(function () { $("#successMessage").hide('blind', {}, 500) }, 5000);
+            $('#successMessage').delay(5000).fadeOut('slow');
+        });
+
+        // Load Websites List Table
+        function loadTable() {
+            $('#websitesResult').hide();
+            $('#loading-image').show();
+            var searchText = $('#searchText').val();
+            $.ajax({
+                type: 'GET',
+                url: '/websites/search?search=' + searchText,
+                success: function (result) {
+                    $('#websitesResult').html(result);
+                },
+                complete: function () {
+                    $('#loading-image').hide();
+                    $('#websitesResult').show();
+                }
+            });
+        }
+    </script>
+}
