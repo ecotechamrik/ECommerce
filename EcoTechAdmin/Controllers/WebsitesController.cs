@@ -1,18 +1,18 @@
-﻿using System;
+﻿using BAL;
+using BAL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BAL;
 using System.Net.Http;
-using BAL.ViewModels;
-using Newtonsoft.Json;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
-using BAL.Entities;
+using System.Threading.Tasks;
 
 namespace EcoTechAdmin.Controllers
 {
+    [Authorize]
     public class WebsitesController : Controller
     {
         #region [ Local Variables ]
@@ -280,7 +280,7 @@ namespace EcoTechAdmin.Controllers
             {
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
-            return RedirectToAction("Index");            
+            return RedirectToAction("Index");
         }
         #endregion
 

@@ -6,9 +6,6 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.WebsiteID)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.WebsiteName)
                 </th>
                 <th>
@@ -31,9 +28,6 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.WebsiteID)
-                    </td>
-                    <td>
                         <a href="javascript:void(0)" onclick="CRUDActions('details','@item.WebsiteID')">@item.WebsiteName</a>
                     </td>
                     <td>
@@ -49,9 +43,9 @@
                         @Html.DisplayFor(modelItem => item.OfficePhone)
                     </td>
                     <td>
-                        <a href="javascript:void(0)" onclick="CRUDActions('edit','@item.WebsiteID')">Edit</a> |
-                        <a href="javascript:void(0)" onclick="CRUDActions('details','@item.WebsiteID')">Details</a> |
-                        <a href="javascript:void(0)" onclick="CRUDActions('delete','@item.WebsiteID')">Delete</a>
+                        <a href="javascript:void(0)" onclick="CRUDActions('edit','@item.WebsiteID')"><img alt="Edit Website" title="Edit Website" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+                        <a href="javascript:void(0)" onclick="CRUDActions('details','@item.WebsiteID')"><img alt="Show Details" title="Show Details" src="~/img/details.png" border="0" style="border:none;" /></a> |
+                        <a href="javascript:void(0)" onclick="CRUDActions('delete','@item.WebsiteID')"><img alt="Delete Website" title="Delete Website" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
                     </td>
                 </tr>
             }
@@ -60,5 +54,5 @@
 }
 else
 {
-    <div class="text-center font-weight-bold m-5">No Records Found!</div>
+    <div class="text-center font-weight-bold m-5" style="display:none;">No Records Found!</div>
 }

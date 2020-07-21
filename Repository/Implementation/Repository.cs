@@ -1,5 +1,5 @@
-﻿using Repository.Abstraction;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Repository.Abstraction;
 using System.Collections.Generic;
 using System.Linq;
 

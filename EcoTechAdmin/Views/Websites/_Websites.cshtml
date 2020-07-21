@@ -5,7 +5,7 @@
     <h1>All Websites</h1>
 
     <p>
-        <a href="javascript:void(0)" onclick="CRUDActions('create','')">Create New</a>
+        <a href="javascript:void(0)" onclick="CRUDActions('create','')"><img alt="Create New Website" title="Create New Website" src="~/img/create.png" border="0" style="border:none;" /></a>
     </p>
 
     <div style="padding-bottom:15px;" class="text-danger font-weight-bold">
@@ -16,7 +16,7 @@
         <p>
             Find Website: <input type="text" maxlength="500" id="searchText" name="search" value="@ViewData["currentFilter"]" />
             <input type="button" value="Search" class="btn btn-secondary" onclick="LoadWebsitesList(false);" /> |
-            <a id="lnkSearch" href="javascript:void(0);" onclick="LoadWebsitesList(true);">Show All</a>
+            <a id="lnkSearch" href="javascript:void(0);" onclick="LoadWebsitesList(true);">Show All Websites</a>
         </p>
     </div>
     <div id="loading-image" class="text-center">

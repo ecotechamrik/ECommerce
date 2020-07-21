@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BAL.Entities;
+using System;
 using System.Linq;
-using BAL.Entities;
 
 namespace DAL.DBInitializer
 {
@@ -20,7 +20,7 @@ namespace DAL.DBInitializer
             var categories = new Category[]
             {
                 new Category { CategoryName = "Interior Doors", Description = "Interior Doors", IsActive = true },
-                new Category { CategoryName = "Exterior Doors", Description = "Exterior Doors", IsActive = true },                
+                new Category { CategoryName = "Exterior Doors", Description = "Exterior Doors", IsActive = true },
                 new Category { CategoryName = "Others", Description = "Others", IsActive = true }
             };
 
@@ -36,7 +36,7 @@ namespace DAL.DBInitializer
             var subcategories = new SubCategory[]
             {
                 // Interior Sub Categories
-                new SubCategory { SubCategoryName = "Interior Traditional Paint Grade Doors", Description = "Interior Traditional Paint Grade Doors", 
+                new SubCategory { SubCategoryName = "Interior Traditional Paint Grade Doors", Description = "Interior Traditional Paint Grade Doors",
                                   CategoryID = InteriorCategoryID,  IsActive = true },
 
                 new SubCategory { SubCategoryName = "Interior Traditional Stain Grade Doors", Description = "Interior Traditional Stain Grade Doors",
@@ -78,10 +78,10 @@ namespace DAL.DBInitializer
             var products = new Product[]
             {
                 new Product { ProductName = "Eyremount", ProductCode = "Mahagony 42\"x96\"",
-                              ProductDesc = "This is a beautiful Mahogany Unit built from solid mahogany lumber straight from South America. The 4 panel arch top design includes a sashed all around full decorative lite transom.", 
+                              ProductDesc = "This is a beautiful Mahogany Unit built from solid mahogany lumber straight from South America. The 4 panel arch top design includes a sashed all around full decorative lite transom.",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 
-                new Product { ProductName = "Altamont", ProductCode = "Mahagony 36\"x84\"", 
+                new Product { ProductName = "Altamont", ProductCode = "Mahagony 36\"x84\"",
                               ProductDesc = "This is a beautiful mahogany unit. A traditional 2 panel design, a perfect fit for any style of houses. Paired with a slanted sashed sidelite with 1 panel bottom.",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 

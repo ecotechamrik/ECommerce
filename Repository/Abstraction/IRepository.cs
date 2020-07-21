@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Repository.Abstraction
 {
-    public interface IRepository<TEntity> where TEntity: class
+    public interface IRepository<TEntity> where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
         TEntity GetByID(Object Id);

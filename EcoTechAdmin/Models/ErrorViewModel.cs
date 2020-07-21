@@ -1,5 +1,3 @@
-using System;
-
 namespace EcoTechAdmin.Models
 {
     public class ErrorViewModel

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BAL.Entities;
+﻿using BAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.ModelBuilders
 {
@@ -23,17 +23,23 @@ namespace DAL.ModelBuilders
 
             // OR Alternate Way
 
-            // Category To Products [1 - M Relationship]
+            // Category To Products [1 - M Relationship with Category]
+            modelBuilder.Entity<Section>().HasMany(s => s.Categoriess).WithOne(s => s.Section).HasForeignKey(s => s.SectionID).OnDelete(DeleteBehavior.SetNull);
+
+            // Category To Products [1 - M Relationship with Category]
             modelBuilder.Entity<Category>().HasMany(c => c.Products).WithOne(c => c.Category).HasForeignKey(c => c.CategoryID).OnDelete(DeleteBehavior.SetNull);
 
-            // Category To Products [1 - M Relationship]
+            // Category To Products [1 - M Relationship with SubCategory]
             modelBuilder.Entity<SubCategory>().HasMany(c => c.Products).WithOne(c => c.SubCategory).HasForeignKey(c => c.SubCategoryID).OnDelete(DeleteBehavior.SetNull);
 
-            // Category To SubCategories [1 - M Relationship]
+            // Category To SubCategories [1 - M Relationship with Category]
             modelBuilder.Entity<Category>().HasMany(s => s.SubCategories).WithOne(c => c.Category).HasForeignKey(c => c.CategoryID).OnDelete(DeleteBehavior.SetNull);
 
-            // Product To ProductAttributes [1 - M Relationship]
-            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);
+            // Product To SubCategoryGallery [1 - M Relationship with SubCategory]
+            modelBuilder.Entity<SubCategory>().HasMany(s => s.SubCatGallery).WithOne(s => s.SubCategory).HasForeignKey(s => s.SubCategoryID).OnDelete(DeleteBehavior.SetNull);
+
+            // Product To ProductAttributes [1 - M Relationship with Product]
+            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);            
         }
         #endregion
     }

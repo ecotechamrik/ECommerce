@@ -1,6 +1,5 @@
-﻿using System;
+﻿using BAL.Entities;
 using System.Linq;
-using BAL.Entities;
 
 namespace DAL.DBInitializer
 {

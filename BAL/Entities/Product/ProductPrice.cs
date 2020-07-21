@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BAL.Entities
+﻿namespace BAL.Entities
 {
     public class ProductPrice
     {

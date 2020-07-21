@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EcoTechAdmin
 {

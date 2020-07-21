@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BAL.Entities
+﻿namespace BAL.Entities
 {
     #region [ Multiple Website Information Details ]
     public class WebsiteInfo

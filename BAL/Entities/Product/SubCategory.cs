@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BAL.Entities
 {
@@ -26,6 +25,9 @@ namespace BAL.Entities
 
         // Get the Products' Collection - Navigation Property [1-M Relationship]
         public ICollection<Product> Products { get; set; }
+
+        // Get the SubCategories Collection - Navigation Property [1-M Relationship]
+        public ICollection<SubCatGallery> SubCatGallery { get; set; }
 
     }
 }

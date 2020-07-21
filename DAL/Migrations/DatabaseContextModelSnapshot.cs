@@ -30,13 +30,21 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryOrder")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("SectionID")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryID");
+
+                    b.HasIndex("SectionID");
 
                     b.ToTable("Categories");
                 });
@@ -167,6 +175,87 @@ namespace DAL.Migrations
                     b.ToTable("ProductAttributes");
                 });
 
+            modelBuilder.Entity("BAL.Entities.Roles", b =>
+                {
+                    b.Property<int>("RoleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IsActive")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleID");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("BAL.Entities.Section", b =>
+                {
+                    b.Property<int>("SectionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SectionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SectionOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("SectionID");
+
+                    b.ToTable("Sections");
+                });
+
+            modelBuilder.Entity("BAL.Entities.SubCatGallery", b =>
+                {
+                    b.Property<int>("SubCatGalleryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMainImage")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LargeSizeImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediumSizeImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ThumbNailSizeImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubCatGalleryID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("SubCategoryID");
+
+                    b.ToTable("SubCatGalleries");
+                });
+
             modelBuilder.Entity("BAL.Entities.SubCategory", b =>
                 {
                     b.Property<int>("SubCategoryID")
@@ -192,6 +281,64 @@ namespace DAL.Migrations
                     b.HasIndex("CategoryID");
 
                     b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("BAL.Entities.User", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsActive")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("BAL.Entities.UserRoles", b =>
+                {
+                    b.Property<int>("UserRoleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserRoleID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("BAL.Entities.WebsiteInfo", b =>
@@ -287,6 +434,14 @@ namespace DAL.Migrations
                     b.ToTable("WebsiteInfos");
                 });
 
+            modelBuilder.Entity("BAL.Entities.Category", b =>
+                {
+                    b.HasOne("BAL.Entities.Section", "Section")
+                        .WithMany("Categoriess")
+                        .HasForeignKey("SectionID")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("BAL.Entities.Product", b =>
                 {
                     b.HasOne("BAL.Entities.Category", "Category")
@@ -308,12 +463,39 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
+            modelBuilder.Entity("BAL.Entities.SubCatGallery", b =>
+                {
+                    b.HasOne("BAL.Entities.Category", "Category")
+                        .WithMany("SubCatGalleries")
+                        .HasForeignKey("CategoryID");
+
+                    b.HasOne("BAL.Entities.SubCategory", "SubCategory")
+                        .WithMany("SubCatGallery")
+                        .HasForeignKey("SubCategoryID")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("BAL.Entities.SubCategory", b =>
                 {
                     b.HasOne("BAL.Entities.Category", "Category")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("BAL.Entities.UserRoles", b =>
+                {
+                    b.HasOne("BAL.Entities.Roles", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BAL.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

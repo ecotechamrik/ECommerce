@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Repository;
-using BAL.ViewModels;
+﻿using BAL.Entities;
 using Microsoft.AspNetCore.Mvc;
-using BAL.Entities;
+using Repository;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EcoTechAPIs.Controllers
 {
@@ -12,7 +11,7 @@ namespace EcoTechAPIs.Controllers
     [ApiController]
     public class WebsiteController : ControllerBase
     {
-        static IUnitOfWork uow;        
+        static IUnitOfWork uow;
         public WebsiteController(IUnitOfWork _uow)
         {
             uow = _uow;
@@ -40,10 +39,10 @@ namespace EcoTechAPIs.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // Func is not Required here but used just for practice purposes.
-        Func<int?, List<WebsiteInfo>> websites = new Func<int?, List<WebsiteInfo>>(GetWebsiteInfoDetails); 
+        Func<int?, List<WebsiteInfo>> websites = new Func<int?, List<WebsiteInfo>>(GetWebsiteInfoDetails);
         static List<WebsiteInfo> GetWebsiteInfoDetails(int? id)
         {
-            return uow.WebsiteInfoRepo.GetAll().Where(w => (id!=null ? w.WebsiteID == id: w.WebsiteID== w.WebsiteID)).ToList();
+            return uow.WebsiteInfoRepo.GetAll().Where(w => (id != null ? w.WebsiteID == id : w.WebsiteID == w.WebsiteID)).ToList();
         }
         #endregion
 

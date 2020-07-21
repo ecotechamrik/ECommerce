@@ -14,25 +14,13 @@
 <h1> @Html.DisplayFor(model => model.WebsiteName) Website Details</h1>
 
 <div>
-    <a href="javascript:void(0)" onclick="BackToWebsiteList('');">Back to List</a> |
-    <a href="javascript:void(0)" onclick="CRUDActions('edit', '@Model.WebsiteID');">Edit</a> |
-    <a href="javascript:void(0)" onclick="CRUDActions('delete', '@Model.WebsiteID');">Delete</a>
+    <a href="javascript:void(0)" onclick="BackToWebsiteList('');"><img alt="Back to Websites" title="Back to Websites" src="~/img/back.png" border="0" style="border:none;" /></a> |
+    <a href="javascript:void(0)" onclick="CRUDActions('edit', '@Model.WebsiteID');"><img alt="Edit Website" title="Edit Website" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+    <a href="javascript:void(0)" onclick="CRUDActions('delete', '@Model.WebsiteID');"><img alt="Delete Website" title="Delete Website" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
 </div>
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.WebsiteID)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.WebsiteID)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.WebsiteName)
-        </dt>
-        <dd class="col-sm-9 backcolor">
-            @Html.DisplayFor(model => model.WebsiteName)
-        </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.WebsiteBannerTitle)
         </dt>
@@ -186,7 +174,7 @@
     </dl>
 </div>
 <div>
-    <a href="javascript:void(0)" onclick="BackToWebsiteList('');">Back to List</a> |
-    <a href="javascript:void(0)" onclick="CRUDActions('edit', '@Model.WebsiteID');">Edit</a> |
-    <a href="javascript:void(0)" onclick="CRUDActions('delete', '@Model.WebsiteID');">Delete</a>
+    <a href="javascript:void(0)" onclick="BackToWebsiteList('');"><img alt="Back to Websites" title="Back to Websites" src="~/img/back.png" border="0" style="border:none;" /></a> |
+    <a href="javascript:void(0)" onclick="CRUDActions('edit', '@Model.WebsiteID');"><img alt="Edit Website" title="Edit Website" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+    <a href="javascript:void(0)" onclick="CRUDActions('delete', '@Model.WebsiteID');"><img alt="Delete Website" title="Delete Website" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
 </div>

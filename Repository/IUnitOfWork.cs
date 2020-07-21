@@ -9,7 +9,11 @@ namespace Repository
         /// <summary>
         /// Product Related Repositories
         /// </summary>
-        IRepository<Category> CategoryRepo { get; }
+
+        IRepository<Section> SectionRepo { get; }
+        ICategoryRepository CategoryRepo { get; }
+        ISubCategoryRepository SubCategoryRepo { get; }
+        ISubCatGalleryRepository SubCatGalleryRepo { get; }
         IProductRepository ProductRepo { get; }
         #endregion
 
@@ -18,6 +22,13 @@ namespace Repository
         /// Website Related Repositories
         /// </summary>
         IWebsiteInfoRepository WebsiteInfoRepo { get; }
+        #endregion
+
+        #region [ User Related Repositories ]
+        /// <summary>
+        /// User Related Repositories
+        /// </summary>
+        IUserRepository UserRepo { get; }
         #endregion
 
         int SaveChanges();

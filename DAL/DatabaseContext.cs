@@ -1,22 +1,33 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using BAL.Entities;
+using DAL.ModelBuilders;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using BAL.Entities;
-using DAL.ModelBuilders;
 
 namespace DAL
 {
     public class DatabaseContext : DbContext
     {
+        #region [ Create User Info DB Entities ]
+        /// <summary>
+        /// Create User Info DB Entities
+        /// </summary>
+        public DbSet<User> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
+        #endregion
+
         #region [ Creating Product DB Entities ]
         /// <summary>
         /// Creating Product DB Entities
         /// </summary>
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductAttributes> ProductAttributes { get; set; }
+        public DbSet<Section> Sections { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
-        public DbSet<ProductAttributes> ProductAttributes { get; set; }
+        public DbSet<SubCatGallery> SubCatGalleries { get; set; }
         #endregion
 
         #region [ Create Website Info DB Entities ]
@@ -60,7 +71,10 @@ namespace DAL
 
             // Build Website Info Model
             WebsiteInfoBuilder.WebsiteInfoModel(modelBuilder);
-        }        
+
+            // Build Website Info Model
+            UserInfoBuilder.UserInfoModel(modelBuilder);
+        }
         #endregion
     }
 }

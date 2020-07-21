@@ -1,6 +1,4 @@
 ﻿using BAL.Entities;
-using BAL.ViewModels;
-using System.Collections.Generic;
 
 namespace Repository.Abstraction
 {

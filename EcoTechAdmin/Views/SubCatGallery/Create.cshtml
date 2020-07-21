@@ -1,0 +1,77 @@
+﻿@model BAL.ViewModels.Product.SubCatGalleryViewModel
+
+@{
+    ViewData["Title"] = (Model != null && Model.SubCatGalleryID > 0) ? "Edit" : "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@ViewBag.SubCategoryID/@ViewBag.CategoryID"><img alt="Back to Sub Category Gallery" title="Back to Sub Category Gallery" src="~/img/back.png" border="0" style="border:none;" /></a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="@ViewData["Title"]">
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a class="btn btn-secondary" href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@ViewBag.SubCategoryID/@ViewBag.CategoryID">Cancel</a>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Category Drop Down List -->
+            <div class="form-group">
+                <input type="hidden" asp-for="SubCatGalleryID" />
+                <label asp-for="CategoryName" class="control-label font-weight-bold"></label>
+                <select class="form-control" asp-for="CategoryID" asp-items="@(new SelectList(ViewBag.Categories, "CategoryID","CategoryName"))">
+                    <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+
+            <!-- Sub Category Drop Down List -->
+            <div class="form-group">
+                <label asp-for="SubCategoryName" class="control-label font-weight-bold"></label>
+                <select class="form-control" asp-for="SubCategoryID" asp-items="@(new SelectList(ViewBag.SubCategories, "SubCategoryID","SubCategoryName"))">
+                    <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="SubCategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order" class="control-label"></label>
+                <input asp-for="Order" class="form-control" />
+                <span asp-validation-for="Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThumbNailSizeImage" class="control-label"></label>
+                <input asp-for="ThumbNailSizeImage" class="form-control" />
+                <span asp-validation-for="ThumbNailSizeImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MediumSizeImage" class="control-label"></label>
+                <input asp-for="MediumSizeImage" class="form-control" />
+                <span asp-validation-for="MediumSizeImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LargeSizeImage" class="control-label"></label>
+                <input asp-for="LargeSizeImage" class="form-control" />
+                <span asp-validation-for="LargeSizeImage" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsMainImage" /> @Html.DisplayNameFor(model => model.IsMainImage)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a class="btn btn-secondary" href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@ViewBag.SubCategoryID/@ViewBag.CategoryID">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@ViewBag.SubCategoryID/@ViewBag.CategoryID"><img alt="Back to Sub Category Gallery" title="Back to Sub Category Gallery" src="~/img/back.png" border="0" style="border:none;" /></a>
+</div>

@@ -1,26 +1,93 @@
-﻿using System;
+﻿using BAL;
+using BAL.ViewModels.User;
+using EcoTechAdmin.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using EcoTechAdmin.Models;
 
 namespace EcoTechAdmin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        #region [ Local Variables ]
+        // Get API URL from appsettings.json
+        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
 
-        public HomeController(ILogger<HomeController> logger)
+        // HttpClient Variable to access the Web APIs
+        HttpClient client;
+        #endregion
+
+        public HomeController()
         {
-            _logger = logger;
+            client = new HttpClient();
+            client.BaseAddress = baseAddress;
         }
 
-        public IActionResult Index()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                //var userName = HttpContext.User.Claims.First().Value;
+                return RedirectToAction("Index", "Websites");
+            }
+
+            UserViewModel userViewModel = new UserViewModel();
+            if(!String.IsNullOrEmpty(returnUrl))
+                userViewModel.ReturnUrl = returnUrl;
+            return View(userViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Login(UserViewModel _user)
+        {
+            var response = client.GetAsync(client.BaseAddress + "token/create/" + _user.UserName + "/" + _user.Password).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                _user.Token = response.Content.ReadAsStringAsync().Result;
+                Authenticate(_user);
+
+                if (Url.IsLocalUrl(_user.ReturnUrl))
+                    return Redirect(_user.ReturnUrl);
+                else
+                    return RedirectToAction("Index", "Websites");
+            }
+            else
+            {
+                ViewBag.Message = "Invalid Username/Password. Please try again.";
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Home");
+        }
+
+        private void Authenticate(UserViewModel _user)
+        {
+            
+            var authUser = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(ClaimTypes.Email, _user.UserName),
+                new Claim("AuthToken", _user.Token),
+            };
+
+            var userIdentity = new ClaimsIdentity(authUser, "User Identity");
+
+            var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+
+            HttpContext.SignInAsync(userPrincipal);
         }
 
         public IActionResult Privacy()

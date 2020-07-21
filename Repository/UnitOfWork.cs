@@ -16,14 +16,58 @@ namespace Repository
             db = new DatabaseContext();
         }
 
-        private IRepository<Category> _categoryRepo;
-        public IRepository<Category> CategoryRepo 
+        private IUserRepository _userRepo;
+        public IUserRepository UserRepo
         {
-            get 
+            get
+            {
+                if (_userRepo == null)
+                    _userRepo = new UserRepository(db);
+                return _userRepo;
+            }
+        }
+
+        private IRepository<Section> _sectionRepo;
+        public IRepository<Section> SectionRepo
+        {
+            get
+            {
+                if (_sectionRepo == null)
+                    _sectionRepo = new Repository<Section>(db);
+                return _sectionRepo;
+            }
+        }
+
+        private ICategoryRepository _categoryRepo;
+        public ICategoryRepository CategoryRepo
+        {
+            get
             {
                 if (_categoryRepo == null)
-                    _categoryRepo = new Repository<Category>(db);
+                    _categoryRepo = new CategoryRepository(db);
                 return _categoryRepo;
+            }
+        }
+
+        private ISubCategoryRepository _subCategoryRepo;
+        public ISubCategoryRepository SubCategoryRepo
+        {
+            get
+            {
+                if (_subCategoryRepo == null)
+                    _subCategoryRepo = new SubCategoryRepository(db);
+                return _subCategoryRepo;
+            }
+        }
+
+        private ISubCatGalleryRepository _subCatGalleryRepo;
+        public ISubCatGalleryRepository SubCatGalleryRepo
+        {
+            get
+            {
+                if (_subCatGalleryRepo == null)
+                    _subCatGalleryRepo = new SubCatGalleryRepository(db);
+                return _subCatGalleryRepo;
             }
         }
 

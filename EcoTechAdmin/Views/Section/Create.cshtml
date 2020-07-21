@@ -1,0 +1,56 @@
+﻿@model BAL.ViewModels.Product.SectionViewModel
+
+@{
+    ViewData["Title"] = (Model != null && Model.SectionID > 0) ? "Edit" : "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <a asp-action="Index"><img alt="Back to Sections" title="Back to Sections" src="~/img/back.png" border="0" style="border:none;" /></a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@ViewData["Title"]">
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="SectionID" />
+                <label asp-for="SectionName" class="control-label font-weight-bold"></label>
+                <input asp-for="SectionName" class="form-control" />
+                <span asp-validation-for="SectionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label font-weight-bold"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionOrder" class="control-label font-weight-bold"></label>
+                <input asp-for="SectionOrder" class="form-control" />
+                <span asp-validation-for="SectionOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> <label asp-for="IsActive" class="control-label font-weight-bold"></label>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"><img alt="Back to Sections" title="Back to Sections" src="~/img/back.png" border="0" style="border:none;" /></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

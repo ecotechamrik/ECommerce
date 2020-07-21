@@ -1,9 +1,9 @@
 ﻿using BAL.Entities;
+using BAL.ViewModels;
 using DAL;
 using DAL.DBInitializer;
-using BAL.ViewModels;
-using Repository.Abstraction;
 using Microsoft.EntityFrameworkCore;
+using Repository.Abstraction;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +26,9 @@ namespace Repository.Implementation
         {
             var products = (from prod in Context.Products
                             join cat in Context.Categories
-                            on prod.CategoryID equals cat.CategoryID
+                            on prod.CategoryID equals cat.CategoryID into catproducts
+                            
+                            from cat in catproducts.DefaultIfEmpty() // Left Outer Join
 
                             select new ProductViewModel
                             {
@@ -36,8 +38,8 @@ namespace Repository.Implementation
                                 ProductDesc = prod.ProductDesc,
                                 CategoryID = cat.CategoryID,
                                 CategoryName = cat.CategoryName
-                            }).ToList();                       
-            
+                            }).ToList();
+
             return products;
         }
 

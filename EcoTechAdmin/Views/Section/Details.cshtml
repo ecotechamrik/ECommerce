@@ -1,0 +1,48 @@
+﻿@model BAL.ViewModels.Product.SectionViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Section Details</h1>
+
+<div>
+    <a asp-action="Index"><img alt="Back to Sections" title="Back to Sections" src="~/img/back.png" border="0" style="border:none;" /></a> |
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/edit/@Model.SectionID"><img alt="Edit Section" title="Edit Section" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/delete/@Model.SectionID" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Category" title="Delete Section" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SectionName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SectionName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SectionOrder)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SectionOrder)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index"><img alt="Back to Sections" title="Back to Sections" src="~/img/back.png" border="0" style="border:none;" /></a> |
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/edit/@Model.SectionID"><img alt="Edit Section" title="Edit Section" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/delete/@Model.SectionID" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Section" title="Delete Section" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+</div>

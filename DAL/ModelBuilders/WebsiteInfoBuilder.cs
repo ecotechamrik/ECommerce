@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BAL.Entities;
+﻿using BAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.ModelBuilders
 {
