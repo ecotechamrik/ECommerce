@@ -9,5 +9,6 @@ namespace Repository.Abstraction
     {
         IEnumerable<SubCatGalleryViewModel> GetSubCatGallery();
         public void DeleteBySubCategoryID(int SubCategoryID);
+        public IEnumerable<SubCatGalleryViewModel> SetDefaultImage(int SubCatGalleryID, int SubCategoryID);
     }
 }

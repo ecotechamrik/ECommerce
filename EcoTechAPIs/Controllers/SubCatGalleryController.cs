@@ -12,7 +12,7 @@ namespace EcoTechAPIs.Controllers
     [ApiController]
     public class SubCatGalleryController : ControllerBase
     {
-        static IUnitOfWork uow;
+        IUnitOfWork uow;
         public SubCatGalleryController(IUnitOfWork _uow)
         {
             uow = _uow;
@@ -45,7 +45,7 @@ namespace EcoTechAPIs.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        static IEnumerable<SubCatGalleryViewModel> GetSubCatGalleryDetails(int? id)
+        IEnumerable<SubCatGalleryViewModel> GetSubCatGalleryDetails(int? id)
         {
             return uow.SubCatGalleryRepo.GetSubCatGallery().Where(s => (id != null ? s.SubCatGalleryID == id : s.SubCatGalleryID == s.SubCatGalleryID));
         }
@@ -83,6 +83,21 @@ namespace EcoTechAPIs.Controllers
             }
         }
 
+        // PUT: api/subcatgallery/5
+        [Route("{SetDefaultImage}/{SubCatGalleryID}/{SubCategoryID}")]
+        public IEnumerable<SubCatGalleryViewModel> SetDefaultImage(int SubCatGalleryID, int SubCategoryID)
+        {
+            try
+            {
+                IEnumerable<SubCatGalleryViewModel> model = uow.SubCatGalleryRepo.SetDefaultImage(SubCatGalleryID, SubCategoryID);                
+                return model;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
         // DELETE: api/subcatgallery/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -101,7 +116,7 @@ namespace EcoTechAPIs.Controllers
         }
 
         // DELETE: api/DeleteBySubCategoryID/5
-        [HttpDelete("{deletebysubcategoryid}/{subcategoryid}")]        
+        [HttpDelete("{deletebysubcategoryid}/{subcategoryid}")]
         public IActionResult DeleteBySubCategoryID(int SubCategoryID)
         {
             try

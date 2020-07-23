@@ -54,5 +54,19 @@ namespace Repository.Implementation
         {
             Context.SubCatGalleries.RemoveRange(Context.SubCatGalleries.Where(s => s.SubCategoryID == SubCategoryID));
         }
+
+        public IEnumerable<SubCatGalleryViewModel> SetDefaultImage(int SubCatGalleryID, int SubCategoryID)
+        {
+            var subcatGalleries = (from subcatgal in Context.SubCatGalleries
+                                   where subcatgal.SubCategoryID == SubCategoryID
+                                   select subcatgal).ToList();
+
+            subcatGalleries.ForEach(subcatgal => subcatgal.IsMainImage = false);
+            subcatGalleries.Where(s => s.SubCatGalleryID == SubCatGalleryID).FirstOrDefault().IsMainImage = true;
+            
+            Context.SaveChanges();
+            
+            return GetSubCatGallery().Where(s => s.SubCategoryID == SubCategoryID);
+        }
     }
 }

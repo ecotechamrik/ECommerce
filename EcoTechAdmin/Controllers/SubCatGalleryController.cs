@@ -37,7 +37,7 @@ namespace EcoTechAdmin.Controllers
         }
         #endregion
 
-        #region [ Index - Load the List of Sub Categories ]
+        #region [ Index - Load Main/Index Page ]
         /// <summary>
         /// Index - Load the List of Sub Categories
         /// </summary>
@@ -46,7 +46,7 @@ namespace EcoTechAdmin.Controllers
         public IActionResult Index(int? id, int? catid)
         {
             GetCatIDSubCatID(id, catid);
-            return RedirectToIndex(id);
+            return View();
         }
         #endregion
 
@@ -68,29 +68,56 @@ namespace EcoTechAdmin.Controllers
         }
         #endregion
 
-        #region [ Load Index With Sub Category Listing based on given Response from API ]
+        #region [ Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID ]
         /// <summary>
-        /// Load Index With Sub Category Listing based on given Response from API
+        /// Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID
         /// </summary>
-        /// <param name="response"></param>
+        /// <param name="id"></param> -- Sub Category ID
+        /// <param name="catid"></param> -- Category ID
         /// <returns></returns>
-        private IActionResult RedirectToIndex(int? id)
+        public async Task<IActionResult> BindList(int? id, int? catid)
         {
             var response = new HttpResponseMessage();
             if (id != null)
             {
-                response = client.GetAsync(client.BaseAddress + "subcatgallery/getbysubcategoryid/" + id).Result;
+                response = await client.GetAsync(client.BaseAddress + "subcatgallery/getbysubcategoryid/" + id);
             }
             else
-                response = client.GetAsync(client.BaseAddress + "subcatgallery").Result;
+                response = await client.GetAsync(client.BaseAddress + "subcatgallery");
+            IEnumerable<SubCatGalleryViewModel> _subcatgallery = BindSubCatGalList(id, catid, response);
 
+            return PartialView("_SubCatGalList", _subcatgallery);
+        }
+        #endregion
+
+        #region [ Bind Sub Category Gallery List ]
+        private IEnumerable<SubCatGalleryViewModel> BindSubCatGalList(int? id, int? catid, HttpResponseMessage response)
+        {
             IEnumerable<SubCatGalleryViewModel> _subcatgallery = new List<SubCatGalleryViewModel>();
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
                 _subcatgallery = JsonConvert.DeserializeObject<IEnumerable<SubCatGalleryViewModel>>(data);
             }
-            return View("Index", _subcatgallery);
+            GetCatIDSubCatID(id, catid);
+            return _subcatgallery;
+        }
+        #endregion
+
+        #region [ Set as Default/Main Image ]
+        /// <summary>
+        /// Set as Default/Main Image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="subcatid"></param>
+        /// <param name="catid"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SetDefaultImage(int? id, int? subcatid, int? catid)
+        {
+            var response = await client.GetAsync(client.BaseAddress + "subcatgallery/setdefaultimage/" + id + "/" + subcatid);
+            IEnumerable<SubCatGalleryViewModel> _subcatgallery = BindSubCatGalList(id, catid, response);
+
+            return PartialView("_SubCatGalList", _subcatgallery);
         }
         #endregion
 
@@ -246,18 +273,13 @@ namespace EcoTechAdmin.Controllers
             {
                 var CategoryID = Convert.ToInt32(data["CategoryID"]);
                 var SubCategoryID = Convert.ToInt32(data["SubCategoryID"]);
-                int _count = 1;
-                var _isMainImage = false;
+                int _count = 1;                
                 foreach (IFormFile source in files)
                 {
                     string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
 
                     filename = this.EnsureCorrectFilename(filename);
-                    if (_count == 1)
-                        _isMainImage = true;
-                    else
-                        _isMainImage = false;
-                    SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = filename, IsMainImage = _isMainImage, Order = _count };
+                    SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = filename, IsMainImage = false, Order = _count };
 
                     if (SaveSubCategoryDetails(model))
                     {
