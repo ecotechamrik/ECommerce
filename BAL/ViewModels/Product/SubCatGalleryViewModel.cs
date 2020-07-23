@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace BAL.ViewModels.Product
 {
     public class SubCatGalleryViewModel
-    {
+    {        
         [Display(Name = "Sub Category ID")]
         public int SubCatGalleryID { get; set; }
 
@@ -38,8 +39,9 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Sub Category ID")]
         public int? SubCategoryID { get; set; }
 
-        [Display(Name = "SubCategory Name")]
+        [Display(Name = "Sub Category Name")]
         public string SubCategoryName { get; set; }
 
+        public IFormFile files { set; get; }        
     }
 }

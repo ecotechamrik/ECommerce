@@ -8,7 +8,7 @@
 
 <p>
     <a asp-controller="section" asp-action="Index"><img alt="Back to Sections" title="Back to Sections" src="~/img/back.png" border="0" style="border:none;" /></a>
-    <a asp-action="Create"><img alt="Create New Category" title="Create New Category" src="~/img/create.png" border="0" style="border:none;" /></a>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")category/create/@ViewBag.SectionID"><img alt="Create New Category" title="Create New Category" src="~/img/create.png" border="0" style="border:none;" /></a>
 
     @if (ViewBag.SectionID != null)
     {
@@ -35,7 +35,7 @@
                     @Html.DisplayNameFor(model => model.CategoryOrder)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CategoryName)
+                    @Html.DisplayNameFor(model => model.DisplayCategoryName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.SectionName)
@@ -52,7 +52,7 @@
                         @Html.DisplayFor(modelItem => item.CategoryOrder)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CategoryName)
+                        @Html.DisplayFor(modelItem => item.DisplayCategoryName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.SectionName)

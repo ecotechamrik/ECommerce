@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace EcoTechAdmin.Controllers
 {
@@ -20,13 +24,16 @@ namespace EcoTechAdmin.Controllers
 
         // HttpClient Variable to access the Web APIs
         HttpClient client;
+
+        private readonly IWebHostEnvironment _hostingEnvironment;
         #endregion
 
-        #region [ Default Constructor  ]
-        public SubCatGalleryController()
+        #region [ Default Constructor ]
+        public SubCatGalleryController(IWebHostEnvironment hostingEnvironment)
         {
             client = new HttpClient();
             client.BaseAddress = baseAddress;
+            _hostingEnvironment = hostingEnvironment;
         }
         #endregion
 
@@ -39,7 +46,6 @@ namespace EcoTechAdmin.Controllers
         public IActionResult Index(int? id, int? catid)
         {
             GetCatIDSubCatID(id, catid);
-
             return RedirectToIndex(id);
         }
         #endregion
@@ -93,12 +99,13 @@ namespace EcoTechAdmin.Controllers
         /// Create New Sub Category Data
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         [Route("{controller=subcatgallery}/{action=create}/{subcatid?}/{catid?}")]
         public IActionResult Create(int? subcatid, int? catid)
         {
             SubCatGalleryViewModel model = new SubCatGalleryViewModel { IsMainImage = true, SubCategoryID = subcatid, CategoryID = catid };
             GetCategories();
-            GetSubCategories();
+            //GetSubCategories(catid);
             GetCatIDSubCatID(subcatid, catid);
             return View(model);
         }
@@ -121,76 +128,24 @@ namespace EcoTechAdmin.Controllers
         }
         #endregion
 
-        #region [ Get All Sub Categories - Bind Categories Drop Down List ]
+        #region [ Bind Sub Categories ]
         /// <summary>
-        /// Get All Sub Categories - Bind Categories Drop Down List
+        /// Bind Sub Categories
         /// </summary>
-        private void GetSubCategories()
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> bindsubcategories(int? id)
         {
-            var response = client.GetAsync(client.BaseAddress + "subcategory").Result;
             IEnumerable<SubCategoryViewModel> _subcategory = new List<SubCategoryViewModel>();
+
+            var response = await client.GetAsync(client.BaseAddress + "subcategory/getbycategoryid/" + id);
+
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
                 _subcategory = JsonConvert.DeserializeObject<IEnumerable<SubCategoryViewModel>>(data);
-                ViewBag.SubCategories = _subcategory;
             }
-        }
-        #endregion
-
-        #region [ Save New Sub Category Data ]
-        /// <summary>
-        /// Save New Sub Category Data
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Create(SubCatGalleryViewModel model)
-        {
-            return await SaveSubCategoryDetails(model, "Create");
-        }
-        #endregion
-
-        #region [ Edit Sub Category Data ]
-        /// <summary>
-        /// Edit Sub Category Data
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("{controller=subcatgallery}/{action=edit}/{id?}/{subcatid?}/{catid?}")]
-        public IActionResult Edit(int id)
-        {
-            var response = client.GetAsync(client.BaseAddress + "subcategory" + "/" + id).Result;
-            SubCatGalleryViewModel model = new SubCatGalleryViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SubCatGalleryViewModel>(data);
-
-                if (model != null)
-                {
-                    GetCategories();
-                    return View("Create", model);
-                }
-            }
-            return RedirectToAction("Index");
-        }
-        #endregion
-
-        #region [ Update Sub Category Data ]
-        /// <summary>
-        /// Update Sub Category Data
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Edit(SubCatGalleryViewModel model)
-        {
-            return await SaveSubCategoryDetails(model, "Edit");
+            return PartialView("_SubCategory", _subcategory);
         }
         #endregion
 
@@ -201,74 +156,31 @@ namespace EcoTechAdmin.Controllers
         /// <param name="model"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        private async Task<IActionResult> SaveSubCategoryDetails(SubCatGalleryViewModel model, String action)
+        private bool SaveSubCategoryDetails(SubCatGalleryViewModel model)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-                var response = new HttpResponseMessage();
-
-                // Call Post Method to Create New Sub Category Details
-                if (action.ToLower() == "create")
-                {
-                    response = await client.PostAsync(client.BaseAddress + "subcategory", content);
-                    ViewBag.Message = "Sub Category record has been created successfully.";
-                }
-                // Call Put Method to Update Existing Sub Category Details
-                else
-                {
-                    response = await client.PutAsync(client.BaseAddress + "subcategory/" + model.SubCategoryID, content);
-                    ViewBag.Message = "Sub Category record has been updated successfully.";
-                }
+                var response = client.PostAsync(client.BaseAddress + "subcatgallery", content).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ViewBag.Class = "text-success";
-                    return RedirectToIndex(null);
+                    TempData["Message"] = "Sub Category record has been created successfully.";
+                    TempData["Class"] = "text-success";
+                    return true;
                 }
                 else
                 {
-                    ViewBag.Message = null;
-                    GetCategories();
-                    return View("Create", model);
+                    TempData["Message"] = "Something went wrong: " + response.ReasonPhrase;
                 }
             }
             catch (Exception ex)
             {
-                GetCategories();
-                ViewBag.Message = "Something went wrong: " + ex.Message;
+                TempData["Message"] = "Something went wrong: " + ex.Message;
             }
-            GetCategories();
-            return View("Create", model);
-        }
-        #endregion
-
-        #region [ Show Sub Category Details ]
-        /// <summary>
-        /// Show Sub Category Details
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public IActionResult Details(int id)
-        {
-            var response = client.GetAsync(client.BaseAddress + "subcategory" + "/" + id).Result;
-            SubCatGalleryViewModel model = new SubCatGalleryViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SubCatGalleryViewModel>(data);
-
-                if (model != null)
-                    return View(model);
-            }
-
-            return RedirectToAction("Index");
+            return false;
         }
         #endregion
 
@@ -278,25 +190,120 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Delete(int id)
+        [Route("{controller=subcatgallery}/{action=delete}/{id?}/{subcatid?}/{catid?}/{imageName?}")]
+        public async Task<IActionResult> Delete(int id, int subcatid, int catid, string imageName)
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "subcategory/" + id);
+                var response = await client.DeleteAsync(client.BaseAddress + "subcatgallery/" + id);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ViewBag.Message = "Sub Category record has been deleted successfully.";
-                    return RedirectToIndex(null);
-
+                    DeleteFilePath(imageName, subcatid);
+                    TempData["Message"] = "Sub Category record has been deleted successfully.";
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Something went wrong: " + ex.Message;
+                TempData["Message"] = "Something went wrong: " + ex.Message;
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = subcatid, catid = catid });
         }
         #endregion
+
+        #region [ Delete File with the Category ID and Sub Category ID ]
+        /// <summary>
+        /// Delete File with the Category ID and Sub Category ID
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="SubCategoryID"></param>
+        /// <param name="CategoryID"></param>
+        /// <returns></returns>
+        private bool DeleteFilePath(string filename, int SubCategoryID)
+        {
+            string path = this._hostingEnvironment.WebRootPath + "\\Gallery\\" + SubCategoryID + "\\" + filename;
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+                return true;
+            }
+            else
+                return false;
+        }
+        #endregion
+
+        #region [ Upload Gallery Image ]
+        /// <summary>
+        /// Upload Gallery Image
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> FileUpload(IList<IFormFile> files, IFormCollection data)
+        {
+            try
+            {
+                var CategoryID = Convert.ToInt32(data["CategoryID"]);
+                var SubCategoryID = Convert.ToInt32(data["SubCategoryID"]);
+                int _count = 1;
+                var _isMainImage = false;
+                foreach (IFormFile source in files)
+                {
+                    string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
+
+                    filename = this.EnsureCorrectFilename(filename);
+                    if (_count == 1)
+                        _isMainImage = true;
+                    else
+                        _isMainImage = false;
+                    SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = filename, IsMainImage = _isMainImage, Order = _count };
+
+                    if (SaveSubCategoryDetails(model))
+                    {
+                        using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename, SubCategoryID)))
+                            await source.CopyToAsync(output);
+                    }
+                    _count++;
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get File name from the uploaded file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        private string EnsureCorrectFilename(string filename)
+        {
+            if (filename.Contains("\\"))
+                filename = filename.Substring(filename.LastIndexOf("\\") + 1);
+
+            return filename;
+        }
+
+        /// <summary>
+        /// Create Folder to the Upload [Gallery] Location with the Category ID and Sub Category ID
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="SubCategoryID"></param>
+        /// <param name="CategoryID"></param>
+        /// <returns></returns>
+        private string GetPathAndFilename(string filename, int SubCategoryID)
+        {
+            string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + SubCategoryID + "/";
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            return path + filename;
+        }
+        #endregion        
     }
 }

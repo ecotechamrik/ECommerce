@@ -8,7 +8,7 @@
 
 <p>
 
-    <a asp-controller="category" asp-action="Index"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")category/index/@TempData["SectionID"]"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
     <a asp-action="Create"><img alt="Create New Sub Category" title="Create New Sub Category" src="~/img/create.png" border="0" style="border:none;" /></a>
     @if (ViewBag.CategoryID != null)
     {
@@ -47,7 +47,7 @@
                         @Html.DisplayFor(modelItem => item.CategoryName)
                     </td>
                     <td class="text-center">
-                        <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@item.SubCategoryID/@ViewBag.CategoryID"><img alt="Manage Gallery" title="Manage Gallery" src="~/img/gallery.png" border="0" style="border:none;" /></a>
+                        <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/index/@item.SubCategoryID/@item.CategoryID"><img alt="Manage Gallery" title="Manage Gallery" src="~/img/gallery.png" border="0" style="border:none;" /></a>
                     </td>
                     <td class="text-center">
                         <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcategory/edit/@item.SubCategoryID"><img alt="Edit Sub Category" title="Edit Sub Category" src="~/img/edit.png" border="0" style="border:none;" /></a> |

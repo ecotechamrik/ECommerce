@@ -8,5 +8,6 @@ namespace Repository.Abstraction
     public interface ISubCatGalleryRepository : IRepository<SubCatGallery>
     {
         IEnumerable<SubCatGalleryViewModel> GetSubCatGallery();
+        public void DeleteBySubCategoryID(int SubCategoryID);
     }
 }

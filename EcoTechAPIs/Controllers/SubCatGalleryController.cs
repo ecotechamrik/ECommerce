@@ -98,6 +98,23 @@ namespace EcoTechAPIs.Controllers
 
                 return StatusCode(500);
             }
-        }        
+        }
+
+        // DELETE: api/DeleteBySubCategoryID/5
+        [HttpDelete("{deletebysubcategoryid}/{subcategoryid}")]        
+        public IActionResult DeleteBySubCategoryID(int SubCategoryID)
+        {
+            try
+            {
+                uow.SubCatGalleryRepo.DeleteBySubCategoryID(SubCategoryID);
+                uow.SaveChanges();
+                return Ok("IActionResult DeleteBySubCategoryID(int SubCategoryID)");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
     }
 }

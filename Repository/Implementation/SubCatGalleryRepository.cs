@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Abstraction;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Repository.Implementation
 {
@@ -23,25 +24,35 @@ namespace Repository.Implementation
         }
         public IEnumerable<SubCatGalleryViewModel> GetSubCatGallery()
         {
-            var SubCatGallerys = (from subcatgal in Context.SubCatGalleries
-                            join subcat in Context.SubCategories
-                            on subcatgal.SubCategoryID equals subcat.SubCategoryID into subcatgallery
-                            
-                            from subcat in subcatgallery.DefaultIfEmpty()  // Left Outer Join
+            var SubCatGalleries = (from subcatgal in Context.SubCatGalleries
+                                   join subcat in Context.SubCategories
+                                   on subcatgal.SubCategoryID equals subcat.SubCategoryID into subcatgallery
+                                   from subcat in subcatgallery.DefaultIfEmpty()  // Left Outer Join
 
-                            select new SubCatGalleryViewModel
-                            {
-                                SubCatGalleryID = subcatgal.SubCatGalleryID,
-                                ThumbNailSizeImage = subcatgal.ThumbNailSizeImage,
-                                MediumSizeImage = subcatgal.MediumSizeImage,
-                                LargeSizeImage = subcatgal.LargeSizeImage,
-                                IsMainImage = subcatgal.IsMainImage,
-                                Order = subcatgal.Order,
-                                SubCategoryID = subcat.SubCategoryID,
-                                SubCategoryName = subcat.SubCategoryName
-                            }).ToList();
+                                   join cat in Context.Categories
+                                   on subcat.CategoryID equals cat.CategoryID into subcategories
+                                   from cat in subcategories.DefaultIfEmpty()  // Left Outer Join
 
-            return SubCatGallerys;
+                                   select new SubCatGalleryViewModel
+                                   {
+                                       SubCatGalleryID = subcatgal.SubCatGalleryID,
+                                       ThumbNailSizeImage = subcatgal.ThumbNailSizeImage,
+                                       MediumSizeImage = subcatgal.MediumSizeImage,
+                                       LargeSizeImage = subcatgal.LargeSizeImage,
+                                       IsMainImage = subcatgal.IsMainImage,
+                                       Order = subcatgal.Order,
+                                       SubCategoryID = subcat.SubCategoryID,
+                                       SubCategoryName = subcat.SubCategoryName,
+                                       CategoryID = cat.CategoryID,
+                                       CategoryName = cat.CategoryName
+                                   }).ToList();
+
+            return SubCatGalleries;
+        }
+
+        public void DeleteBySubCategoryID(int SubCategoryID)
+        {
+            Context.SubCatGalleries.RemoveRange(Context.SubCatGalleries.Where(s => s.SubCategoryID == SubCategoryID));
         }
     }
 }

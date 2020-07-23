@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <a asp-action="Index"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")category/index/@ViewBag.SectionID"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
 </div>
 <hr />
 <div class="row">
@@ -15,14 +15,14 @@
         <form asp-action="@ViewData["Title"]">
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <a asp-action="Index" asp-route-id="@ViewBag.SectionID" class="btn btn-secondary">Cancel</a>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <input type="hidden" asp-for="CategoryID" />
                 <label asp-for="SectionName" class="control-label font-weight-bold"></label>
-                <select class="form-control" asp-for="SectionID" asp-items="@(new SelectList(ViewBag.Sections, "SectionID","SectionName"))">
+                <select id="ddlSections" class="form-control" asp-for="SectionID" asp-items="@(new SelectList(ViewBag.Sections, "SectionID","SectionName"))">
                     <option value="">--Select--</option>
                 </select>
                 <span asp-validation-for="SectionID" class="text-danger"></span>
@@ -50,16 +50,25 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <a asp-action="Index" asp-route-id="@ViewBag.SectionID" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
+    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")category/index/@ViewBag.SectionID"><img alt="Back to Categories" title="Back to Categories" src="~/img/back.png" border="0" style="border:none;" /></a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @if (@ViewBag.SectionID != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#ddlSections').val(@ViewBag.SectionID);
+            });
+        </script>
+    }
 }

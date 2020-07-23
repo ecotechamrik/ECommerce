@@ -38,6 +38,10 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(int? id)
         {
+            if (id != null)
+            {
+                TempData["SectionID"] = id;
+            }
             GetSections();
             return await RedirectToIndex(id);
         }
@@ -67,6 +71,7 @@ namespace EcoTechAdmin.Controllers
                 string data = response.Content.ReadAsStringAsync().Result;
                 _category = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(data);
             }
+            TempData["lastCatOrder"] = _category.OrderByDescending(x => x.CategoryOrder).Take(1).Select(c => c.CategoryOrder).FirstOrDefault() + 1;
             return View("Index", _category.OrderBy(c => c.CategoryOrder));
         }
         #endregion
@@ -76,10 +81,19 @@ namespace EcoTechAdmin.Controllers
         /// Create New Category Data
         /// </summary>
         /// <returns></returns>
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            if (id != null)
+            {
+                ViewBag.SectionID = id;
+            }
+
             CategoryViewModel model = new CategoryViewModel();
             model.IsActive = true;
+            if (TempData["lastCatOrder"] != null)
+            {
+                model.CategoryOrder = (int)TempData["lastCatOrder"];
+            }
             GetSections();
             return View(model);
         }
@@ -121,7 +135,7 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id, int? sectionid)
         {
             var response = client.GetAsync(client.BaseAddress + "category" + "/" + id).Result;
             CategoryViewModel model = new CategoryViewModel();
@@ -137,6 +151,7 @@ namespace EcoTechAdmin.Controllers
                 if (model != null)
                 {
                     GetSections();
+                    ViewBag.SectionID = model.SectionID;
                     return View("Create", model);
                 }
             }
@@ -190,18 +205,16 @@ namespace EcoTechAdmin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Class = "text-success";
-                    return await RedirectToIndex(null);
+                    GetSections();
+                    return await RedirectToIndex(model.SectionID);
                 }
                 else
                 {
                     ViewBag.Message = null;
-                    GetSections();
-                    return View("Create", model);
                 }
             }
             catch (Exception ex)
             {
-                GetSections();
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
             GetSections();
@@ -229,7 +242,10 @@ namespace EcoTechAdmin.Controllers
                 model = JsonConvert.DeserializeObject<CategoryViewModel>(data);
 
                 if (model != null)
+                {
+                    ViewBag.SectionID = model.SectionID;
                     return View(model);
+                }
             }
 
             return RedirectToAction("Index");
@@ -251,14 +267,18 @@ namespace EcoTechAdmin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Category record has been deleted successfully.";
-                    return await RedirectToIndex(null);
-
+                    GetSections();
+                    int? sectionID = null;
+                    if (TempData["SectionID"] != null)
+                        sectionID = (int)TempData["SectionID"];
+                    return await RedirectToIndex(sectionID);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
+            GetSections();
             return RedirectToAction("Index");
         }
         #endregion

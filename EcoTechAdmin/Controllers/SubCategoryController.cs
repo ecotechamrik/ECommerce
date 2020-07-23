@@ -1,10 +1,12 @@
 ﻿using BAL;
 using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +22,16 @@ namespace EcoTechAdmin.Controllers
 
         // HttpClient Variable to access the Web APIs
         HttpClient client;
+
+        private readonly IWebHostEnvironment _hostingEnvironment;
         #endregion
 
         #region [ Default Constructor  ]
-        public SubCategoryController()
+        public SubCategoryController(IWebHostEnvironment hostingEnvironment)
         {
             client = new HttpClient();
             client.BaseAddress = baseAddress;
+            _hostingEnvironment = hostingEnvironment;
         }
         #endregion
 
@@ -246,6 +251,15 @@ namespace EcoTechAdmin.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    await client.DeleteAsync(client.BaseAddress + "subcatgallery/deletebysubcategoryid/" + id);
+
+                    string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + id;
+
+                    if (Directory.Exists(path))
+                    {
+                        Directory.Delete(path,true);                        
+                    }
+
                     ViewBag.Message = "Sub Category record has been deleted successfully.";
                     return await RedirectToIndex(null);
 
