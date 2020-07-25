@@ -78,10 +78,9 @@ namespace EcoTechAdmin.Controllers
         /// Create New Sub Category Data
         /// </summary>
         /// <returns></returns>
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            SubCategoryViewModel model = new SubCategoryViewModel();
-            model.IsActive = true;
+            SubCategoryViewModel model = new SubCategoryViewModel { IsActive = true, CategoryID = id };
             GetCategories();
             return View(model);
         }
@@ -251,18 +250,11 @@ namespace EcoTechAdmin.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await client.DeleteAsync(client.BaseAddress + "subcatgallery/deletebysubcategoryid/" + id);
-
-                    string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + id;
-
-                    if (Directory.Exists(path))
-                    {
-                        Directory.Delete(path,true);                        
-                    }
+                    await DeleteSubCatGallery(id);
 
                     ViewBag.Message = "Sub Category record has been deleted successfully.";
-                    return await RedirectToIndex(null);
 
+                    return await RedirectToIndex(null);
                 }
             }
             catch (Exception ex)
@@ -270,6 +262,29 @@ namespace EcoTechAdmin.Controllers
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
             return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region [ Delete All Sub Cate Gallery Images and Records from DB ]
+        // Delete All Sub Cate Gallery Images and Records from DB
+
+        public async Task<IActionResult> DeleteAllSubCatGallery(int id)
+        {
+            await DeleteSubCatGallery(id);
+            TempData["Message"] = "All Gallery Images has been deleted successfully. Please upload new gallery now.";
+            return Ok("Deleted");
+        }
+
+        private async Task DeleteSubCatGallery(int _subCategoryID)
+        {
+            await client.DeleteAsync(client.BaseAddress + "subcatgallery/deletebysubcategoryid/" + _subCategoryID);
+
+            string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + _subCategoryID;
+
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }            
         }
         #endregion
     }

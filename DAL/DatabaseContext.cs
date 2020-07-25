@@ -46,6 +46,14 @@ namespace DAL
 
         //}
 
+        //// In Startup.cs in ConfigureServices(IServiceCollection services)
+        /*
+             services.AddDbContext<DatabaseContext>(options =>
+             {
+                options.UseSqlServer(Configuration.GetConnectionString("EcoTechCon"));
+             });          
+        */
+
         // Establish DB Connection with OnConfiguring Override
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

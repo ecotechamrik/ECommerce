@@ -9,11 +9,11 @@ namespace EcoTechAdmin
     {
         public static string IsSelected(this IHtmlHelper htmlHelper, string controllers, string actions, string cssClass = "active")
         {
-            string currentAction = htmlHelper.ViewContext.RouteData.Values["action"] as string;
-            string currentController = htmlHelper.ViewContext.RouteData.Values["controller"] as string;
+            string currentAction = htmlHelper.ViewContext.RouteData.Values["action"].ToString().ToLower();
+            string currentController = htmlHelper.ViewContext.RouteData.Values["controller"].ToString().ToLower();
 
-            IEnumerable<string> acceptedActions = (actions ?? currentAction).Split(',');
-            IEnumerable<string> acceptedControllers = (controllers ?? currentController).Split(',');
+            IEnumerable<string> acceptedActions = (actions.ToLower() ?? currentAction).Split(',');
+            IEnumerable<string> acceptedControllers = (controllers.ToLower() ?? currentController).Split(',');
 
             return acceptedActions.Contains(currentAction) && acceptedControllers.Contains(currentController) ?
                 cssClass : String.Empty;

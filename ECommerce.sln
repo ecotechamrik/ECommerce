@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BAL", "BAL\BAL.csproj", "{0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoTechAdmin", "EcoTechAdmin\EcoTechAdmin.csproj", "{0673F01A-A500-45F7-A302-2282552FC14D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway", "APIGateway\APIGateway.csproj", "{5FB740AF-EB1B-48F4-A509-24C43BC79DCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0673F01A-A500-45F7-A302-2282552FC14D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0673F01A-A500-45F7-A302-2282552FC14D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0673F01A-A500-45F7-A302-2282552FC14D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB740AF-EB1B-48F4-A509-24C43BC79DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB740AF-EB1B-48F4-A509-24C43BC79DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB740AF-EB1B-48F4-A509-24C43BC79DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB740AF-EB1B-48F4-A509-24C43BC79DCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

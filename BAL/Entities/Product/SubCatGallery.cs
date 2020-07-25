@@ -9,8 +9,7 @@ namespace BAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SubCatGalleryID { get; set; }
         public string ThumbNailSizeImage { get; set; }
-        public string MediumSizeImage { get; set; }
-        public string LargeSizeImage { get; set; }
+        public string OriginalImage { get; set; }
         public int Order { get; set; }
         public bool IsMainImage { get; set; }
         public int? CategoryID { get; set; }

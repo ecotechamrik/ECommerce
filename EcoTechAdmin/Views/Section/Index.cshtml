@@ -41,12 +41,12 @@
                     @Html.DisplayFor(modelItem => item.SectionName)
                 </td>
                 <td class="text-center">
-                    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")category/index/@item.SectionID">Click Here</a>
+                    <a href="@BAL.Common.WEBSITEPATH/category/index/@item.SectionID">Click Here</a>
                 </td>
                 <td class="text-center">
-                    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/edit/@item.SectionID"><img alt="Edit Section" title="Edit Section" src="~/img/edit.png" border="0" style="border:none;" /></a> |
-                    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/details/@item.SectionID"><img alt="Show Full Details" title="Show Full Details" src="~/img/details.png" border="0" style="border:none;" /></a> |
-                    <a href="@BAL.Common.GetSectionString("WebsiteURL", "")section/delete/@item.SectionID" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Section" title="Delete Section" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+                    <a href="@BAL.Common.WEBSITEPATH/section/edit/@item.SectionID"><img alt="Edit Section" title="Edit Section" src="~/img/edit.png" border="0" style="border:none;" /></a> |
+                    <a href="@BAL.Common.WEBSITEPATH/section/details/@item.SectionID"><img alt="Show Full Details" title="Show Full Details" src="~/img/details.png" border="0" style="border:none;" /></a> |
+                    <a href="@BAL.Common.WEBSITEPATH/section/delete/@item.SectionID" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Section" title="Delete Section" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
                 </td>
             </tr>
             }

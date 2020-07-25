@@ -19,10 +19,10 @@ namespace BAL.ViewModels.Product
         {
             get
             {
-                if (CategoryName.Length <= 50)
+                if (CategoryName.Length <= 40)
                     return CategoryName;
                 else
-                    return CategoryName.Substring(0, 50) + "...";
+                    return CategoryName.Substring(0, 40) + "...";
             }
         }
 
@@ -36,7 +36,7 @@ namespace BAL.ViewModels.Product
         [Required(ErrorMessage = "Select Section")]
         public int? SectionID { get; set; }
 
-        [Display(Name = "SectionName")]
+        [Display(Name = "Section Name")]
         public string SectionName { get; set; }
 
         [Display(Name = "Active")]

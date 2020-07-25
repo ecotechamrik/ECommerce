@@ -12,11 +12,8 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Thumnail Size Image")]
         public string ThumbNailSizeImage { get; set; }
 
-        [Display(Name = "Medium Size Image")]
-        public string MediumSizeImage { get; set; }
-
-        [Display(Name = "Large Size Image")]
-        public string LargeSizeImage { get; set; }
+        [Display(Name = "Original Image")]
+        public string OriginalImage { get; set; }
 
         [Display(Name = "Order")]
         public int Order { get; set; }
@@ -25,6 +22,7 @@ namespace BAL.ViewModels.Product
         public bool IsMainImage { get; set; }
 
         [JsonIgnore]
+        [Display(Name = "Main Image")]
         public string MainImage
         {
             get { return IsMainImage == true ? "Yes" : "No"; }

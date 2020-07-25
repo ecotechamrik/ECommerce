@@ -1,0 +1,58 @@
+{
+  "Routes": [
+    {
+      // Website
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 57628
+        }
+      ],
+      "UpstreamPathTemplate": "/{everything}",
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+
+    },
+    {
+      // API
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 58326
+        }
+      ],
+      "UpstreamPathTemplate": "/webapis/{everything}",
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+    },
+    {
+      // Website - Live
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "34.219.180.213",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/live/{everything}",
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+
+    },
+    {
+      // API - Live
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "34.213.143.193",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/liveapi/{everything}",
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+    }
+  ]
+}

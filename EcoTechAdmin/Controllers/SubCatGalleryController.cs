@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
+using System.Drawing;
 
 namespace EcoTechAdmin.Controllers
 {
@@ -250,9 +251,16 @@ namespace EcoTechAdmin.Controllers
         {
             string path = this._hostingEnvironment.WebRootPath + "\\Gallery\\" + SubCategoryID + "\\" + filename;
 
+            // Delete Thumnail Image
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
+
+                // Delete Original Image
+                path = path.Replace("T_", "O_");
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+
                 return true;
             }
             else
@@ -273,29 +281,75 @@ namespace EcoTechAdmin.Controllers
             {
                 var CategoryID = Convert.ToInt32(data["CategoryID"]);
                 var SubCategoryID = Convert.ToInt32(data["SubCategoryID"]);
-                int _count = 1;                
+                int _count = 1;
                 foreach (IFormFile source in files)
                 {
                     string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
 
                     filename = this.EnsureCorrectFilename(filename);
-                    SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = filename, IsMainImage = false, Order = _count };
+
+                    // "T_ for Thumbnail; O_ for Original
+                    SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = "T_" + filename, OriginalImage = "O_" + filename, IsMainImage = false, Order = _count };
 
                     if (SaveSubCategoryDetails(model))
                     {
-                        using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename, SubCategoryID)))
-                            await source.CopyToAsync(output);
+                        // Save Thumnail Image
+                        ResizeImage(source, GetPathAndFilename("T_" + filename, SubCategoryID));
+
+                        // Save Original Image
+                        using (FileStream output = System.IO.File.Create(GetPathAndFilename("O_" + filename, SubCategoryID)))
+                        { 
+                            await source.CopyToAsync(output); 
+                        }
                     }
                     _count++;
                 }
 
-                return Ok();
+                return Ok("Uploaded");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        #region [ Resize the Image ]
+        public void ResizeImage(IFormFile source, String _filePath)
+        {
+            // Load image.
+            Image image = Image.FromStream(source.OpenReadStream());
+
+            // Compute thumbnail size.
+            Size thumbnailSize = GetThumbnailSize(image);
+
+            // Get Thumbnail Image.
+            image.GetThumbnailImage(thumbnailSize.Width, thumbnailSize.Height, () => false, IntPtr.Zero).Save(_filePath);
+        }
+
+        static Size GetThumbnailSize(Image original)
+        {
+            // Maximum size of any dimension.
+            const int maxPixels = 40;
+
+            // Width and height.
+            int originalWidth = original.Width;
+            int originalHeight = original.Height;
+
+            // Compute best factor to scale entire image based on larger dimension.
+            double factor;
+            if (originalWidth > originalHeight)
+            {
+                factor = ((double)maxPixels / originalWidth) / 0.50;
+            }
+            else
+            {
+                factor = ((double)maxPixels / originalHeight) / 0.50;
+            }
+
+            // Return thumbnail size.
+            return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
+        }
+        #endregion
 
         /// <summary>
         /// Get File name from the uploaded file.
@@ -317,7 +371,7 @@ namespace EcoTechAdmin.Controllers
         /// <param name="SubCategoryID"></param>
         /// <param name="CategoryID"></param>
         /// <returns></returns>
-        private string GetPathAndFilename(string filename, int SubCategoryID)
+        private string GetPathAndFilename(string filename, int? SubCategoryID)
         {
             string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + SubCategoryID + "/";
 

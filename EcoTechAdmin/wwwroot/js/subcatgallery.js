@@ -39,13 +39,14 @@ function SaveWebsiteDetails(inputId) {
                         $('input:hidden[name="__RequestVerificationToken"]').val());
                 },
                 success: function (data) {
-                    alert("Files Uploaded!");
                     location.href = "/SubCatGallery/Index/" + $("#SubCategoryID").val() + "/" + $("#CategoryID").val();
                 },
                 failure: function (response) {
                     alert("Error: " + response);
                     $("#loading-image").css({ "display": "none" });
                     $("#main-form").css({ "display": "block" });
+                },
+                complete: function () {
                 }
             }
         );
@@ -87,6 +88,8 @@ $(document).ready(function () {
     BindSubCategoryList($('#CategoryID :selected').val());
 });
 
+
+// #region [ Show files name after getting files selected into File Control ]
 var input = document.getElementById('files');
 var infoArea = document.getElementById('file-upload-filename');
 
@@ -110,3 +113,4 @@ function showFileName(event) {
     // use fileName however fits your app best, i.e. add it into a div
     infoArea.textContent = fileName;
 }
+// #endregion [ Show files name after getting files selected into File Control ]

@@ -37,8 +37,7 @@ namespace Repository.Implementation
                                    {
                                        SubCatGalleryID = subcatgal.SubCatGalleryID,
                                        ThumbNailSizeImage = subcatgal.ThumbNailSizeImage,
-                                       MediumSizeImage = subcatgal.MediumSizeImage,
-                                       LargeSizeImage = subcatgal.LargeSizeImage,
+                                       OriginalImage = subcatgal.OriginalImage,
                                        IsMainImage = subcatgal.IsMainImage,
                                        Order = subcatgal.Order,
                                        SubCategoryID = subcat.SubCategoryID,

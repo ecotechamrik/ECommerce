@@ -8,12 +8,12 @@
 }
 @if (Model.Count() > 0)
 {
+    <div class="font-weight-bold">Sub Category Gallery: </div>
+    <div>@Model.FirstOrDefault().SubCategoryName<br/><br /></div>
+
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.SubCategoryName)
-                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Order)
                 </th>
@@ -23,7 +23,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.MainImage)
                 </th>
-                <th>Actions</th>
+                <th>
+                    Actions / Click here to <a href="javascript:void(0);" onclick="DeleteAllImages('@Model.FirstOrDefault().SubCategoryID');" id="delAllImages">Delete All</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -31,13 +33,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.SubCategoryName)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Order)
                     </td>
                     <td>
-                        <img class="subcatgal-img" src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" title="Thumbnail Image" />
+                        <img src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" title="Thumbnail Image" />
                     </td>
                     <td>
                         @if (item.IsMainImage == true)
@@ -51,19 +50,20 @@
 
                     </td>
                     <td>
-                        <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Sub Cat Gallery" title="Delete Sub Cat Gallery" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+                        <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Sub Cat Gallery" title="Delete Sub Cat Gallery" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
                     </td>
                 </tr>
             }
         </tbody>
-    </table>    
+    </table>
+
 }
 else
 {
     <div class="text-center font-weight-bold m-5">
         <div class="form-control">No Records Found!</div>
         <div class="form-control">
-            <a href="@BAL.Common.GetSectionString("WebsiteURL", "")subcatgallery/create/@ViewBag.SubCategoryID/@ViewBag.CategoryID">Create New Sub Cat Gallery</a>
+            <a href="@BAL.Common.WEBSITEPATH/subcatgallery/create/@ViewBag.SubCategoryID/@ViewBag.CategoryID">Create New Sub Cat Gallery</a>
         </div>
     </div>
 }
