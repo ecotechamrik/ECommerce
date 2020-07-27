@@ -92,7 +92,7 @@ namespace EcoTechAPIs.Controllers
                 IEnumerable<SubCatGalleryViewModel> model = uow.SubCatGalleryRepo.SetDefaultImage(SubCatGalleryID, SubCategoryID);                
                 return model;
             }
-            catch(Exception ex)
+            catch // (Exception ex)
             {
                 return null;
             }

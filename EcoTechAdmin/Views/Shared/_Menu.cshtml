@@ -21,7 +21,7 @@
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "SubCategory,SubCatGallery")" asp-area="" asp-controller="SubCategory" asp-action="Index">Sub Categories</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index", controllers: "Products")" asp-area="" asp-controller="product" asp-action="Index">Products</a>
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index", controllers: "Product,ProductGlobalSettings,ProductDesign,ProductGrade,ProductAttributes,DoorType,ProductSize")" asp-area="Product" asp-controller="product" asp-action="Index">Products</a>
         </li>
         @if (User.Identity.IsAuthenticated)
         {

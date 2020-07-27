@@ -53,6 +53,20 @@
       ],
       "UpstreamPathTemplate": "/liveapi/{everything}",
       "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+    },
+    {
+      // Website
+      "DownstreamPathTemplate": "/auth",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 62142
+        }
+      ],
+      "UpstreamPathTemplate": "/auth",
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+
     }
   ]
 }

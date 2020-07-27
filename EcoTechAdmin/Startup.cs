@@ -91,14 +91,14 @@ namespace EcoTechAdmin
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapDefaultControllerRoute();
                 //endpoints.MapControllerRoute(
                 //    name: "SubCatGallery",
                 //    pattern: "{controller}/{action}/{id?}/{catid?}");
 
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "areaRoute", pattern: "{area:exists}/{controller}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3 border-right">
+        @await Html.PartialAsync("~/Views/Shared/_ProductMenu.cshtml")
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-8">
+        @RenderBody()
+    </div>
+</div>
+        
