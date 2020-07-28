@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EcoTechAdmin.Controllers
 {
-    [Authorize]
-    public class SectionController : Controller
+    public class SectionController : AuthorizeController
     {
         #region [ Local Variables ]
         // Get API URL from appsettings.json

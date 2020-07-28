@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcoTechAdmin.Areas.Product.Controllers
 {
-    [Area("Product")]
-    public class DoorTypeController : Controller
+    public class DoorTypeController : ProductBaseController
     {
         public IActionResult Index()
         {
@@ -13,17 +12,33 @@ namespace EcoTechAdmin.Areas.Product.Controllers
             return View(doorTypes);
         }
 
+        // Create New Door Type
         public IActionResult Create()
         {
             return View();
         }
 
-        public IActionResult Edit()
+        // Edit Door Type
+        public IActionResult Edit(int id)
         {
             return View("Create");
         }
 
-        public IActionResult Details()
+        // Edit Door Type
+        [HttpPost]
+        public IActionResult Edit(DoorTypeViewModel model)
+        {
+            return View("Create");
+        }
+
+        // Show Door Type Details
+        public IActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // Delete Door Type
+        public IActionResult Delete(int id)
         {
             return View();
         }

@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 
 namespace EcoTechAdmin.Controllers
 {
-    [Authorize]
-    public class WebsitesController : Controller
+    public class WebsitesController : AuthorizeController
     {
         #region [ Local Variables ]
         // Get API URL from appsettings.json

@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcoTechAdmin.Areas.Product.Controllers
 {
-    [Area("Product")]
-    public class ProductAttributesController : Controller
+    public class ProductAttributesController : ProductBaseController
     {
         public IActionResult Index()
         {

@@ -43,9 +43,9 @@
                         @Html.DisplayFor(modelItem => item.OfficePhone)
                     </td>
                     <td>
-                        <a href="javascript:void(0)" onclick="CRUDActions('edit','@item.WebsiteID')"><img alt="Edit Website" title="Edit Website" src="~/img/edit.png" border="0" style="border:none;" /></a> |
-                        <a href="javascript:void(0)" onclick="CRUDActions('details','@item.WebsiteID')"><img alt="Show Details" title="Show Details" src="~/img/details.png" border="0" style="border:none;" /></a> |
-                        <a href="javascript:void(0)" onclick="CRUDActions('delete','@item.WebsiteID')"><img alt="Delete Website" title="Delete Website" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+                        <a href="javascript:void(0)" onclick="CRUDActions('edit','@item.WebsiteID')"><customicon type="edit" title="Edit Website"></customicon></a> |
+                        <a href="javascript:void(0)" onclick="CRUDActions('details','@item.WebsiteID')"><customicon type="details" title="Show More Details"></customicon></a> |
+                        <a href="javascript:void(0)" onclick="CRUDActions('delete','@item.WebsiteID')"><customicon type="delete" title="Delete Website"></customicon></a>
                     </td>
                 </tr>
             }

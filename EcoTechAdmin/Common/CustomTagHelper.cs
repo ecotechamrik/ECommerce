@@ -44,6 +44,10 @@ namespace EcoTechAdmin.TagHelpers
                 sb.AppendFormat("<i alt='{0}' title='{0}' class=\"fa fa-question\" aria-hidden=\"true\"></i>", Title);
 
             // Loading Image
+            else if (this.Type.ToLower() == "user")
+                sb.AppendFormat("<i alt='{0}' title='{0}' class=\"far fa-user\" aria-hidden=\"true\"></i>", Title);
+
+            // Loading Image
             else if (this.Type.ToLower() == "loading")
                 sb.AppendFormat("<i class=\"fa-refresh fa-spin\" aria-hidden=\"true\"></i>", Title);
             

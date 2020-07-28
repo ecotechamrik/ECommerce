@@ -16,8 +16,7 @@ using System.Drawing;
 
 namespace EcoTechAdmin.Controllers
 {
-    [Authorize]
-    public class SubCatGalleryController : Controller
+    public class SubCatGalleryController : AuthorizeController
     {
         #region [ Local Variables ]
         // Get API URL from appsettings.json

@@ -27,10 +27,11 @@
         {
             <li class="nav-item">
                 <a class="nav-link text-dark @Html.IsSelected(actions: "Logout", controllers: "Home")" asp-area="" asp-controller="home" asp-action="logout">Logout</a>
-            </li>
+            </li>            
             <li class="nav-item">
-                <a class="nav-link text-dark" onclick="javascript: void (0);">--</a>
+                <a class="nav-link text-dark" onclick="javascript: void (0);"></a>
             </li>
+            <li><customicon type="user" title=""></customicon></li>
             <li class="nav-item">
                 <a class="nav-link text-dark" onclick="javascript: void (0);"><b>Welcome: @User.Claims.First().Value</b></a>
             </li>
