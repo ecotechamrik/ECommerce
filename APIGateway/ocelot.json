@@ -25,7 +25,11 @@
         }
       ],
       "UpstreamPathTemplate": "/webapis/{everything}",
-      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ],
+      "Key": "webapis",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey" :  "AuthKey"
+      }
     },
     {
       // Website - Live
@@ -64,7 +68,7 @@
           "Port": 62142
         }
       ],
-      "UpstreamPathTemplate": "/auth",
+      "UpstreamPathTemplate": "/api/auth",
       "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
 
     }

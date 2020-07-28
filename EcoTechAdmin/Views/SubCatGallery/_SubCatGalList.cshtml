@@ -41,16 +41,16 @@
                     <td>
                         @if (item.IsMainImage == true)
                         {
-                            <img title="Yes" alt="Yes" src="~/img/yes.png" />
+                            <customicon type="yes" title="Yes"></customicon>
                         }
                         else
                         {
-                            <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <img title="Set this as Main Image" alt="Set this as Main Image" src="~/img/question.jpg" />
+                            <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <customicon type="question" title="Do you want to set this as Main Image?"></customicon>
                         }
 
                     </td>
                     <td>
-                        <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><img alt="Delete Sub Cat Gallery" title="Delete Sub Cat Gallery" src="~/img/delete.jpeg" border="0" style="border:none;" /></a>
+                        <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Sub Category Gallery"></customicon></a>
                     </td>
                 </tr>
             }

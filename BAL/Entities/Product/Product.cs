@@ -96,5 +96,6 @@ namespace BAL.Entities
         //[ForeignKey("SubCategoryID")] //-- SubCategoryID        
         public SubCategory SubCategory { get; set; }
         public ICollection<ProductAttributes> ProductAttributes { get; set; }
+        public ICollection<ProductImages> ProductImages { get; set; }
     }
 }

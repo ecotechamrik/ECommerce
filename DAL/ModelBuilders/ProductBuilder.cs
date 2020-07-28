@@ -39,7 +39,10 @@ namespace DAL.ModelBuilders
             modelBuilder.Entity<SubCategory>().HasMany(s => s.SubCatGallery).WithOne(s => s.SubCategory).HasForeignKey(s => s.SubCategoryID).OnDelete(DeleteBehavior.SetNull);
 
             // Product To ProductAttributes [1 - M Relationship with Product]
-            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);            
+            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);
+
+            // Product To ProductImages [1 - M Relationship with Product]
+            modelBuilder.Entity<Product>().HasMany(p => p.ProductImages).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);
         }
         #endregion
     }
