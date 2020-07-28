@@ -9,6 +9,13 @@ namespace DAL
 {
     public class DatabaseContext : DbContext
     {
+        #region [ Create Common DB Entities ]
+        /// <summary>
+        /// Create Common DB Entities
+        /// </summary>
+        public DbSet<Currency> Currencies { get; set; }        
+        #endregion
+
         #region [ Create User Info DB Entities ]
         /// <summary>
         /// Create User Info DB Entities
@@ -23,11 +30,13 @@ namespace DAL
         /// Creating Product DB Entities
         /// </summary>
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductAttributes> ProductAttributes { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<SubCatGallery> SubCatGalleries { get; set; }
+        public DbSet<ProductAttributes> ProductAttributes { get; set; }
+        public DbSet<ProductPrice> ProductPrices { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
         #endregion
 
         #region [ Create Website Info DB Entities ]
