@@ -10,11 +10,12 @@ namespace Repository
         /// Product Related Repositories
         /// </summary>
 
-        IRepository<Section> SectionRepo { get; }
+        IRepository<Section> SectionRepo { get; }        
         ICategoryRepository CategoryRepo { get; }
         ISubCategoryRepository SubCategoryRepo { get; }
         ISubCatGalleryRepository SubCatGalleryRepo { get; }
         IProductRepository ProductRepo { get; }
+        IRepository<DoorType> DoorTypeRepo { get; }
         #endregion
 
         #region [ Website Related Repositories ]

@@ -93,6 +93,17 @@ namespace Repository
             }
         }
 
+        private IRepository<DoorType> _doorTypeRepo;
+        public IRepository<DoorType> DoorTypeRepo
+        {
+            get
+            {
+                if (_doorTypeRepo == null)
+                    _doorTypeRepo = new Repository<DoorType>(db);
+                return _doorTypeRepo;
+            }
+        }
+
         public int SaveChanges()
         {
             return db.SaveChanges();

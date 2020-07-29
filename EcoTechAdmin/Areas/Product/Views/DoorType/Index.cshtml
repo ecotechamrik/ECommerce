@@ -40,10 +40,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.DoorTypeName)
                     </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <td class="text-center">
+                        <a href="@BAL.Common.WEBSITEPATH/product/doortype/edit/@item.DoorTypeID"><customicon type="edit" title="Edit Door Type"></customicon></a> |
+                        <a href="@BAL.Common.WEBSITEPATH/product/doortype/details/@item.DoorTypeID"><customicon type="details" title="Show More Details"></customicon></a> |
+                        <a href="@BAL.Common.WEBSITEPATH/product/doortype/delete/@item.DoorTypeID" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Door Type"></customicon></a>
                     </td>
                 </tr>
             }

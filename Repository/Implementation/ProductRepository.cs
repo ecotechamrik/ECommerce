@@ -1,5 +1,5 @@
 ﻿using BAL.Entities;
-using BAL.ViewModels;
+using BAL.ViewModels.Product;
 using DAL;
 using DAL.DBInitializer;
 using Microsoft.EntityFrameworkCore;

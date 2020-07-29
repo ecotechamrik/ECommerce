@@ -89,7 +89,7 @@ namespace EcoTechAdmin.Controllers
         /// <summary>
         /// Get All Categories - Bind Categories Drop Down List
         /// </summary>
-        private void GetCategories()
+        public void GetCategories()
         {
             var response = client.GetAsync(client.BaseAddress + "category").Result;
             IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
@@ -193,14 +193,11 @@ namespace EcoTechAdmin.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = null;
-                    GetCategories();
-                    return View("Create", model);
+                    ViewBag.Message = null;                    
                 }
             }
             catch (Exception ex)
             {
-                GetCategories();
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
             GetCategories();
