@@ -9,6 +9,8 @@ namespace EcoTechAdmin.TagHelpers
     {
         public string Type { get; set; }
         public string Title { get; set; }
+        public string Text { get; set; } = "More Details";
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagMode = TagMode.StartTagAndEndTag;
@@ -53,7 +55,7 @@ namespace EcoTechAdmin.TagHelpers
             
             // More Details Button Image
             else if (this.Type.ToLower() == "details")
-                sb.AppendFormat("<button alt='{0}' title='{0}' class=\"btn\">More Details</button>", Title);
+                sb.AppendFormat("<button alt='{0}' title='{0}' class=\"btn\">{1}</button>", Title, Text);
 
             output.PreContent.SetHtmlContent(sb.ToString());
         }

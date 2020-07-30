@@ -1,21 +1,37 @@
-﻿using BAL.Entities;
+﻿#region [ Namespace ]
+using BAL.Entities;
 using DAL;
 using Repository.Abstraction;
 using Repository.Implementation;
+#endregion
 
 namespace Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
+        #region [ Local Variables ]
+        /// <summary>
+        /// Local Variables
+        /// </summary>
         protected DatabaseContext db;
+        #endregion
 
+        #region [ Default Constructor ]
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public UnitOfWork()
         {
             // Get Connection String from DBContextHelper class
             //db = new DatabaseContext(DbContextHelper.GetDbContextOptions());
             db = new DatabaseContext();
         }
+        #endregion
 
+        #region [ User Repository ]
+        /// <summary>
+        /// User Repository
+        /// </summary>
         private IUserRepository _userRepo;
         public IUserRepository UserRepo
         {
@@ -26,51 +42,12 @@ namespace Repository
                 return _userRepo;
             }
         }
+        #endregion
 
-        private IRepository<Section> _sectionRepo;
-        public IRepository<Section> SectionRepo
-        {
-            get
-            {
-                if (_sectionRepo == null)
-                    _sectionRepo = new Repository<Section>(db);
-                return _sectionRepo;
-            }
-        }
-
-        private ICategoryRepository _categoryRepo;
-        public ICategoryRepository CategoryRepo
-        {
-            get
-            {
-                if (_categoryRepo == null)
-                    _categoryRepo = new CategoryRepository(db);
-                return _categoryRepo;
-            }
-        }
-
-        private ISubCategoryRepository _subCategoryRepo;
-        public ISubCategoryRepository SubCategoryRepo
-        {
-            get
-            {
-                if (_subCategoryRepo == null)
-                    _subCategoryRepo = new SubCategoryRepository(db);
-                return _subCategoryRepo;
-            }
-        }
-
-        private ISubCatGalleryRepository _subCatGalleryRepo;
-        public ISubCatGalleryRepository SubCatGalleryRepo
-        {
-            get
-            {
-                if (_subCatGalleryRepo == null)
-                    _subCatGalleryRepo = new SubCatGalleryRepository(db);
-                return _subCatGalleryRepo;
-            }
-        }
-
+        #region [ Website Info Repository ]
+        /// <summary>
+        /// Website Info Repository
+        /// </summary>
         private IWebsiteInfoRepository _websiteInfoRepo;
         public IWebsiteInfoRepository WebsiteInfoRepo
         {
@@ -81,7 +58,76 @@ namespace Repository
                 return _websiteInfoRepo;
             }
         }
+        #endregion
 
+        #region [ Section Repository ]
+        /// <summary>
+        /// Section Repository
+        /// </summary>
+        private IRepository<Section> _sectionRepo;
+        public IRepository<Section> SectionRepo
+        {
+            get
+            {
+                if (_sectionRepo == null)
+                    _sectionRepo = new Repository<Section>(db);
+                return _sectionRepo;
+            }
+        }
+        #endregion
+
+        #region [ Category Repository ]
+        /// <summary>
+        /// Category Repository
+        /// </summary>
+        private ICategoryRepository _categoryRepo;
+        public ICategoryRepository CategoryRepo
+        {
+            get
+            {
+                if (_categoryRepo == null)
+                    _categoryRepo = new CategoryRepository(db);
+                return _categoryRepo;
+            }
+        }
+        #endregion
+
+        #region [ Sub Category Repository ]
+        /// <summary>
+        /// Sub Category Repository
+        /// </summary>
+        private ISubCategoryRepository _subCategoryRepo;
+        public ISubCategoryRepository SubCategoryRepo
+        {
+            get
+            {
+                if (_subCategoryRepo == null)
+                    _subCategoryRepo = new SubCategoryRepository(db);
+                return _subCategoryRepo;
+            }
+        }
+        #endregion
+
+        #region [ Sub Category Gallery Repository ]
+        /// <summary>
+        /// Sub Category Gallery Repository
+        /// </summary>
+        private ISubCatGalleryRepository _subCatGalleryRepo;
+        public ISubCatGalleryRepository SubCatGalleryRepo
+        {
+            get
+            {
+                if (_subCatGalleryRepo == null)
+                    _subCatGalleryRepo = new SubCatGalleryRepository(db);
+                return _subCatGalleryRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Product Repository ]
+        /// <summary>
+        /// Product Repository
+        /// </summary>
         private IProductRepository _productRepo;
         public IProductRepository ProductRepo
         {
@@ -92,7 +138,12 @@ namespace Repository
                 return _productRepo;
             }
         }
+        #endregion
 
+        #region [ Door Type Repository ]
+        /// <summary>
+        /// Door Type Repository
+        /// </summary>
         private IRepository<DoorType> _doorTypeRepo;
         public IRepository<DoorType> DoorTypeRepo
         {
@@ -103,10 +154,49 @@ namespace Repository
                 return _doorTypeRepo;
             }
         }
+        #endregion
 
+        #region [ Product Design Repository ]
+        /// <summary>
+        /// Product Design Repository
+        /// </summary>
+        private IRepository<ProductDesign> _productDesignRepo;
+        public IRepository<ProductDesign> ProductDesignRepo
+        {
+            get
+            {
+                if (_productDesignRepo == null)
+                    _productDesignRepo = new Repository<ProductDesign>(db);
+                return _productDesignRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Grade Repository ]
+        /// <summary>
+        /// Product Grade Repository
+        /// </summary>
+        private IRepository<ProductGrade> _productGradeRepo;
+        public IRepository<ProductGrade> ProductGradeRepo
+        {
+            get
+            {
+                if (_productGradeRepo == null)
+                    _productGradeRepo = new Repository<ProductGrade>(db);
+                return _productGradeRepo;
+            }
+        }
+        #endregion
+
+        #region [ Final Save Changes ]
+        /// <summary>
+        /// Final Save Changes
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return db.SaveChanges();
         }
+        #endregion
     }
 }

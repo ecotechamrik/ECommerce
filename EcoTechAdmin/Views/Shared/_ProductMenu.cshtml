@@ -4,22 +4,16 @@
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "Product")" asp-area="Product" asp-controller="Product" asp-action="Index">Product</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductGlobalSettings")" asp-area="Product" asp-controller="ProductGlobalSettings" asp-action="Index">Product Global Settings</a>
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductDesign")" asp-area="Product" asp-controller="ProductDesign" asp-action="Index">Product Designs</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductDesign")" asp-area="Product" asp-controller="ProductDesign" asp-action="Index">Product Design</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductGrade")" asp-area="Product" asp-controller="ProductGrade" asp-action="Index">Product Grade</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "ProductAttributes")" asp-area="Product" asp-controller="ProductAttributes" asp-action="Index">Product Attributes</a>
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductGrade")" asp-area="Product" asp-controller="ProductGrade" asp-action="Index">Product Grades</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "DoorType")" asp-area="Product" asp-controller="DoorType" asp-action="Index">Door Types</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "ProductSize")" asp-area="Product" asp-controller="ProductSize" asp-action="Index">Product Sizes</a>
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductGlobalSettings")" asp-area="Product" asp-controller="ProductGlobalSettings" asp-action="Index">Global Settings</a>
         </li>
     </ul>
 </div>

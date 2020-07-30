@@ -8,7 +8,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
 {
     public class ProductAttributesController : ProductBaseController
     {
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
             return View();
         }

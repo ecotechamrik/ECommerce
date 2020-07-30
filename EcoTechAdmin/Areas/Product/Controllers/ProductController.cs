@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Text;
+using BAL;
 #endregion
 
 namespace EcoTechAdmin.Areas.Product.Controllers
@@ -15,6 +16,9 @@ namespace EcoTechAdmin.Areas.Product.Controllers
     public class ProductController : ProductBaseController
     {
         #region [ Local Variables ]
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
+
         // Get API URL from appsettings.json
         IConfiguration config;
 
@@ -23,11 +27,12 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         #endregion
 
         #region [ Default Constructor  ]
-        public ProductController(IConfiguration _config)
+        public ProductController(IConfiguration _config, IUnitOfWork _generateAPIResponse)
         {
             client = new HttpClient();
             config = _config;
             client.BaseAddress = new Uri(config["URL:API"]);
+            generateAPIResponse = _generateAPIResponse;
         }
         #endregion
 
@@ -50,13 +55,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            var response = await client.GetAsync(client.BaseAddress + "product");
-            IEnumerable<ProductViewModel> _products = new List<ProductViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _products = JsonConvert.DeserializeObject<IEnumerable<ProductViewModel>>(data);
-            }
+            IEnumerable<ProductViewModel> _products = await generateAPIResponse.ProductViewRepo.GetAll("product");
             return View("Index", _products);
         }
         #endregion
@@ -68,24 +67,73 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public IActionResult Create()
         {
-            GetCategories();
+            BindDropDownLists();            
             return View();
+        }
+        #endregion
+
+        #region [ Bind Drop Down Lists ]
+        private void BindDropDownLists()
+        {
+            GetCategories();
+            GetDoorTypes();
+            GetProductDesigns();
+            GetProductGrades();
         }
         #endregion
 
         #region [ Get All Categories - Bind Categories Drop Down List ]
         /// <summary>
-        /// Get All Sub Categories - Bind Categories Drop Down List
+        /// Get All Categories - Bind Categories Drop Down List
         /// </summary>
         private void GetCategories()
         {
-            var response = client.GetAsync(client.BaseAddress + "category").Result;
-            IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
-            if (response.IsSuccessStatusCode)
+            IEnumerable<CategoryViewModel> _category =  generateAPIResponse.CategoryViewRepo.GetAll("category").Result;
+            if (_category!=null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _category = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(data);
                 ViewBag.Categories = _category;
+            }
+        }
+        #endregion
+
+        #region [ Get All Door Types - Bind Door Types Drop Down List ]
+        /// <summary>
+        /// Get All Door Types - Bind Door Types Drop Down List
+        /// </summary>
+        private void GetDoorTypes()
+        {
+            IEnumerable<DoorTypeViewModel> _doorTypes = generateAPIResponse.DoorTypeViewRepo.GetAll("doortype").Result;
+            if (_doorTypes != null)
+            {
+                ViewBag.DoorTypes = _doorTypes;
+            }
+        }
+        #endregion
+
+        #region [ Get All Product Designs - Bind Product Designs Drop Down List ]
+        /// <summary>
+        /// Get All Product Designs - Bind Product Designs Drop Down List
+        /// </summary>
+        private void GetProductDesigns()
+        {
+            IEnumerable<ProductDesignViewModel> _productDesigns = generateAPIResponse.ProductDesignViewRepo.GetAll("productdesign").Result;
+            if (_productDesigns != null)
+            {
+                ViewBag.ProductDesigns = _productDesigns;
+            }
+        }
+        #endregion
+
+        #region [ Get All Product Grades - Bind Product Grades Drop Down List ]
+        /// <summary>
+        /// Get All Product Grades - Bind Product Grades Drop Down List
+        /// </summary>
+        private void GetProductGrades()
+        {
+            IEnumerable<ProductGradeViewModel> _productGrades = generateAPIResponse.ProductGradeViewRepo.GetAll("productgrade").Result;
+            if (_productGrades != null)
+            {
+                ViewBag.ProductGrades = _productGrades;
             }
         }
         #endregion
@@ -145,7 +193,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
 
                 if (model != null)
                 {
-                    GetCategories();
+                    BindDropDownLists();
                     return View("Create", model);
                 }
             }
@@ -210,7 +258,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
             {
                 ViewBag.Message = "Something went wrong: " + ex.Message;
             }
-            GetCategories();
+            BindDropDownLists();
             return View("Create", model);
         }
         #endregion

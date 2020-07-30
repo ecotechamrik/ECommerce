@@ -48,15 +48,6 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Location Code", Prompt = "Location Code")]
         public string LocationCode { get; set; }
 
-        [Display(Name = "Supplier ID", Prompt = "Supplier ID")]
-        public int? SupplierID { get; set; }
-
-        [Display(Name = "Supplier Mode Code", Prompt = "Supplier Mode Code")]
-        public string SupplierModeCode { get; set; }
-
-        [Display(Name = "Lead Time", Prompt = "Lead Time")]
-        public string LeadTime { get; set; }
-
         [Display(Name = "Retail Bin", Prompt = "Retail Bin")]
         public string RetailBin { get; set; }
 
@@ -66,40 +57,37 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Index Number", Prompt = "Index Number")]
         public string IndexNumber { get; set; }
 
-        [Display(Name = "Practical Markup", Prompt = "Practical Markup")]
-        public string PracticalMarkup { get; set; }
-
-        [Display(Name = "Practical Cost", Prompt = "Practical Cost")]
-        public string PracticalCost { get; set; }
-
-        [Display(Name = "Retail Markup Disc", Prompt = "Retail Markup Disc")]
-        public string RetailMarkupDisc { get; set; }
-
-        [Display(Name = "Retail Markup", Prompt = "Retail Markup")]
-        public string RetailMarkup { get; set; }
-
-        [Display(Name = "Live Price Disc", Prompt = "Live Price Disc")]
-        public string LivePriceDisc { get; set; }
-
-        [Display(Name = "Live Price", Prompt = "Live Price")]
-        public string LivePrice { get; set; }
-
-        [Display(Name = "Width", Prompt = "Width")]
-        public string Width { get; set; }
-
         [Display(Name = "Category ID")]
         public int? CategoryID { get; set; }
 
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
 
-        [Display(Name = "Sub Category ID", Prompt = "Sub Category ID")]
+        [Display(Name = "Sub Category ID")]
         public int? SubCategoryID { get; set; }
 
         [Display(Name = "Sub Category Name")]
         public string SubCategoryName { get; set; }
 
-        [Display(Name = "IP Address", Prompt = "IP Address")]
+        [Display(Name = "Sub Door Type ID")]
+        public int? DoorTypeID { get; set; }
+
+        [Display(Name = "Sub Door Type Name")]
+        public string DoorTypeName { get; set; }
+
+        [Display(Name = "Sub Product Design ID")]
+        public int? ProductDesignID { get; set; }
+
+        [Display(Name = "Product Design Name")]
+        public string ProductDesignName { get; set; }
+
+        [Display(Name = "Sub Product Grade ID")]
+        public int? ProductGradeID { get; set; }
+
+        [Display(Name = "Product Grade Name")]
+        public string ProductGradeName { get; set; }
+
+        [Display(Name = "IP Address")]
         public string IPAddress { get; set; }
 
         [Display(Name = "Active")]

@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BAL.Entities
 {
-    public class DoorType
+    public class ProductDesign
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DoorTypeID { get; set; }
-        public string DoorTypeName { get; set; }
-        public ICollection<ProductAttributes> ProductAttributes { get; set; }
+        public int ProductDesignID { get; set; }
+        public string ProductDesignName { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }

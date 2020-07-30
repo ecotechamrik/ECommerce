@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcoTechAdmin.Areas.Product.Controllers
 {
-    public class ProductSizeController : ProductBaseController
+    public class ProductImagesController : ProductBaseController
     {
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
             return View();
         }

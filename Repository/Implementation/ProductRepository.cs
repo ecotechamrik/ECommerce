@@ -25,10 +25,14 @@ namespace Repository.Implementation
         public IEnumerable<ProductViewModel> GetProductsWithCategories()
         {
             var products = (from prod in Context.Products
+                            
                             join cat in Context.Categories
                             on prod.CategoryID equals cat.CategoryID into catproducts
-                            
                             from cat in catproducts.DefaultIfEmpty() // Left Outer Join
+
+                            join subcat in Context.SubCategories
+                            on prod.SubCategoryID equals subcat.SubCategoryID into subcatproducts
+                            from subcat in subcatproducts.DefaultIfEmpty() // Left Outer Join
 
                             select new ProductViewModel
                             {
@@ -37,7 +41,9 @@ namespace Repository.Implementation
                                 ProductCode = prod.ProductCode,
                                 ProductDesc = prod.ProductDesc,
                                 CategoryID = cat.CategoryID,
-                                CategoryName = cat.CategoryName
+                                CategoryName = cat.CategoryName,
+                                SubCategoryID = subcat.SubCategoryID,
+                                SubCategoryName = subcat.SubCategoryName
                             }).ToList();
 
             return products;

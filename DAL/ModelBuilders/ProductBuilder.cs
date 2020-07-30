@@ -43,6 +43,15 @@ namespace DAL.ModelBuilders
 
             // Product To ProductImages [1 - M Relationship with Product]
             modelBuilder.Entity<Product>().HasMany(p => p.ProductImages).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);
+
+            // DoorType To Products [1 - M Relationship with DoorType]
+            modelBuilder.Entity<DoorType>().HasMany(c => c.Products).WithOne(c => c.DoorType).HasForeignKey(c => c.DoorTypeID).OnDelete(DeleteBehavior.SetNull);
+
+            // ProductDesign To Products [1 - M Relationship with ProductDesign]
+            modelBuilder.Entity<ProductDesign>().HasMany(c => c.Products).WithOne(c => c.ProductDesign).HasForeignKey(c => c.ProductDesignID).OnDelete(DeleteBehavior.SetNull);
+
+            // ProductGrade To Products [1 - M Relationship with DoorType]
+            modelBuilder.Entity<ProductGrade>().HasMany(c => c.Products).WithOne(c => c.ProductGrade).HasForeignKey(c => c.ProductGradeID).OnDelete(DeleteBehavior.SetNull);
         }
         #endregion
     }

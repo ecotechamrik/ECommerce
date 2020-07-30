@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200729202335_ProductGrade")]
+    partial class ProductGrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +101,6 @@ namespace DAL.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DoorTypeID")
-                        .HasColumnType("int");
-
                     b.Property<string>("GroupNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -144,12 +143,6 @@ namespace DAL.Migrations
                     b.Property<string>("ProductDesc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductDesignID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductGradeID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)")
@@ -183,12 +176,6 @@ namespace DAL.Migrations
                     b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("DoorTypeID");
-
-                    b.HasIndex("ProductDesignID");
-
-                    b.HasIndex("ProductGradeID");
 
                     b.HasIndex("SubCategoryID");
 
@@ -576,21 +563,6 @@ namespace DAL.Migrations
                     b.HasOne("BAL.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("BAL.Entities.DoorType", "DoorType")
-                        .WithMany("Products")
-                        .HasForeignKey("DoorTypeID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("BAL.Entities.ProductDesign", "ProductDesign")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductDesignID")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("BAL.Entities.ProductGrade", "ProductGrade")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductGradeID")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("BAL.Entities.SubCategory", "SubCategory")

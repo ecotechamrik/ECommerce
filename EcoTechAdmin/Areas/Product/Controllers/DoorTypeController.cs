@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Net.Http;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Text;
+using BAL;
 #endregion
 
 namespace EcoTechAdmin.Areas.Product.Controllers
@@ -15,19 +12,14 @@ namespace EcoTechAdmin.Areas.Product.Controllers
     public class DoorTypeController : ProductBaseController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        IConfiguration config;
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IGenerateAPIResponse<DoorTypeViewModel> generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor  ]
-        public DoorTypeController(IConfiguration _config)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls]
+        public DoorTypeController(IGenerateAPIResponse<DoorTypeViewModel> _generateAPIResponse)
         {
-            client = new HttpClient();
-            config = _config;
-            client.BaseAddress = new Uri(config["URL:API"]);
+            generateAPIResponse = _generateAPIResponse;
         }
         #endregion
 
@@ -50,15 +42,9 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            var response = await client.GetAsync(client.BaseAddress + "doortypes");
-            IEnumerable<DoorTypeViewModel> _doorTypes = new List<DoorTypeViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _doorTypes = JsonConvert.DeserializeObject<IEnumerable<DoorTypeViewModel>>(data);
-            }
+            IEnumerable<DoorTypeViewModel> _doorTypes = await generateAPIResponse.GetAll("doortype");
             return View("Index", _doorTypes);
-        }
+        }        
         #endregion
 
         #region [ Create New Door Type ]
@@ -91,24 +77,15 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "doortypes" + "/" + id).Result;
-            DoorTypeViewModel model = new DoorTypeViewModel();
-
-            if (response.IsSuccessStatusCode)
+            DoorTypeViewModel model = await generateAPIResponse.GetByID("doortype", id);
+            if(model!=null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<DoorTypeViewModel>(data);
-
-                if (model != null)
-                    return View("Create", model);
+                return View("Create", model);
             }
-
-            return RedirectToAction("Index");
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
@@ -136,25 +113,22 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                var response = false;
 
                 // Call Post Method to Create New Door Type Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "doortypes", content);
+                    response = await generateAPIResponse.Save("doortype", model);
                     ViewBag.Message = "Door Type record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Door Type Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "doortypes/" + model.DoorTypeID, content);
+                    response = await generateAPIResponse.Update("doortype/" + model.DoorTypeID, model);
                     ViewBag.Message = "Door Type record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Class = "text-success";
                     return await RedirectToIndex();
@@ -179,24 +153,15 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "doortypes" + "/" + id).Result;
-            DoorTypeViewModel model = new DoorTypeViewModel();
-
-            if (response.IsSuccessStatusCode)
+            DoorTypeViewModel model = await generateAPIResponse.GetByID("doortype", id);
+            if (model != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<DoorTypeViewModel>(data);
-
-                if (model != null)
-                    return View(model);
+                return View(model);
             }
-
-            return RedirectToAction("Index");
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
@@ -210,13 +175,12 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "doortypes/" + id);
+                var response = await generateAPIResponse.Delete("doortype/" + id);
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Message = "Door Type record has been deleted successfully.";
                     return await RedirectToIndex();
-
                 }
             }
             catch (Exception ex)

@@ -22,9 +22,6 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.DoorTypeID)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.DoorTypeName)
                 </th>
                 <th></th>
@@ -34,9 +31,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DoorTypeID)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DoorTypeName)
                     </td>

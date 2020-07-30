@@ -16,6 +16,8 @@ namespace Repository
         ISubCatGalleryRepository SubCatGalleryRepo { get; }
         IProductRepository ProductRepo { get; }
         IRepository<DoorType> DoorTypeRepo { get; }
+        IRepository<ProductDesign> ProductDesignRepo { get; }
+        IRepository<ProductGrade> ProductGradeRepo { get; }
         #endregion
 
         #region [ Website Related Repositories ]

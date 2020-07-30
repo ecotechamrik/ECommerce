@@ -22,9 +22,7 @@ namespace EcoTechAPIs.Controllers
         [HttpGet]
         public IList<ProductViewModel> Get()
         {
-
-
-            uow.ProductRepo.DbInitialize();
+            //uow.ProductRepo.DbInitialize();
 
             var products = uow.ProductRepo.GetProductsWithCategories();
             return products.ToList();

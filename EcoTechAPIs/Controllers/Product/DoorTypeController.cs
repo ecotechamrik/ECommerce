@@ -9,22 +9,22 @@ namespace EcoTechAPIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoorTypesController : ControllerBase
+    public class DoorTypeController : ControllerBase
     {
         IUnitOfWork uow;
-        public DoorTypesController(IUnitOfWork _uow)
+        public DoorTypeController(IUnitOfWork _uow)
         {
             uow = _uow;
         }
 
-        // GET: api/doortypes
+        // GET: api/doortype
         [HttpGet]
         public IEnumerable<DoorType> Get()
         {
             return GetDoorTypeDetails(null);
         }
 
-        // GET: api/doortypes/5
+        // GET: api/doortype/5
         [HttpGet("{id}", Name = "DoorType")]
         public IEnumerable<DoorType> Get(int id)
         {
@@ -43,7 +43,7 @@ namespace EcoTechAPIs.Controllers
         }
         #endregion
 
-        // POST: api/doortypes
+        // POST: api/doortype
         [HttpPost]
         public IActionResult Post([FromBody] DoorType model)
         {
@@ -51,7 +51,7 @@ namespace EcoTechAPIs.Controllers
             {
                 uow.DoorTypeRepo.Add(model);
                 uow.SaveChanges();
-                return Created("/api/doortypes", model);
+                return Created("/api/doortype", model);
             }
             catch
             {
@@ -59,7 +59,7 @@ namespace EcoTechAPIs.Controllers
             }
         }
 
-        // PUT: api/doortypes/5
+        // PUT: api/doortype/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] DoorType model)
         {
@@ -67,7 +67,7 @@ namespace EcoTechAPIs.Controllers
             {
                 uow.DoorTypeRepo.Update(model);
                 uow.SaveChanges();
-                return Created("/api/doortypes", model);
+                return Created("/api/doortype", model);
             }
             catch
             {
@@ -75,7 +75,7 @@ namespace EcoTechAPIs.Controllers
             }
         }
 
-        // DELETE: api/doortypes/5
+        // DELETE: api/doortype/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

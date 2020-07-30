@@ -17,7 +17,7 @@ namespace EcoTechAPIs.Controllers
         {
             if (products.Count == 0)
             {
-                Product p = new Product { ProductID = 1, ProductName = "sold", ProductCode = "P001", LivePrice = "200", IsActive = true };
+                Product p = new Product { ProductID = 1, ProductName = "sold", ProductCode = "P001", IsActive = true };
                 products.Add(p);
             }
         }
