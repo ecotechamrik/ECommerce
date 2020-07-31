@@ -11,55 +11,54 @@
     <div class="font-weight-bold">Sub Category Gallery: </div>
     <div>@Model.FirstOrDefault().SubCategoryName<br /><br /></div>
 
-    <ul id="imageGallery">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Order)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ThumbNailSizeImage)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MainImage)
-                    </th>
-                    <th>
-                        Actions / Click here to <a href="javascript:void(0);" onclick="DeleteAllImages('@Model.FirstOrDefault().SubCategoryID');" id="delAllImages">Delete All</a>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Order)
-                        </td>
-                        <td>
-                            <li>
-                                <popup><img src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" title="Thumbnail Image" /></popup>
-                            </li>
-                        </td>
-                        <td>
-                            @if (item.IsMainImage == true)
-                            {
-                                <customicon type="yes" title="Yes"></customicon>
-                            }
-                            else
-                            {
-                                <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <customicon type="question" title="Do you want to set this as Main Image?"></customicon>
-                            }
 
-                        </td>
-                        <td>
-                            <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Sub Category Gallery"></customicon></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ThumbNailSizeImage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MainImage)
+                </th>
+                <th>
+                    Actions / Click here to <a href="javascript:void(0);" onclick="DeleteAllImages('@Model.FirstOrDefault().SubCategoryID');" id="delAllImages">Delete All</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Order)
+                    </td>
+                    <td>
+                        <img src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" alt="" title="Thumbnail Image" onclick="ShowPopUp(this);" />
+                    </td>
+                    <td>
+                        @if (item.IsMainImage == true)
+                        {
+                            <customicon type="yes" title="Yes"></customicon>
+                        }
+                        else
+                        {
+                            <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <customicon type="question" title="Do you want to set this as Main Image?"></customicon>
+                        }
+
+                    </td>
+                    <td>
+                        <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Sub Category Gallery"></customicon></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
 }
 else
 {
@@ -71,33 +70,46 @@ else
     </div>
 }
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
 
 <script>
-    $(document).ready(function () {
-        $("#imageGallery").imagePopup({
-            overlay: "rgba(0, 0, 0, 0.7)",
+    var bodyClick = true;
+    // Get the modal
 
-            closeButton: {
-                src: "/img/close.png",
-                width: "40px",
-                height: "40px"
-            },
-            imageBorder: "10px solid #ffffff",
-            borderRadius: "6px",
-            imageWidth: "auto",
-            imageHeight: "auto",
-            imageCaption: {
-                exist: true,
-                color: "#ffffff",
-                fontSize: "18px"
-            },
-            open: function () {
-                //console.log("opened");
-            },
-            close: function () {
-                //console.log("closed");
-            }
-        });
+    var modal = document.getElementById("myModal");
 
-    });
+    function ShowPopUp(img) {
+        bodyClick = false;
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = img.src.replace("T_", "O_");
+        captionText.innerHTML = img.alt;
+
+        setInterval(function () {
+            bodyClick = true;
+        }, 1000);        
+    }
+
+    // Body Click Event to Close the Modal Popup
+    document.body.addEventListener("click", clickBody)
+    function clickBody() {
+        if (bodyClick)
+            modal.style.display = "none";
+    }    
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
 </script>
