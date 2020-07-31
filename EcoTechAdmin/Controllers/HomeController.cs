@@ -1,42 +1,41 @@
-﻿using BAL;
+﻿#region [ Namespace ]
+using BAL;
 using BAL.ViewModels.User;
 using EcoTechAdmin.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class HomeController : Controller
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        public HomeController()
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public HomeController(IUnitOfWork _generateAPIResponse)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
         }
+        #endregion
 
         public IActionResult Login(string returnUrl)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                //var userName = HttpContext.User.Claims.First().Value;
+                //var userName = HttpContext.User.Claims.First().Value; -- TO GET USER NAME FROM IDENTITY
                 return RedirectToAction("Index", "Websites");
             }
 
@@ -47,12 +46,12 @@ namespace EcoTechAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserViewModel _user)
+        public async Task<IActionResult> Login(UserViewModel _user)
         {
-            var response = client.GetAsync(client.BaseAddress + "token/create/" + _user.UserName + "/" + _user.Password).Result;
-            if (response.IsSuccessStatusCode)
+            String response = await generateAPIResponse.CommonRepo.GetStringContent("token/create/" + _user.UserName + "/" + _user.Password);
+            if (!string.IsNullOrEmpty(response))
             {
-                _user.Token = response.Content.ReadAsStringAsync().Result;
+                _user.Token = response.ToString();
                 Authenticate(_user);
 
                 if (Url.IsLocalUrl(_user.ReturnUrl))

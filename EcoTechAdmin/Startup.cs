@@ -15,13 +15,11 @@ namespace EcoTechAdmin
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped(typeof(IGenerateAPIResponse<>), typeof(GenerateAPIResponse<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(config =>

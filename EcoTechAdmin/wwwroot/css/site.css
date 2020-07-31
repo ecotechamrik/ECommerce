@@ -232,3 +232,23 @@ button.btn {
     background: linear-gradient(90deg, rgba(33,150,243,1) 0%, rgba(33,150,243,1) 48%, rgba(0,212,255,1) 100%);
     opacity: 0.95;
 }
+
+
+/* Image Model Popup CSS */
+#imageGallery {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+}
+
+#imageGallery li {
+    padding: 5px;
+    background: #ffffff;
+    margin: 5px;
+    display: inline-block;
+}
+
+#imageGallery li img {
+    display: block;
+}

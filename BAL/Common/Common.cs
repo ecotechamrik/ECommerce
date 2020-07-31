@@ -12,14 +12,29 @@ namespace BAL
         /// </summary>
         // Return Website Path URL
         public static readonly string WEBSITEPATH;
+        //private IConfiguration _configuration;
+
+        // Static Constructor
         static Common()
         {
             // Set Websith Path URL value from appsettings.json file
             if (WEBSITEPATH == null)
             {
-                WEBSITEPATH = GetSectionString("WebsiteURL", "");
+                WEBSITEPATH = GetSectionString("URL", "");
             }
         }
+
+        //// Constructor for Dependency Injection
+        //Common(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+
+        //    // Set Websith Path URL value from appsettings.json file
+        //    if (WEBSITEPATH == null)
+        //    {
+        //        WEBSITEPATH = GetSectionString("URL", "Web");
+        //    }
+        //}        
         #endregion
 
         #region [ Read Any Section Value from AppSettings.JSON file ]

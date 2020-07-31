@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Text;
 using BAL;
 #endregion
 
@@ -18,20 +16,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         #region [ Local Variables ]
         // Generate API Response Variable through Dependency Injection
         IUnitOfWork generateAPIResponse;
-
-        // Get API URL from appsettings.json
-        IConfiguration config;
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
         #endregion
 
-        #region [ Default Constructor  ]
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
         public ProductController(IConfiguration _config, IUnitOfWork _generateAPIResponse)
         {
-            client = new HttpClient();
-            config = _config;
-            client.BaseAddress = new Uri(config["URL:API"]);
             generateAPIResponse = _generateAPIResponse;
         }
         #endregion
@@ -146,15 +135,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> bindsubcategories(int? id)
         {
-            IEnumerable<SubCategoryViewModel> _subcategory = new List<SubCategoryViewModel>();
-
-            var response = await client.GetAsync(client.BaseAddress + "subcategory/getbycategoryid/" + id);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _subcategory = JsonConvert.DeserializeObject<IEnumerable<SubCategoryViewModel>>(data);
-            }
+            IEnumerable<SubCategoryViewModel> _subcategory = await generateAPIResponse.SubCategoryViewRepo.GetAll("subcategory/getbycategoryid/" + id);
             return PartialView(@"~\Views\SubCatGallery\_SubCategory.cshtml", _subcategory);
         }
         #endregion
@@ -178,26 +159,14 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "product" + "/" + id).Result;
-            ProductViewModel model = new ProductViewModel();
-
-            if (response.IsSuccessStatusCode)
+            ProductViewModel model = await generateAPIResponse.ProductViewRepo.GetByID("product", id);
+            if (model != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<ProductViewModel>(data);
-
-                if (model != null)
-                {
-                    BindDropDownLists();
-                    return View("Create", model);
-                }
+                BindDropDownLists();
+                return View("Create", model);
             }
-
             return RedirectToAction("Index");
         }
         #endregion
@@ -226,25 +195,22 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                dynamic response;   
 
                 // Call Post Method to Create New Product Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "product", content);
+                    response = await generateAPIResponse.ProductViewRepo.Save("product", model);
                     ViewBag.Message = "Product record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Product Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "product/" + model.ProductID, content);
+                    response = await generateAPIResponse.ProductViewRepo.Update("product/" + model.ProductID, model);
                     ViewBag.Message = "Product record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Class = "text-success";
                     return await RedirectToIndex();
@@ -269,23 +235,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "product" + "/" + id).Result;
-            ProductViewModel model = new ProductViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<ProductViewModel>(data);
-
-                if (model != null)
-                    return View(model);
-            }
-
+            ProductViewModel model = await generateAPIResponse.ProductViewRepo.GetByID("product", id);
+            if (model != null)
+                return View(model);
             return RedirectToAction("Index");
         }
         #endregion
@@ -300,13 +254,12 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "product/" + id);
+                var response = await generateAPIResponse.ProductViewRepo.Delete("product/" + id);
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Message = "Product record has been deleted successfully.";
                     return await RedirectToIndex();
-
                 }
             }
             catch (Exception ex)

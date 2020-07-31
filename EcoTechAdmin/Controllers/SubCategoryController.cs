@@ -1,6 +1,6 @@
-﻿using BAL;
+﻿#region [ Namespace ]
+using BAL;
 using BAL.ViewModels.Product;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,26 +10,23 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class SubCategoryController : AuthorizeController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
 
         private readonly IWebHostEnvironment _hostingEnvironment;
         #endregion
 
-        #region [ Default Constructor  ]
-        public SubCategoryController(IWebHostEnvironment hostingEnvironment)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public SubCategoryController(IUnitOfWork _generateAPIResponse, IWebHostEnvironment hostingEnvironment)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
             _hostingEnvironment = hostingEnvironment;
         }
         #endregion
@@ -53,21 +50,16 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex(int? id)
         {
-            var response = new HttpResponseMessage();
+            dynamic _subcategory;
+
             if (id != null)
             {
-                response = await client.GetAsync(client.BaseAddress + "subcategory/getbycategoryid/" + id);
+                _subcategory = await generateAPIResponse.SubCategoryViewRepo.GetAll("subcategory/getbycategoryid/" + id);
                 ViewBag.CategoryID = id;
             }
             else
-                response = await client.GetAsync(client.BaseAddress + "subcategory");
+                _subcategory = await generateAPIResponse.SubCategoryViewRepo.GetAll("subcategory");
 
-            IEnumerable<SubCategoryViewModel> _subcategory = new List<SubCategoryViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _subcategory = JsonConvert.DeserializeObject<IEnumerable<SubCategoryViewModel>>(data);
-            }
             return View("Index", _subcategory);
         }
         #endregion
@@ -91,12 +83,9 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         public void GetCategories()
         {
-            var response = client.GetAsync(client.BaseAddress + "category").Result;
-            IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
-            if (response.IsSuccessStatusCode)
+            IEnumerable<CategoryViewModel> _category = generateAPIResponse.CategoryViewRepo.GetAll("category").Result;
+            if (_category != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _category = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(data);
                 ViewBag.Categories = _category;
             }
         }
@@ -121,24 +110,14 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "subcategory" + "/" + id).Result;
-            SubCategoryViewModel model = new SubCategoryViewModel();
+            SubCategoryViewModel model = await generateAPIResponse.SubCategoryViewRepo.GetByID("subcategory", id);
 
-            if (response.IsSuccessStatusCode)
+            if (model != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SubCategoryViewModel>(data);
-
-                if (model != null)
-                {
-                    GetCategories();
-                    return View("Create", model);
-                }
+                GetCategories();
+                return View("Create", model);
             }
             return RedirectToAction("Index");
         }
@@ -168,25 +147,22 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                var response = false;
 
                 // Call Post Method to Create New Sub Category Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "subcategory", content);
+                    response = await generateAPIResponse.SubCategoryViewRepo.Save("subcategory", model);
                     ViewBag.Message = "Sub Category record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Sub Category Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "subcategory/" + model.SubCategoryID, content);
+                    response = await generateAPIResponse.SubCategoryViewRepo.Update("subcategory/" + model.SubCategoryID, model);
                     ViewBag.Message = "Sub Category record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Class = "text-success";
                     return await RedirectToIndex(null);
@@ -211,28 +187,17 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "subcategory" + "/" + id).Result;
-            SubCategoryViewModel model = new SubCategoryViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SubCategoryViewModel>(data);
-
-                if (model != null)
-                    return View(model);
-            }
-
-            return RedirectToAction("Index");
+            SubCategoryViewModel model = await generateAPIResponse.SubCategoryViewRepo.GetByID("subcategory", id);
+            if (model != null)
+                return View(model);
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
-        #region [ Delete Sub Category Record form DB. ]
+        #region [ Delete Sub Category Record form DB ]
         /// <summary>
         /// Delete Sub Category Record form DB.
         /// </summary>
@@ -242,9 +207,7 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "subcategory/" + id);
-
-                if (response.IsSuccessStatusCode)
+                if (await generateAPIResponse.SubCategoryViewRepo.Delete("subcategory/" + id))
                 {
                     await DeleteSubCatGallery(id);
 
@@ -273,9 +236,9 @@ namespace EcoTechAdmin.Controllers
 
         private async Task DeleteSubCatGallery(int _subCategoryID)
         {
-            await client.DeleteAsync(client.BaseAddress + "subcatgallery/deletebysubcategoryid/" + _subCategoryID);
+            await generateAPIResponse.CategoryViewRepo.Delete("subcatgallery/deletebysubcategoryid/" + _subCategoryID);
 
-            string path = this._hostingEnvironment.WebRootPath + "/Gallery/" + _subCategoryID;
+            string path = _hostingEnvironment.WebRootPath + "/Gallery/" + _subCategoryID;
 
             if (Directory.Exists(path))
             {

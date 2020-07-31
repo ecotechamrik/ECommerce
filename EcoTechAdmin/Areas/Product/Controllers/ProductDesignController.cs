@@ -13,11 +13,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
     {
         #region [ Local Variables ]
         // Generate API Response Variable through Dependency Injection
-        IGenerateAPIResponse<ProductDesignViewModel> generateAPIResponse;
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls]
-        public ProductDesignController(IGenerateAPIResponse<ProductDesignViewModel> _generateAPIResponse)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public ProductDesignController(IUnitOfWork _generateAPIResponse)
         {
             generateAPIResponse = _generateAPIResponse;
         }
@@ -42,7 +42,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            IEnumerable<ProductDesignViewModel> _productdesigns = await generateAPIResponse.GetAll("productdesign");
+            IEnumerable<ProductDesignViewModel> _productdesigns = await generateAPIResponse.ProductDesignViewRepo.GetAll("productdesign");
             return View("Index", _productdesigns);
         }
         #endregion
@@ -79,7 +79,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Edit(int id)
         {
-            ProductDesignViewModel model = await generateAPIResponse.GetByID("productdesign", id);
+            ProductDesignViewModel model = await generateAPIResponse.ProductDesignViewRepo.GetByID("productdesign", id);
             if (model != null)
             {
                 return View("Create", model);
@@ -118,13 +118,13 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 // Call Post Method to Create New Product Design Details
                 if (action.ToLower() == "create")
                 {
-                    response = await generateAPIResponse.Save("productdesign", model);
+                    response = await generateAPIResponse.ProductDesignViewRepo.Save("productdesign", model);
                     ViewBag.Message = "Product Design record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Product Design Details
                 else
                 {
-                    response = await generateAPIResponse.Update("productdesign/" + model.ProductDesignID, model);
+                    response = await generateAPIResponse.ProductDesignViewRepo.Update("productdesign/" + model.ProductDesignID, model);
                     ViewBag.Message = "Product Design record has been updated successfully.";
                 }
 
@@ -155,7 +155,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Details(int id)
         {
-            ProductDesignViewModel model = await generateAPIResponse.GetByID("productdesign", id);
+            ProductDesignViewModel model = await generateAPIResponse.ProductDesignViewRepo.GetByID("productdesign", id);
             if (model != null)
             {
                 return View(model);
@@ -175,7 +175,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                var response = await generateAPIResponse.Delete("productdesign/" + id);
+                var response = await generateAPIResponse.ProductDesignViewRepo.Delete("productdesign/" + id);
 
                 if (response)
                 {

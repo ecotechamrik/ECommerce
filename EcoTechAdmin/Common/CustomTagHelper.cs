@@ -1,16 +1,25 @@
-﻿using BAL;
+﻿#region [ Namespace ]
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Text;
+#endregion
 
 namespace EcoTechAdmin.TagHelpers
 {
     [HtmlTargetElement("customicon")]
     public class CustomTagHelper: TagHelper
     {
+        #region [ Custom Icon Properties ]
         public string Type { get; set; }
         public string Title { get; set; }
         public string Text { get; set; } = "More Details";
+        #endregion
 
+        #region [ Create Custom Icons from Awesome Font CSS ]
+        /// <summary>
+        /// Create Custom Icons from Awesome Font CSS
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="output"></param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagMode = TagMode.StartTagAndEndTag;
@@ -59,5 +68,6 @@ namespace EcoTechAdmin.TagHelpers
 
             output.PreContent.SetHtmlContent(sb.ToString());
         }
+        #endregion
     }
 }

@@ -1,38 +1,34 @@
-﻿using BAL;
+﻿#region [ Namespace ]
+using BAL;
 using BAL.ViewModels.Product;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
+using System.Reflection;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class SubCatGalleryController : AuthorizeController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
 
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
-
+        // Hosting Path Variable to Upload Files
         private readonly IWebHostEnvironment _hostingEnvironment;
         #endregion
 
-        #region [ Default Constructor ]
-        public SubCatGalleryController(IWebHostEnvironment hostingEnvironment)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public SubCatGalleryController(IUnitOfWork _generateAPIResponse, IWebHostEnvironment hostingEnvironment)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
             _hostingEnvironment = hostingEnvironment;
         }
         #endregion
@@ -68,37 +64,29 @@ namespace EcoTechAdmin.Controllers
         }
         #endregion
 
-        #region [ Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID ]
+        #region [ Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID: Called from Index.cshtml jQuery Ajax Call ]
         /// <summary>
-        /// Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID
+        /// Bind Partial View - Sub Category Gallery List baesd on the SubCategoryID: Called from Index.cshtml jQuery Ajax Call
         /// </summary>
         /// <param name="id"></param> -- Sub Category ID
         /// <param name="catid"></param> -- Category ID
         /// <returns></returns>
         public async Task<IActionResult> BindList(int? id, int? catid)
         {
-            var response = new HttpResponseMessage();
+            string _apiMethod;
             if (id != null)
-            {
-                response = await client.GetAsync(client.BaseAddress + "subcatgallery/getbysubcategoryid/" + id);
-            }
+                _apiMethod = "subcatgallery/getbysubcategoryid/" + id;
             else
-                response = await client.GetAsync(client.BaseAddress + "subcatgallery");
-            IEnumerable<SubCatGalleryViewModel> _subcatgallery = BindSubCatGalList(id, catid, response);
+                _apiMethod = "subcatgallery";
 
-            return PartialView("_SubCatGalList", _subcatgallery);
+            return PartialView("_SubCatGalList", await BindSubCatGalList(id, catid, _apiMethod));
         }
         #endregion
 
         #region [ Bind Sub Category Gallery List ]
-        private IEnumerable<SubCatGalleryViewModel> BindSubCatGalList(int? id, int? catid, HttpResponseMessage response)
+        private async Task<IEnumerable<SubCatGalleryViewModel>> BindSubCatGalList(int? id, int? catid, string apiMethod)
         {
-            IEnumerable<SubCatGalleryViewModel> _subcatgallery = new List<SubCatGalleryViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _subcatgallery = JsonConvert.DeserializeObject<IEnumerable<SubCatGalleryViewModel>>(data);
-            }
+            var _subcatgallery = await generateAPIResponse.SubCatGalleryViewRepo.GetAll(apiMethod);
             GetCatIDSubCatID(id, catid);
             return _subcatgallery;
         }
@@ -114,10 +102,8 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SetDefaultImage(int? id, int? subcatid, int? catid)
         {
-            var response = await client.GetAsync(client.BaseAddress + "subcatgallery/setdefaultimage/" + id + "/" + subcatid);
-            IEnumerable<SubCatGalleryViewModel> _subcatgallery = BindSubCatGalList(id, catid, response);
-
-            return PartialView("_SubCatGalList", _subcatgallery);
+            string apiMethod = "subcatgallery/setdefaultimage/" + id + "/" + subcatid;
+            return PartialView("_SubCatGalList", await BindSubCatGalList(id, catid, apiMethod));
         }
         #endregion
 
@@ -144,12 +130,9 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         private void GetCategories()
         {
-            var response = client.GetAsync(client.BaseAddress + "category").Result;
-            IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
-            if (response.IsSuccessStatusCode)
+            IEnumerable<CategoryViewModel> _category = generateAPIResponse.CategoryViewRepo.GetAll("category").Result;
+            if (_category != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _category = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(data);
                 ViewBag.Categories = _category;
             }
         }
@@ -163,14 +146,10 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> bindsubcategories(int? id)
         {
-            IEnumerable<SubCategoryViewModel> _subcategory = new List<SubCategoryViewModel>();
-
-            var response = await client.GetAsync(client.BaseAddress + "subcategory/getbycategoryid/" + id);
-
-            if (response.IsSuccessStatusCode)
+            IEnumerable<SubCategoryViewModel> _subcategory = await generateAPIResponse.SubCategoryViewRepo.GetAll("subcategory/getbycategoryid/" + id);
+            if (_subcategory != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _subcategory = JsonConvert.DeserializeObject<IEnumerable<SubCategoryViewModel>>(data);
+                ViewBag.Categories = _subcategory;
             }
             return PartialView("_SubCategory", _subcategory);
         }
@@ -187,12 +166,9 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+                var response = generateAPIResponse.SubCatGalleryViewRepo.Save("subcatgallery", model).Result;
 
-                var response = client.PostAsync(client.BaseAddress + "subcatgallery", content).Result;
-
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     TempData["Message"] = "Sub Category record has been created successfully.";
                     TempData["Class"] = "text-success";
@@ -200,7 +176,7 @@ namespace EcoTechAdmin.Controllers
                 }
                 else
                 {
-                    TempData["Message"] = "Something went wrong: " + response.ReasonPhrase;
+                    TempData["Message"] = "Something went wrong";
                 }
             }
             catch (Exception ex)
@@ -211,7 +187,7 @@ namespace EcoTechAdmin.Controllers
         }
         #endregion
 
-        #region [ Delete Sub Category Record form DB. ]
+        #region [ Delete Sub Category Record form DB ]
         /// <summary>
         /// Delete Sub Category Record form DB.
         /// </summary>
@@ -222,9 +198,7 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "subcatgallery/" + id);
-
-                if (response.IsSuccessStatusCode)
+                if (await generateAPIResponse.SubCatGalleryViewRepo.Delete("subcatgallery/" + id))
                 {
                     DeleteFilePath(imageName, subcatid);
                     TempData["Message"] = "Sub Category record has been deleted successfully.";

@@ -55,7 +55,7 @@ namespace BAL
         /// </summary>
         /// <param name="baseAddress"></param>
         /// <returns></returns>
-        public async Task<TEntity> GetByID(String apiMethod, Int32 id)
+        public async Task<TEntity> GetByID(String apiMethod, int? id)
         {
             var response = await client.GetAsync(client.BaseAddress + apiMethod + "/" + id);
             TEntity model;
@@ -70,6 +70,27 @@ namespace BAL
 
                 if (model != null)
                     return model;                
+            }
+            return null;
+        }
+        #endregion
+
+        #region [ Get String Content ]
+        /// <summary>
+        /// Get String Content
+        /// </summary>
+        /// <param name="baseAddress"></param>
+        /// <returns></returns>
+        public async Task<String> GetStringContent(String apiMethod)
+        {
+            var response = await client.GetAsync(client.BaseAddress + apiMethod);            
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+
+                if (!string.IsNullOrEmpty(data))
+                    return data;
             }
             return null;
         }

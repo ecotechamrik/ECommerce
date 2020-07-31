@@ -1,32 +1,26 @@
-﻿using BAL;
+﻿#region [ Namespace ]
+using BAL;
 using BAL.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class WebsitesController : AuthorizeController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor  ]
-        public WebsitesController()
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public WebsitesController(IUnitOfWork _generateAPIResponse)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
         }
         #endregion
 
@@ -46,19 +40,11 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         private async Task<IEnumerable<WebsiteInfoViewModel>> GetAllWebsiteDataAsync(String _search)
         {
-            IEnumerable<WebsiteInfoViewModel> _websites = new List<WebsiteInfoViewModel>();
+            IEnumerable<WebsiteInfoViewModel> _websites = await generateAPIResponse.WebsiteInfoViewRepo.GetAll("website");
 
-            var response = await client.GetAsync(client.BaseAddress + "website");
-            //var response1 = client.GetAsync(client.BaseAddress + "website").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _websites = JsonConvert.DeserializeObject<IEnumerable<WebsiteInfoViewModel>>(data);
-            }
-
+            // Search website details into all properties
             if (!String.IsNullOrEmpty(_search))
             {
-                // Search website details into all properties
                 _websites = _websites.Where(s =>
                                           (s.WebsiteName != null ? s.WebsiteName.ToLower().Contains(_search.ToLower()) : false)
                                        || (s.WebsiteBannerTitle != null ? s.WebsiteBannerTitle.ToLower().Contains(_search.ToLower()) : false)
@@ -148,22 +134,12 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "website" + "/" + id).Result;
-            WebsiteInfoViewModel model = new WebsiteInfoViewModel();
+            WebsiteInfoViewModel model = await generateAPIResponse.WebsiteInfoViewRepo.GetByID("website", id);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<WebsiteInfoViewModel>(data);
-
-                if (model != null)
-                    return View("Create", model);
-            }
+            if (model != null)
+                return View("Create", model);
 
             return RedirectToAction("Index");
         }
@@ -193,31 +169,29 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                var response = false;
 
                 // Call Post Method to Create New Website Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "website", content);
+                    response = await generateAPIResponse.WebsiteInfoViewRepo.Save("website", model);
+                    ViewBag.Message = "Website record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Website Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "website/" + model.WebsiteID, content);
+                    response = await generateAPIResponse.WebsiteInfoViewRepo.Update("website/" + model.WebsiteID, model);
+                    ViewBag.Message = "Website record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
-                    ViewBag.Message = "Website record has been updated successfully.";
                     ViewBag.Class = "text-success";
                     return View("Index");
                 }
                 else
                 {
-                    return Json(response.StatusCode);
+                    ViewBag.Message = null;
                 }
             }
             catch (Exception ex)
@@ -234,28 +208,18 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "website" + "/" + id).Result;
-            WebsiteInfoViewModel model = new WebsiteInfoViewModel();
+            WebsiteInfoViewModel model = await generateAPIResponse.WebsiteInfoViewRepo.GetByID("website", id);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<WebsiteInfoViewModel>(data);
-
-                if (model != null)
-                    return View(model);
-            }
-
-            return RedirectToAction("Index");
+            if (model != null)
+                return View(model);
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
-        #region [ Delete Website Record form DB. ]
+        #region [ Delete Website Record form DB ]
         /// <summary>
         /// Delete Website Record form DB.
         /// </summary>
@@ -265,14 +229,12 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "website/" + id);
+                var response = await generateAPIResponse.WebsiteInfoViewRepo.Delete("website/" + id);
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Message = "Website record has been deleted successfully.";
-                    //return PartialView("_Websites", await SearchResult(""));
                     return Ok(ViewBag.Message);
-
                 }
             }
             catch (Exception ex)

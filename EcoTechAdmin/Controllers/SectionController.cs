@@ -1,4 +1,5 @@
-﻿using BAL;
+﻿#region [ Namespace ]
+using BAL;
 using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,24 +9,21 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class SectionController : AuthorizeController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor  ]
-        public SectionController()
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public SectionController(IUnitOfWork _generateAPIResponse)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
         }
         #endregion
 
@@ -48,13 +46,7 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            var response = await client.GetAsync(client.BaseAddress + "section");
-            IEnumerable<SectionViewModel> _section = new List<SectionViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _section = JsonConvert.DeserializeObject<IEnumerable<SectionViewModel>>(data);
-            }
+            IEnumerable<SectionViewModel> _section = await generateAPIResponse.SectionViewRepo.GetAll("section");
             return View("Index", _section.OrderBy(c => c.SectionOrder));
         }
         #endregion
@@ -91,24 +83,13 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "section" + "/" + id).Result;
-            SectionViewModel model = new SectionViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SectionViewModel>(data);
-
-                if (model != null)
-                    return View("Create", model);
-            }
-
-            return RedirectToAction("Index");
+            SectionViewModel model = await generateAPIResponse.SectionViewRepo.GetByID("section", id);
+            if (model != null)
+                return View("Create", model);
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
@@ -136,25 +117,22 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                var response = false;
 
                 // Call Post Method to Create New Section Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "section", content);
+                    response = await generateAPIResponse.SectionViewRepo.Save("section", model);
                     ViewBag.Message = "Section record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Section Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "section/" + model.SectionID, content);
+                    response = await generateAPIResponse.SectionViewRepo.Update("section/" + model.SectionID, model);
                     ViewBag.Message = "Section record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Class = "text-success";
                     return await RedirectToIndex();
@@ -162,7 +140,6 @@ namespace EcoTechAdmin.Controllers
                 else
                 {
                     ViewBag.Message = null;
-                    return View("Create", model);
                 }
             }
             catch (Exception ex)
@@ -179,28 +156,17 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "section" + "/" + id).Result;
-            SectionViewModel model = new SectionViewModel();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<SectionViewModel>(data);
-
-                if (model != null)
-                    return View(model);
-            }
-
-            return RedirectToAction("Index");
+            SectionViewModel model = await generateAPIResponse.SectionViewRepo.GetByID("section", id);
+            if (model != null)
+                return View(model);
+            else
+                return RedirectToAction("Index");
         }
         #endregion
 
-        #region [ Delete Section Record form DB. ]
+        #region [ Delete Section Record form DB ]
         /// <summary>
         /// Delete Section Record form DB.
         /// </summary>
@@ -210,13 +176,12 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "section/" + id);
+                var response = await generateAPIResponse.SectionViewRepo.Delete("section/" + id);
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Message = "Section record has been deleted successfully.";
                     return await RedirectToIndex();
-
                 }
             }
             catch (Exception ex)

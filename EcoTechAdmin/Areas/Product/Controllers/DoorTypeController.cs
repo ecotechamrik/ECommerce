@@ -13,11 +13,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
     {
         #region [ Local Variables ]
         // Generate API Response Variable through Dependency Injection
-        IGenerateAPIResponse<DoorTypeViewModel> generateAPIResponse;
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls]
-        public DoorTypeController(IGenerateAPIResponse<DoorTypeViewModel> _generateAPIResponse)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public DoorTypeController(IUnitOfWork _generateAPIResponse)
         {
             generateAPIResponse = _generateAPIResponse;
         }
@@ -42,7 +42,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            IEnumerable<DoorTypeViewModel> _doorTypes = await generateAPIResponse.GetAll("doortype");
+            IEnumerable<DoorTypeViewModel> _doorTypes = await generateAPIResponse.DoorTypeViewRepo.GetAll("doortype");
             return View("Index", _doorTypes);
         }        
         #endregion
@@ -79,7 +79,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Edit(int id)
         {
-            DoorTypeViewModel model = await generateAPIResponse.GetByID("doortype", id);
+            DoorTypeViewModel model = await generateAPIResponse.DoorTypeViewRepo.GetByID("doortype", id);
             if(model!=null)
             {
                 return View("Create", model);
@@ -118,13 +118,13 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 // Call Post Method to Create New Door Type Details
                 if (action.ToLower() == "create")
                 {
-                    response = await generateAPIResponse.Save("doortype", model);
+                    response = await generateAPIResponse.DoorTypeViewRepo.Save("doortype", model);
                     ViewBag.Message = "Door Type record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Door Type Details
                 else
                 {
-                    response = await generateAPIResponse.Update("doortype/" + model.DoorTypeID, model);
+                    response = await generateAPIResponse.DoorTypeViewRepo.Update("doortype/" + model.DoorTypeID, model);
                     ViewBag.Message = "Door Type record has been updated successfully.";
                 }
 
@@ -136,7 +136,6 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 else
                 {
                     ViewBag.Message = null;
-                    return View("Create", model);
                 }
             }
             catch (Exception ex)
@@ -155,7 +154,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Details(int id)
         {
-            DoorTypeViewModel model = await generateAPIResponse.GetByID("doortype", id);
+            DoorTypeViewModel model = await generateAPIResponse.DoorTypeViewRepo.GetByID("doortype", id);
             if (model != null)
             {
                 return View(model);
@@ -175,7 +174,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                var response = await generateAPIResponse.Delete("doortype/" + id);
+                var response = await generateAPIResponse.DoorTypeViewRepo.Delete("doortype/" + id);
 
                 if (response)
                 {

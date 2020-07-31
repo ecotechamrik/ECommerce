@@ -9,54 +9,57 @@
 @if (Model.Count() > 0)
 {
     <div class="font-weight-bold">Sub Category Gallery: </div>
-    <div>@Model.FirstOrDefault().SubCategoryName<br/><br /></div>
+    <div>@Model.FirstOrDefault().SubCategoryName<br /><br /></div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Order)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ThumbNailSizeImage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MainImage)
-                </th>
-                <th>
-                    Actions / Click here to <a href="javascript:void(0);" onclick="DeleteAllImages('@Model.FirstOrDefault().SubCategoryID');" id="delAllImages">Delete All</a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <ul id="imageGallery">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Order)
-                    </td>
-                    <td>
-                        <img src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" title="Thumbnail Image" />
-                    </td>
-                    <td>
-                        @if (item.IsMainImage == true)
-                        {
-                            <customicon type="yes" title="Yes"></customicon>
-                        }
-                        else
-                        {
-                            <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <customicon type="question" title="Do you want to set this as Main Image?"></customicon>
-                        }
-
-                    </td>
-                    <td>
-                        <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Sub Category Gallery"></customicon></a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Order)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ThumbNailSizeImage)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MainImage)
+                    </th>
+                    <th>
+                        Actions / Click here to <a href="javascript:void(0);" onclick="DeleteAllImages('@Model.FirstOrDefault().SubCategoryID');" id="delAllImages">Delete All</a>
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order)
+                        </td>
+                        <td>
+                            <li>
+                                <popup><img src="~/Gallery/@item.SubCategoryID/@item.ThumbNailSizeImage" title="Thumbnail Image" /></popup>
+                            </li>
+                        </td>
+                        <td>
+                            @if (item.IsMainImage == true)
+                            {
+                                <customicon type="yes" title="Yes"></customicon>
+                            }
+                            else
+                            {
+                                <a id="lnkSetDefault" onclick="SetDefaultImage(@item.SubCatGalleryID, @item.SubCategoryID, @item.CategoryID);" href="javascript:void(0);">Set this as Main Image</a> <customicon type="question" title="Do you want to set this as Main Image?"></customicon>
+                            }
 
+                        </td>
+                        <td>
+                            <a href="@BAL.Common.WEBSITEPATH/subcatgallery/delete/@item.SubCatGalleryID/@item.SubCategoryID/@item.CategoryID/@item.ThumbNailSizeImage" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Sub Category Gallery"></customicon></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </ul>
 }
 else
 {
@@ -67,3 +70,34 @@ else
         </div>
     </div>
 }
+
+
+<script>
+    $(document).ready(function () {
+        $("#imageGallery").imagePopup({
+            overlay: "rgba(0, 0, 0, 0.7)",
+
+            closeButton: {
+                src: "/img/close.png",
+                width: "40px",
+                height: "40px"
+            },
+            imageBorder: "10px solid #ffffff",
+            borderRadius: "6px",
+            imageWidth: "auto",
+            imageHeight: "auto",
+            imageCaption: {
+                exist: true,
+                color: "#ffffff",
+                fontSize: "18px"
+            },
+            open: function () {
+                //console.log("opened");
+            },
+            close: function () {
+                //console.log("closed");
+            }
+        });
+
+    });
+</script>

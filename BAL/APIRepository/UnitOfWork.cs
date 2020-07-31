@@ -1,5 +1,9 @@
-﻿using BAL.ViewModels.Product;
+﻿#region [ Namespace ]
+using BAL.ViewModels;
+using BAL.ViewModels.Product;
 using Microsoft.Extensions.Configuration;
+using System;
+#endregion
 
 namespace BAL
 {
@@ -14,6 +18,22 @@ namespace BAL
         public UnitOfWork(IConfiguration _config)
         {
             config = _config;
+        }
+        #endregion
+
+        #region [ Section View Repository ]
+        /// <summary>
+        /// Section View Repository
+        /// </summary>
+        private IGenerateAPIResponse<SectionViewModel> _sectionViewRepo;
+        public IGenerateAPIResponse<SectionViewModel> SectionViewRepo
+        {
+            get
+            {
+                if (_sectionViewRepo == null)
+                    _sectionViewRepo = new GenerateAPIResponse<SectionViewModel>(config);
+                return _sectionViewRepo;
+            }
         }
         #endregion
 
@@ -45,6 +65,22 @@ namespace BAL
                 if (_subCategoryViewRepo == null)
                     _subCategoryViewRepo = new GenerateAPIResponse<SubCategoryViewModel>(config);
                 return _subCategoryViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Sub Cat Gallery View Repository ]
+        /// <summary>
+        /// Sub Cat Gallery View Repository
+        /// </summary>
+        private IGenerateAPIResponse<SubCatGalleryViewModel> _subCatGalleryViewRepo;
+        public IGenerateAPIResponse<SubCatGalleryViewModel> SubCatGalleryViewRepo
+        {
+            get
+            {
+                if (_subCatGalleryViewRepo == null)
+                    _subCatGalleryViewRepo = new GenerateAPIResponse<SubCatGalleryViewModel>(config);
+                return _subCatGalleryViewRepo;
             }
         }
         #endregion
@@ -109,6 +145,38 @@ namespace BAL
                 if (_productGradeViewRepo == null)
                     _productGradeViewRepo = new GenerateAPIResponse<ProductGradeViewModel>(config);
                 return _productGradeViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Website Info View Repository ]
+        /// <summary>
+        /// Website Info View Repository
+        /// </summary>
+        private IGenerateAPIResponse<WebsiteInfoViewModel> _websiteInfoViewRepo;
+        public IGenerateAPIResponse<WebsiteInfoViewModel> WebsiteInfoViewRepo
+        {
+            get
+            {
+                if (_websiteInfoViewRepo == null)
+                    _websiteInfoViewRepo = new GenerateAPIResponse<WebsiteInfoViewModel>(config);
+                return _websiteInfoViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Common Repository ]
+        /// <summary>
+        /// Common Repository
+        /// </summary>
+        private IGenerateAPIResponse<String> _commonRepo;
+        public IGenerateAPIResponse<String> CommonRepo
+        {
+            get
+            {
+                if (_commonRepo == null)
+                    _commonRepo = new GenerateAPIResponse<String>(config);
+                return _commonRepo;
             }
         }
         #endregion

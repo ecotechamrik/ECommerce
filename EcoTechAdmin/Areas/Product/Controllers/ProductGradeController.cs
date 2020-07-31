@@ -13,11 +13,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
     {
         #region [ Local Variables ]
         // Generate API Response Variable through Dependency Injection
-        IGenerateAPIResponse<ProductGradeViewModel> generateAPIResponse;
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls]
-        public ProductGradeController(IGenerateAPIResponse<ProductGradeViewModel> _generateAPIResponse)
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public ProductGradeController(IUnitOfWork _generateAPIResponse)
         {
             generateAPIResponse = _generateAPIResponse;
         }
@@ -42,7 +42,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex()
         {
-            IEnumerable<ProductGradeViewModel> _productgrades = await generateAPIResponse.GetAll("productgrade");
+            IEnumerable<ProductGradeViewModel> _productgrades = await generateAPIResponse.ProductGradeViewRepo.GetAll("productgrade");
             return View("Index", _productgrades);
         }
         #endregion
@@ -79,7 +79,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Edit(int id)
         {
-            ProductGradeViewModel model = await generateAPIResponse.GetByID("productgrade", id);
+            ProductGradeViewModel model = await generateAPIResponse.ProductGradeViewRepo.GetByID("productgrade", id);
             if (model != null)
             {
                 return View("Create", model);
@@ -118,13 +118,13 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 // Call Post Method to Create New Product Grade Details
                 if (action.ToLower() == "create")
                 {
-                    response = await generateAPIResponse.Save("productgrade", model);
+                    response = await generateAPIResponse.ProductGradeViewRepo.Save("productgrade", model);
                     ViewBag.Message = "Product Grade record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Product Grade Details
                 else
                 {
-                    response = await generateAPIResponse.Update("productgrade/" + model.ProductGradeID, model);
+                    response = await generateAPIResponse.ProductGradeViewRepo.Update("productgrade/" + model.ProductGradeID, model);
                     ViewBag.Message = "Product Grade record has been updated successfully.";
                 }
 
@@ -155,7 +155,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Details(int id)
         {
-            ProductGradeViewModel model = await generateAPIResponse.GetByID("productgrade", id);
+            ProductGradeViewModel model = await generateAPIResponse.ProductGradeViewRepo.GetByID("productgrade", id);
             if (model != null)
             {
                 return View(model);
@@ -165,7 +165,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         }
         #endregion
 
-        #region [ Delete Product Grade Record form DB. ]
+        #region [ Delete Product Grade Record form DB ]
         /// <summary>
         /// Delete Product Grade Record form DB.
         /// </summary>
@@ -175,7 +175,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             try
             {
-                var response = await generateAPIResponse.Delete("productgrade/" + id);
+                var response = await generateAPIResponse.ProductGradeViewRepo.Delete("productgrade/" + id);
 
                 if (response)
                 {

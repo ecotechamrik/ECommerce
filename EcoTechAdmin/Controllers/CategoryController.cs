@@ -1,4 +1,5 @@
-﻿using BAL;
+﻿#region [ Namespace References ]
+using BAL;
 using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,24 +9,21 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+#endregion
 
 namespace EcoTechAdmin.Controllers
 {
     public class CategoryController : AuthorizeController
     {
         #region [ Local Variables ]
-        // Get API URL from appsettings.json
-        Uri baseAddress = new Uri(Common.GetSectionString("APIAddress", ""));
-
-        // HttpClient Variable to access the Web APIs
-        HttpClient client;
+        // Generate API Response Variable through Dependency Injection
+        IUnitOfWork generateAPIResponse;
         #endregion
 
-        #region [ Default Constructor  ]
-        public CategoryController()
+        #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
+        public CategoryController(IUnitOfWork _generateAPIResponse)
         {
-            client = new HttpClient();
-            client.BaseAddress = baseAddress;
+            generateAPIResponse = _generateAPIResponse;
         }
         #endregion
 
@@ -53,22 +51,16 @@ namespace EcoTechAdmin.Controllers
         /// <returns></returns>
         private async Task<IActionResult> RedirectToIndex(int? id)
         {
-            //var response = await client.GetAsync(client.BaseAddress + "category");
-            var response = new HttpResponseMessage();
+            IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
+
             if (id != null)
             {
-                response = await client.GetAsync(client.BaseAddress + "category/getbysectionid/" + id);
+                _category = await generateAPIResponse.CategoryViewRepo.GetAll("category/getbysectionid/" + id);
                 ViewBag.SectionID = id;
             }
             else
-                response = await client.GetAsync(client.BaseAddress + "category");
+                _category = await generateAPIResponse.CategoryViewRepo.GetAll("category");
 
-            IEnumerable<CategoryViewModel> _category = new List<CategoryViewModel>();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _category = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(data);
-            }
             TempData["lastCatOrder"] = _category.OrderByDescending(x => x.CategoryOrder).Take(1).Select(c => c.CategoryOrder).FirstOrDefault() + 1;
             return View("Index", _category.OrderBy(c => c.CategoryOrder));
         }
@@ -103,12 +95,10 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         private void GetSections()
         {
-            var response = client.GetAsync(client.BaseAddress + "section").Result;
-            IEnumerable<SectionViewModel> _section = new List<SectionViewModel>();
-            if (response.IsSuccessStatusCode)
+            IEnumerable<SectionViewModel> _section = generateAPIResponse.SectionViewRepo.GetAll("section").Result;
+
+            if (_section != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-                _section = JsonConvert.DeserializeObject<IEnumerable<SectionViewModel>>(data);
                 ViewBag.Sections = _section;
             }
         }
@@ -133,27 +123,15 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int? id, int? sectionid)
+        public async Task<IActionResult> Edit(int? id, int? sectionid)
         {
-            var response = client.GetAsync(client.BaseAddress + "category" + "/" + id).Result;
-            CategoryViewModel model = new CategoryViewModel();
-
-            if (response.IsSuccessStatusCode)
+            CategoryViewModel model = await generateAPIResponse.CategoryViewRepo.GetByID("category", id);
+            if (model != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<CategoryViewModel>(data);
-
-                if (model != null)
-                {
-                    GetSections();
-                    ViewBag.SectionID = model.SectionID;
-                    return View("Create", model);
-                }
+                GetSections();
+                ViewBag.SectionID = model.SectionID;
+                return View("Create", model);
             }
-
             return RedirectToAction("Index");
         }
         #endregion
@@ -182,25 +160,22 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                string data = JsonConvert.SerializeObject(model);
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                var response = new HttpResponseMessage();
+                var response = false;
 
                 // Call Post Method to Create New Category Details
                 if (action.ToLower() == "create")
                 {
-                    response = await client.PostAsync(client.BaseAddress + "category", content);
+                    response = await generateAPIResponse.CategoryViewRepo.Save("category", model);
                     ViewBag.Message = "Category record has been created successfully.";
                 }
                 // Call Put Method to Update Existing Category Details
                 else
                 {
-                    response = await client.PutAsync(client.BaseAddress + "category/" + model.CategoryID, content);
+                    response = await generateAPIResponse.CategoryViewRepo.Update("category/" + model.CategoryID, model);
                     ViewBag.Message = "Category record has been updated successfully.";
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (response)
                 {
                     ViewBag.Class = "text-success";
                     GetSections();
@@ -213,7 +188,7 @@ namespace EcoTechAdmin.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Something went wrong: " + ex.Message;
+                ViewBag.Message = "Something Went Wrong: " + ex.Message;
             }
             GetSections();
             return View("Create", model);
@@ -226,31 +201,19 @@ namespace EcoTechAdmin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var response = client.GetAsync(client.BaseAddress + "category" + "/" + id).Result;
-            CategoryViewModel model = new CategoryViewModel();
-
-            if (response.IsSuccessStatusCode)
+            CategoryViewModel model = await generateAPIResponse.CategoryViewRepo.GetByID("category", id);
+            if (model != null)
             {
-                string data = response.Content.ReadAsStringAsync().Result;
-
-                if (data != "" && data.StartsWith('['))
-                    data = data.Substring(1, data.Length - 2);
-                model = JsonConvert.DeserializeObject<CategoryViewModel>(data);
-
-                if (model != null)
-                {
-                    ViewBag.SectionID = model.SectionID;
-                    return View(model);
-                }
+                ViewBag.SectionID = model.SectionID;
+                return View(model);
             }
-
             return RedirectToAction("Index");
         }
         #endregion
 
-        #region [ Delete Category Record form DB. ]
+        #region [ Delete Category Record form DB ]
         /// <summary>
         /// Delete Category Record form DB.
         /// </summary>
@@ -260,9 +223,7 @@ namespace EcoTechAdmin.Controllers
         {
             try
             {
-                var response = await client.DeleteAsync(client.BaseAddress + "category/" + id);
-
-                if (response.IsSuccessStatusCode)
+                if (await generateAPIResponse.CategoryViewRepo.Delete("category/" + id))
                 {
                     ViewBag.Message = "Category record has been deleted successfully.";
                     GetSections();
