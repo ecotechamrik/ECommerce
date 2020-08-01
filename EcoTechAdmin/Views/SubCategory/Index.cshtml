@@ -58,17 +58,6 @@
             }
         </tbody>
     </table>
-
-    @section scripts {
-        <script src="~/js/jquery-3.5.1.js" asp-append-version="true"></script>
-
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                $('#successMessage').delay(5000).fadeOut('slow');
-            });
-        </script>
-    }
 }
 else
 {
@@ -78,4 +67,8 @@ else
             <a asp-action="Create">Create New Sub Category</a>
         </div>
     </div>
+}
+
+@section scripts {
+    <script src="~/js/common.js" asp-append-version="true"></script>
 }

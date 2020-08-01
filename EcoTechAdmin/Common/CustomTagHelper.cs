@@ -60,7 +60,7 @@ namespace EcoTechAdmin.TagHelpers
 
             // Loading Image
             else if (this.Type.ToLower() == "loading")
-                sb.AppendFormat("<i class=\"fa-refresh fa-spin\" aria-hidden=\"true\"></i>", Title);
+                sb.AppendFormat("<i class=\"fa fa-spin\" aria-hidden=\"true\"></i>", Title);
             
             // More Details Button Image
             else if (this.Type.ToLower() == "details")

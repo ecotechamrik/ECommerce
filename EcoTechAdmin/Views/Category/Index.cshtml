@@ -72,23 +72,6 @@
             }
         </tbody>
     </table>
-
-    @section scripts {
-        <script src="~/js/jquery-3.5.1.js" asp-append-version="true"></script>
-
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                $('#successMessage').delay(5000).fadeOut('slow');
-
-                $('#drpSections').val("@ViewBag.SectionID")
-
-                $('#drpSections').change(function () {
-                    location.href = '/category/index/' + $("#drpSections :selected").val();
-                });
-            });
-        </script>
-    }
 }
 else
 {
@@ -104,3 +87,17 @@ else
     <a asp-controller="section" asp-action="Index"><customicon type="back" title="Back to Sections"></customicon></a> |
     <a href="@BAL.Common.WEBSITEPATH/category/create/@ViewBag.SectionID"><customicon type="add" title="Create New Category"></customicon></a>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('#successMessage').delay(5000).fadeOut('slow');
+
+                $('#drpSections').val("@ViewBag.SectionID")
+
+                $('#drpSections').change(function () {
+                    location.href = '/category/index/' + $("#drpSections :selected").val();
+                });
+            });
+    </script>
+}

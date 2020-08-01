@@ -38,9 +38,10 @@
                     <div class="buttons">
                         <div class="upload-button">
                             <div class="label">Upload Multiple Files!</div>
-                            <input id="files" name="files" type="file" multiple />
+                            <input id="files" name="files" type="file" accept=".png, .jpg, .jpeg" multiple />
                         </div>
                     </div>
+                    <div class="text-warning">*You can upload maximum 5 files in one time.</div>
                     <div id="file-upload-filename"></div>
                 </div>
                 <!-- Submit/Cancel Buttons -->
@@ -65,5 +66,5 @@
 </div>
 
 @section scripts{
-    <script src="~/js/subcatgallery.js" asp-append-version="true"></script>
+    <script src="~/js/subcatgallery/create.js" asp-append-version="true"></script>
 }

@@ -84,7 +84,7 @@ namespace EcoTechAPIs.Controllers
         }
 
         // PUT: api/subcatgallery/5
-        [Route("{SetDefaultImage}/{SubCatGalleryID}/{SubCategoryID}")]
+        [Route("SetDefaultImage/{SubCatGalleryID}/{SubCategoryID}")]
         public IEnumerable<SubCatGalleryViewModel> SetDefaultImage(int SubCatGalleryID, int SubCategoryID)
         {
             try
@@ -124,6 +124,23 @@ namespace EcoTechAPIs.Controllers
                 uow.SubCatGalleryRepo.DeleteBySubCategoryID(SubCategoryID);
                 uow.SaveChanges();
                 return Ok("IActionResult DeleteBySubCategoryID(int SubCategoryID)");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+
+        // DELETE: api/DeleteBySubCategoryID/5
+        [Route("UpdateOrder/{id}/{orderno}")]
+        public IActionResult UpdateOrder(int id, int orderNo)
+        {
+            try
+            {
+                uow.SubCatGalleryRepo.UpdateOrder(id, orderNo);
+                uow.SaveChanges();
+                return Ok("UpdateOrder(int id, int orderNo)");
             }
             catch (Exception)
             {

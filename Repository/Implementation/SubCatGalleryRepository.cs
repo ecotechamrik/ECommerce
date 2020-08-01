@@ -22,6 +22,12 @@ namespace Repository.Implementation
         {
 
         }
+
+        #region [ Get Sub Category Galleries with Join of Category ]
+        /// <summary>
+        /// Get Sub Category Galleries with Join of Category
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<SubCatGalleryViewModel> GetSubCatGallery()
         {
             var SubCatGalleries = (from subcatgal in Context.SubCatGalleries
@@ -48,12 +54,42 @@ namespace Repository.Implementation
 
             return SubCatGalleries;
         }
+        #endregion
 
+        #region [ Delete All Sub Cat Galleries by SubCategoryID ]
+        /// <summary>
+        /// Delete All Sub Cat Galleries by SubCategoryID
+        /// </summary>
+        /// <param name="SubCategoryID"></param>
         public void DeleteBySubCategoryID(int SubCategoryID)
         {
             Context.SubCatGalleries.RemoveRange(Context.SubCatGalleries.Where(s => s.SubCategoryID == SubCategoryID));
         }
+        #endregion
 
+        #region [ Update Image Order ]
+        /// <summary>
+        /// Update Image Order
+        /// </summary>
+        /// <param name="SubCatGalleryID"></param>
+        /// <param name="OrderNo"></param>
+        public void UpdateOrder(int SubCatGalleryID, int OrderNo)
+        {
+            var subcatGallery = (from subcatgal in Context.SubCatGalleries
+                                   where subcatgal.SubCatGalleryID == SubCatGalleryID
+                                   select subcatgal).FirstOrDefault();
+            subcatGallery.Order = OrderNo;
+            Context.Update(subcatGallery);
+        }
+        #endregion
+
+        #region [ Set Default Image ]
+        /// <summary>
+        /// Set Default Image
+        /// </summary>
+        /// <param name="SubCatGalleryID"></param>
+        /// <param name="SubCategoryID"></param>
+        /// <returns></returns>
         public IEnumerable<SubCatGalleryViewModel> SetDefaultImage(int SubCatGalleryID, int SubCategoryID)
         {
             var subcatGalleries = (from subcatgal in Context.SubCatGalleries
@@ -67,5 +103,6 @@ namespace Repository.Implementation
             
             return GetSubCatGallery().Where(s => s.SubCategoryID == SubCategoryID);
         }
+        #endregion
     }
 }

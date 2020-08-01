@@ -103,7 +103,7 @@ namespace BAL.ViewModels.Product
         public DateTime? CreatedDate { get; set; }
 
         [Display(Name = "Created By")]
-        public int? CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         
     }
 }

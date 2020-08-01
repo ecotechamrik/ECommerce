@@ -27,7 +27,7 @@ namespace BAL.Entities
         public string IPAddress { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public int? CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
 
         // Navigation Property
         //[ForeignKey("CategoryID")] //-- CategoryID

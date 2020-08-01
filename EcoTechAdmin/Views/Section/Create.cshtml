@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SectionOrder" class="control-label font-weight-bold"></label>
-                <input asp-for="SectionOrder" class="form-control" />
+                <input asp-for="SectionOrder" class="form-control" min="0" />
                 <span asp-validation-for="SectionOrder" class="text-danger"></span>
             </div>
             <div class="form-group form-check">

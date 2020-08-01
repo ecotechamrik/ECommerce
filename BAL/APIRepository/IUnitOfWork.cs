@@ -12,7 +12,7 @@ namespace BAL
         IGenerateAPIResponse<SectionViewModel> SectionViewRepo { get; }
         IGenerateAPIResponse<CategoryViewModel> CategoryViewRepo { get; }
         IGenerateAPIResponse<SubCategoryViewModel> SubCategoryViewRepo { get; }
-        IGenerateAPIResponse<SubCatGalleryViewModel> SubCatGalleryViewRepo { get; }
+        ISubCatGalleryAPIResponse SubCatGalleryViewRepo { get; }
         IGenerateAPIResponse<ProductViewModel> ProductViewRepo { get; }
         IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo { get; }
         IGenerateAPIResponse<ProductDesignViewModel> ProductDesignViewRepo { get; }

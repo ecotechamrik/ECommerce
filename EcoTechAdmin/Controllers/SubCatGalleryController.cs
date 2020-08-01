@@ -11,6 +11,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
 using System.Reflection;
+using System.Linq;
 #endregion
 
 namespace EcoTechAdmin.Controllers
@@ -88,7 +89,12 @@ namespace EcoTechAdmin.Controllers
         {
             var _subcatgallery = await generateAPIResponse.SubCatGalleryViewRepo.GetAll(apiMethod);
             GetCatIDSubCatID(id, catid);
-            return _subcatgallery;
+            if (_subcatgallery != null && _subcatgallery.Count() > 0)
+                TempData["LastOrderNo"] = _subcatgallery.Max(s => s.Order);
+            else
+                TempData.Remove("LastOrderNo");
+            
+            return _subcatgallery.OrderBy(subcat => subcat.Order);
         }
         #endregion
 
@@ -254,7 +260,7 @@ namespace EcoTechAdmin.Controllers
             {
                 var CategoryID = Convert.ToInt32(data["CategoryID"]);
                 var SubCategoryID = Convert.ToInt32(data["SubCategoryID"]);
-                int _count = 1;
+                int _count = TempData["LastOrderNo"] != null ? (int)TempData["LastOrderNo"] + 1 : 1;
                 foreach (IFormFile source in files)
                 {
                     string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
@@ -271,8 +277,8 @@ namespace EcoTechAdmin.Controllers
 
                         // Save Original Image
                         using (FileStream output = System.IO.File.Create(GetPathAndFilename("O_" + filename, SubCategoryID)))
-                        { 
-                            await source.CopyToAsync(output); 
+                        {
+                            await source.CopyToAsync(output);
                         }
                     }
                     _count++;
@@ -354,5 +360,30 @@ namespace EcoTechAdmin.Controllers
             return path + filename;
         }
         #endregion        
+
+        #region [ Update Image Order ]
+        /// <summary>
+        /// Update Image Order
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{controller=subcatgallery}/{action=updateorder}/{id?}/{orderno?}")]
+        public async Task<IActionResult> UpdateOrder(int id, int orderno)
+        {
+            try
+            {
+                if (await generateAPIResponse.SubCatGalleryViewRepo.UpdateOrder("subcatgallery/updateorder", id, orderno))
+                    return StatusCode(200, "Updated Successfull");
+                else
+                    return StatusCode(500);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Something went wrong: " + ex.Message;
+                TempData["Message"] = "Something went wrong: " + ex.Message;
+                return StatusCode(500);
+            }
+        }
+        #endregion
     }
 }

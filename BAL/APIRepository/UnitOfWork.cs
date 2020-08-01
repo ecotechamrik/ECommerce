@@ -73,13 +73,13 @@ namespace BAL
         /// <summary>
         /// Sub Cat Gallery View Repository
         /// </summary>
-        private IGenerateAPIResponse<SubCatGalleryViewModel> _subCatGalleryViewRepo;
-        public IGenerateAPIResponse<SubCatGalleryViewModel> SubCatGalleryViewRepo
+        private ISubCatGalleryAPIResponse _subCatGalleryViewRepo;
+        public ISubCatGalleryAPIResponse SubCatGalleryViewRepo
         {
             get
             {
                 if (_subCatGalleryViewRepo == null)
-                    _subCatGalleryViewRepo = new GenerateAPIResponse<SubCatGalleryViewModel>(config);
+                    _subCatGalleryViewRepo = new SubCatGalleryAPIResponse(config);
                 return _subCatGalleryViewRepo;
             }
         }
