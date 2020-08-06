@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
 using System.Reflection;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 #endregion
 
 namespace EcoTechAdmin.Controllers
@@ -24,13 +25,16 @@ namespace EcoTechAdmin.Controllers
 
         // Hosting Path Variable to Upload Files
         private readonly IWebHostEnvironment _hostingEnvironment;
+
+        private readonly ILogger<HomeController> _logger;
         #endregion
 
         #region [ Default Constructor - Used to call Inject Dependency Injection Method for API Calls ]
-        public SubCatGalleryController(IUnitOfWork _generateAPIResponse, IWebHostEnvironment hostingEnvironment)
+        public SubCatGalleryController(IUnitOfWork _generateAPIResponse, IWebHostEnvironment hostingEnvironment, ILogger<HomeController> logger)
         {
             generateAPIResponse = _generateAPIResponse;
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
         #endregion
 
@@ -233,13 +237,16 @@ namespace EcoTechAdmin.Controllers
             // Delete Thumnail Image
             if (System.IO.File.Exists(path))
             {
+                System.IO.File.SetAttributes(path, FileAttributes.Normal);
                 System.IO.File.Delete(path);
 
                 // Delete Original Image
                 path = path.Replace("T_", "O_");
                 if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.SetAttributes(path, FileAttributes.Normal);
                     System.IO.File.Delete(path);
-
+                }
                 return true;
             }
             else
@@ -254,18 +261,25 @@ namespace EcoTechAdmin.Controllers
         /// <param name="files"></param>
         /// <returns></returns>
         [HttpPost]
+        [RequestSizeLimit(int.MaxValue)]
         public async Task<IActionResult> FileUpload(IList<IFormFile> files, IFormCollection data)
         {
-            try
-            {
+            //try
+            //{
+                _logger.LogInformation("***********************************");
+                _logger.LogInformation("FileUpload Started");
+
                 var CategoryID = Convert.ToInt32(data["CategoryID"]);
                 var SubCategoryID = Convert.ToInt32(data["SubCategoryID"]);
                 int _count = TempData["LastOrderNo"] != null ? (int)TempData["LastOrderNo"] + 1 : 1;
+                _logger.LogInformation("_count: " + _count);
                 foreach (IFormFile source in files)
                 {
                     string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
 
                     filename = this.EnsureCorrectFilename(filename);
+
+                    _logger.LogInformation("filename: " + filename);
 
                     // "T_ for Thumbnail; O_ for Original
                     SubCatGalleryViewModel model = new SubCatGalleryViewModel { CategoryID = CategoryID, SubCategoryID = SubCategoryID, ThumbNailSizeImage = "T_" + filename, OriginalImage = "O_" + filename, IsMainImage = false, Order = _count };
@@ -284,12 +298,15 @@ namespace EcoTechAdmin.Controllers
                     _count++;
                 }
 
+                _logger.LogInformation("Uploaded");
+
                 return Ok("Uploaded");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogInformation("Exception ex" + ex.Message);
+            //    return BadRequest(ex.Message);
+            //}
         }
 
         #region [ Resize the Image ]

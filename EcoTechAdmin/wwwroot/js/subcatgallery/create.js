@@ -3,7 +3,7 @@ var isFirstLoad = true;
 
 // Save + Update Details into the DB and Upload Image to the Folder
 function SaveWebsiteDetails(inputId) {
-
+    console.log("Start");
     if ($("#CategoryID").val() == null || $("#CategoryID").val() == "") {
         alert("Please Select Category.");
         return false;
@@ -16,8 +16,10 @@ function SaveWebsiteDetails(inputId) {
     var files = input.files;
     var formData = new FormData();
 
-    if (files.length > 5) {
-        alert("You can upload maximum 5 files in one time.");
+    console.log("Files Length: " + files.length);
+
+    if (files.length > 10) {
+        alert("You can upload maximum 10 files at one time.");
         return false;
     }
     else {
@@ -37,6 +39,8 @@ function SaveWebsiteDetails(inputId) {
             $("#loading-image").css({ "display": "block" });
             $("#main-form").css({ "display": "none" });
 
+            console.log("Before Ajax Method Call");
+
             $.ajax(
                 {
                     url: "/SubCatGallery/FileUpload",
@@ -44,19 +48,22 @@ function SaveWebsiteDetails(inputId) {
                     processData: false,
                     contentType: false,
                     type: "POST",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
+                    //beforeSend: function (xhr) {
+                    //    xhr.setRequestHeader("XSRF-TOKEN",
+                    //        $('input:hidden[name="__RequestVerificationToken"]').val());
+                    //},
                     success: function (data) {
+                        console.log("Uploaded Successfully.");
                         location.href = "/SubCatGallery/Index/" + $("#SubCategoryID").val() + "/" + $("#CategoryID").val();
                     },
                     failure: function (response) {
+                        console.log("Error: " + response);
                         alert("Error: " + response);
                         $("#loading-image").css({ "display": "none" });
                         $("#main-form").css({ "display": "block" });
                     },
                     complete: function () {
+                        console.log("Completed");
                     }
                 }
             );
@@ -110,8 +117,8 @@ function showFileName(event) {
     // the change event gives us the input it occurred in 
     var input = event.srcElement;
 
-    if (input.files.length > 5) {
-        alert("You can upload maximum 5 files in one time.");
+    if (input.files.length > 10) {
+        alert("You can upload maximum 10 files at one time.");
         infoArea.textContent = '';
         return false;
     }

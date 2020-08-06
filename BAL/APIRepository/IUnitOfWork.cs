@@ -13,10 +13,13 @@ namespace BAL
         IGenerateAPIResponse<CategoryViewModel> CategoryViewRepo { get; }
         IGenerateAPIResponse<SubCategoryViewModel> SubCategoryViewRepo { get; }
         ISubCatGalleryAPIResponse SubCatGalleryViewRepo { get; }
-        IGenerateAPIResponse<ProductViewModel> ProductViewRepo { get; }
-        IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo { get; }
+        IGenerateAPIResponse<ProductViewModel> ProductViewRepo { get; }        
         IGenerateAPIResponse<ProductDesignViewModel> ProductDesignViewRepo { get; }
         IGenerateAPIResponse<ProductGradeViewModel> ProductGradeViewRepo { get; }
+        IGenerateAPIResponse<ProductSizeViewModel> ProductSizeViewRepo { get; }        
+        IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo { get; }
+        IGenerateAPIResponse<SupplierViewModel> SupplierViewRepo { get; }
+        IProductSizeAndPriceAPIResponse ProductSizeAndPriceViewRepo { get; }
         #endregion
 
         #region [ Website Info ]

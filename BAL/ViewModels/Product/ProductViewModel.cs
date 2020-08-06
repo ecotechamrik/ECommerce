@@ -27,8 +27,8 @@ namespace BAL.ViewModels.Product
             }
         }
 
-        [Display(Name = "Product Code", Prompt = "Product Code")]
-        public string ProductCode { get; set; }
+        //[Display(Name = "Product Code", Prompt = "Product Code")]
+        //public string ProductCode { get; set; }
 
         [Display(Name = "Product Description", Prompt = "Product Description")]
         public string ProductDesc { get; set; }
@@ -69,23 +69,23 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Sub Category Name")]
         public string SubCategoryName { get; set; }
 
-        [Display(Name = "Sub Door Type ID")]
-        public int? DoorTypeID { get; set; }
-
-        [Display(Name = "Sub Door Type Name")]
-        public string DoorTypeName { get; set; }
-
-        [Display(Name = "Sub Product Design ID")]
+        [Display(Name = "Product Design ID")]
         public int? ProductDesignID { get; set; }
 
         [Display(Name = "Product Design Name")]
         public string ProductDesignName { get; set; }
 
-        [Display(Name = "Sub Product Grade ID")]
+        [Display(Name = "Product Grade ID")]
         public int? ProductGradeID { get; set; }
 
         [Display(Name = "Product Grade Name")]
         public string ProductGradeName { get; set; }
+
+        [Display(Name = "Best Quantity")]
+        public int BestQuantity { get; set; }
+
+        [Display(Name = "Current Quantity")]
+        public int CurrentQuantity { get; set; }
 
         [Display(Name = "IP Address")]
         public string IPAddress { get; set; }

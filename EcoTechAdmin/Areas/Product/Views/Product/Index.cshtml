@@ -24,9 +24,9 @@
                 <th width="20%">
                     @Html.DisplayNameFor(model => model.DisplayProductName)
                 </th>
-                <th width="20%">
+                @*<th width="20%">
                     @Html.DisplayNameFor(model => model.ProductCode)
-                </th>
+                </th>*@
                 <th width="20%">
                     @Html.DisplayNameFor(model => model.CategoryName)
                 </th>
@@ -43,9 +43,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.DisplayProductName)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.ProductCode)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.CategoryName)
                     </td>
@@ -58,7 +58,7 @@
                             <a href="@BAL.Common.WEBSITEPATH/product/product/delete/@item.ProductID" onclick="return confirm('Do you want to delete this record?')"><customicon type="delete" title="Delete Product"></customicon></a>
                         </div>
                         <div class="row pt-2"><a href="@BAL.Common.WEBSITEPATH/product/product/details/@item.ProductID"><customicon type="details" title="Show More Details"></customicon></a> <br /></div>
-                        <div class="row pt-0"><a href="@BAL.Common.WEBSITEPATH/product/productattributes/index/@item.ProductID"><customicon type="details" text="Product Attributes" title="Product Attributes"></customicon></a> <br /></div>
+                        <div class="row pt-0"><a href="@BAL.Common.WEBSITEPATH/product/productattrandprices/index/@item.ProductID"><customicon type="details" text="Prices & Size Attributes" title="Prices & Size Attributes"></customicon></a> <br /></div>
                         <div class="row pt-0"><a href="@BAL.Common.WEBSITEPATH/product/productimages/index/@item.ProductID"><customicon type="details" text="Product Images" title="Product Images"></customicon></a> <br /></div>
                     </td>
                 </tr>

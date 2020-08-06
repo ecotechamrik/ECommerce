@@ -65,7 +65,6 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         private void BindDropDownLists()
         {
             GetCategories();
-            GetDoorTypes();
             GetProductDesigns();
             GetProductGrades();
         }
@@ -85,19 +84,19 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         }
         #endregion
 
-        #region [ Get All Door Types - Bind Door Types Drop Down List ]
-        /// <summary>
-        /// Get All Door Types - Bind Door Types Drop Down List
-        /// </summary>
-        private void GetDoorTypes()
-        {
-            IEnumerable<DoorTypeViewModel> _doorTypes = generateAPIResponse.DoorTypeViewRepo.GetAll("doortype").Result;
-            if (_doorTypes != null)
-            {
-                ViewBag.DoorTypes = _doorTypes;
-            }
-        }
-        #endregion
+        //#region [ Get All Door Types - Bind Door Types Drop Down List ]
+        ///// <summary>
+        ///// Get All Door Types - Bind Door Types Drop Down List
+        ///// </summary>
+        //private void GetDoorTypes()
+        //{
+        //    IEnumerable<DoorTypeViewModel> _doorTypes = generateAPIResponse.DoorTypeViewRepo.GetAll("doortype").Result;
+        //    if (_doorTypes != null)
+        //    {
+        //        ViewBag.DoorTypes = _doorTypes;
+        //    }
+        //}
+        //#endregion
 
         #region [ Get All Product Designs - Bind Product Designs Drop Down List ]
         /// <summary>

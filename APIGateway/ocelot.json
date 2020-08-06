@@ -6,71 +6,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 57628
+          "Host": "3.90.81.27",
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
-
-    },
-    {
-      // API
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 58326
-        }
-      ],
-      "UpstreamPathTemplate": "/webapis/{everything}",
-      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ],
-      "Key": "webapis",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey" :  "AuthKey"
-      }
-    },
-    {
-      // Website - Live
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "34.219.180.213",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/live/{everything}",
-      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
-
-    },
-    {
-      // API - Live
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "34.213.143.193",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/liveapi/{everything}",
-      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
-    },
-    {
-      // Website
-      "DownstreamPathTemplate": "/auth",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 62142
-        }
-      ],
-      "UpstreamPathTemplate": "/api/auth",
-      "UpstreamHttpMethod": [ "PUT", "POST", "GET", "DELETE" ]
-
     }
   ]
 }

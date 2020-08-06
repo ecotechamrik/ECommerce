@@ -38,7 +38,6 @@ namespace Repository.Implementation
                             {
                                 ProductID = prod.ProductID,
                                 ProductName = prod.ProductName,
-                                ProductCode = prod.ProductCode,
                                 ProductDesc = prod.ProductDesc,
                                 CategoryID = cat.CategoryID,
                                 CategoryName = cat.CategoryName,

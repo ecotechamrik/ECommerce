@@ -10,7 +10,6 @@ namespace BAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DoorTypeID { get; set; }
         public string DoorTypeName { get; set; }
-        public ICollection<ProductAttributes> ProductAttributes { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<ProductAttribute> ProductAttributes { get; set; }
     }
 }

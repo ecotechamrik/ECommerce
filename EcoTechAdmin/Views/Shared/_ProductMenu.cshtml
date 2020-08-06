@@ -13,6 +13,12 @@
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "DoorType")" asp-area="Product" asp-controller="DoorType" asp-action="Index">Door Types</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductSize")" asp-area="Product" asp-controller="ProductSize" asp-action="Index">Product Sizes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "Supplier")" asp-area="Product" asp-controller="Supplier" asp-action="Index">Suppliers</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductGlobalSettings")" asp-area="Product" asp-controller="ProductGlobalSettings" asp-action="Index">Global Settings</a>
         </li>
     </ul>

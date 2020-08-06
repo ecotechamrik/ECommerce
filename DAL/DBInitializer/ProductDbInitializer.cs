@@ -77,23 +77,23 @@ namespace DAL.DBInitializer
 
             var products = new Product[]
             {
-                new Product { ProductName = "Eyremount", ProductCode = "Mahagony 42\"x96\"",
+                new Product { ProductName = "Eyremount", 
                               ProductDesc = "This is a beautiful Mahogany Unit built from solid mahogany lumber straight from South America. The 4 panel arch top design includes a sashed all around full decorative lite transom.",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 
-                new Product { ProductName = "Altamont", ProductCode = "Mahagony 36\"x84\"",
+                new Product { ProductName = "Altamont", 
                               ProductDesc = "This is a beautiful mahogany unit. A traditional 2 panel design, a perfect fit for any style of houses. Paired with a slanted sashed sidelite with 1 panel bottom.",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 
-                new Product { ProductName = "Shaunghnessy", ProductCode = "Mahagony 36\"x84\"",
+                new Product { ProductName = "Shaunghnessy", 
                               ProductDesc = "The 5 panel design with an arch top",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 
-                new Product { ProductName = "Chateau", ProductCode = "Mahagony 36\"x84\"",
+                new Product { ProductName = "Chateau", 
                               ProductDesc = "A mahogany unit with a special designed 2 panel. This unit includes a all around sashed transom unit.",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
 
-                new Product { ProductName = "Bordeaux", ProductCode = "Mahagony 36\"x84\"",
+                new Product { ProductName = "Bordeaux", 
                               ProductDesc = "A simple design grooved and arched top",
                               CategoryID = InteriorCategoryID, SubCategoryID = InteriorSubCategoryID, CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString()) },
             };

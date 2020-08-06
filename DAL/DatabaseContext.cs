@@ -29,17 +29,19 @@ namespace DAL
         /// <summary>
         /// Creating Product DB Entities
         /// </summary>
-        public DbSet<Product> Products { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<SubCatGallery> SubCatGalleries { get; set; }
-        public DbSet<ProductAttributes> ProductAttributes { get; set; }
-        public DbSet<ProductPrice> ProductPrices { get; set; }
-        public DbSet<ProductImages> ProductImages { get; set; }
-        public DbSet<DoorType> DoorType { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<ProductDesign> ProductDesigns { get; set; }
         public DbSet<ProductGrade> ProductGrades { get; set; }
+        public DbSet<DoorType> DoorType { get; set; }
+        public DbSet<ProductSize> ProductSizes { get; set; }
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        public DbSet<ProductSizeAndPrice> ProductSizeAndPrices { get; set; }        
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
         #endregion
 
         #region [ Create Website Info DB Entities ]

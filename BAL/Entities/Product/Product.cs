@@ -9,7 +9,7 @@ namespace BAL.Entities
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductID { get; set; }
         public string ProductName { get; set; }
-        public string ProductCode { get; set; }
+        //public string ProductCode { get; set; }
         public string ProductDesc { get; set; }
         public string PriorityNumber { get; set; }
         public string Notes { get; set; }
@@ -21,9 +21,10 @@ namespace BAL.Entities
         public string IndexNumber { get; set; }
         public int? CategoryID { get; set; }
         public int? SubCategoryID { get; set; }
-        public int? DoorTypeID { get; set; }
         public int? ProductDesignID { get; set; }
         public int? ProductGradeID { get; set; }
+        public int BestQuantity { get; set; }
+        public int CurrentQuantity { get; set; }
         public string IPAddress { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -33,10 +34,9 @@ namespace BAL.Entities
         //[ForeignKey("CategoryID")] //-- CategoryID
         public Category Category { get; set; }
         public SubCategory SubCategory { get; set; }
-        public DoorType DoorType { get; set; }
         public ProductDesign ProductDesign { get; set; }
         public ProductGrade ProductGrade { get; set; }
-        public ICollection<ProductAttributes> ProductAttributes { get; set; }
+        public ICollection<ProductAttribute> ProductAttributes { get; set; }
         public ICollection<ProductImages> ProductImages { get; set; }
     }
 }

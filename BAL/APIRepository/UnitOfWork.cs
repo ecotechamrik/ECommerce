@@ -101,22 +101,6 @@ namespace BAL
         }
         #endregion
 
-        #region [ Door Type View Repository ]
-        /// <summary>
-        /// Door Type View Repository
-        /// </summary>
-        private IGenerateAPIResponse<DoorTypeViewModel> _doorTypeViewRepo;
-        public IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo
-        {
-            get
-            {
-                if (_doorTypeViewRepo == null)
-                    _doorTypeViewRepo = new GenerateAPIResponse<DoorTypeViewModel>(config);
-                return _doorTypeViewRepo;
-            }
-        }
-        #endregion
-
         #region [ Product Design View Repository ]
         /// <summary>
         /// Product Design View Repository
@@ -145,6 +129,70 @@ namespace BAL
                 if (_productGradeViewRepo == null)
                     _productGradeViewRepo = new GenerateAPIResponse<ProductGradeViewModel>(config);
                 return _productGradeViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Size View Repository ]
+        /// <summary>
+        /// Product Size View Repository
+        /// </summary>
+        private IGenerateAPIResponse<ProductSizeViewModel> _productSizeViewRepo;
+        public IGenerateAPIResponse<ProductSizeViewModel> ProductSizeViewRepo
+        {
+            get
+            {
+                if (_productSizeViewRepo == null)
+                    _productSizeViewRepo = new GenerateAPIResponse<ProductSizeViewModel>(config);
+                return _productSizeViewRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Door Type View Repository ]
+        /// <summary>
+        /// Door Type View Repository
+        /// </summary>
+        private IGenerateAPIResponse<DoorTypeViewModel> _doorTypeViewRepo;
+        public IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo
+        {
+            get
+            {
+                if (_doorTypeViewRepo == null)
+                    _doorTypeViewRepo = new GenerateAPIResponse<DoorTypeViewModel>(config);
+                return _doorTypeViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Supplier View Repository ]
+        /// <summary>
+        /// Supplier View Repository
+        /// </summary>
+        private IGenerateAPIResponse<SupplierViewModel> _supplierViewRepo;
+        public IGenerateAPIResponse<SupplierViewModel> SupplierViewRepo
+        {
+            get
+            {
+                if (_supplierViewRepo == null)
+                    _supplierViewRepo = new GenerateAPIResponse<SupplierViewModel>(config);
+                return _supplierViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Sizes And Prices View Repository ]
+        /// <summary>
+        /// Product Sizes And Prices View Repository
+        /// </summary>
+        private IProductSizeAndPriceAPIResponse _productSizeAndPriceViewRepo;
+        public IProductSizeAndPriceAPIResponse ProductSizeAndPriceViewRepo
+        {
+            get
+            {
+                if (_productSizeAndPriceViewRepo == null)
+                    _productSizeAndPriceViewRepo = new ProductSizeAndPriceAPIResponse(config);
+                return _productSizeAndPriceViewRepo;
             }
         }
         #endregion

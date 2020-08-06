@@ -14,10 +14,13 @@ namespace Repository
         ICategoryRepository CategoryRepo { get; }
         ISubCategoryRepository SubCategoryRepo { get; }
         ISubCatGalleryRepository SubCatGalleryRepo { get; }
-        IProductRepository ProductRepo { get; }
-        IRepository<DoorType> DoorTypeRepo { get; }
+        IProductRepository ProductRepo { get; }        
         IRepository<ProductDesign> ProductDesignRepo { get; }
+        IRepository<ProductSize> ProductSizeRepo { get; }
         IRepository<ProductGrade> ProductGradeRepo { get; }
+        IRepository<DoorType> DoorTypeRepo { get; }
+        IRepository<Supplier> SupplierRepo { get; }
+        IProductSizeAndPriceRepository ProductSizeAndPriceRepo { get; }
         #endregion
 
         #region [ Website Related Repositories ]

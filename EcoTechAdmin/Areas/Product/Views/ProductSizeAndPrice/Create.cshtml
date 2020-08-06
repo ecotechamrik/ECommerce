@@ -1,0 +1,119 @@
+﻿@model BAL.ViewModels.Product.ProductSizeAndPriceViewModel
+
+@{
+    ViewData["Title"] = (Model != null && Model.ProductAttributeID > 0) ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <a asp-action="Index"><customicon type="back" title="Back to Product Attributes & Prices"></customicon></a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="@ViewData["Title"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-right">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ProductAttributeID" />
+                <input type="hidden" asp-for="ProductID" />
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCode" class="control-label font-weight-bold"></label>
+                <input asp-for="ProductCode" class="form-control" />
+                <span asp-validation-for="ProductCode" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Height80" class="control-label"></label>
+                        <input asp-for="Height80" class="form-control" />
+                        <span asp-validation-for="Height80" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Height84" class="control-label"></label>
+                        <input asp-for="Height84" class="form-control" />
+                        <span asp-validation-for="Height84" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Height90" class="control-label"></label>
+                        <input asp-for="Height90" class="form-control" />
+                        <span asp-validation-for="Height90" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Height96" class="control-label"></label>
+                        <input asp-for="Height96" class="form-control" />
+                        <span asp-validation-for="Height96" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoorTypeID" class="control-label"></label>
+                <input asp-for="DoorTypeID" class="form-control" />
+                <span asp-validation-for="DoorTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceVoid" class="control-label"></label>
+                <input asp-for="PriceVoid" class="form-control" />
+                <span asp-validation-for="PriceVoid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceDate" class="control-label"></label>
+                <input asp-for="PriceDate" class="form-control" />
+                <span asp-validation-for="PriceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvDate" class="control-label"></label>
+                <input asp-for="InvDate" class="form-control" />
+                <span asp-validation-for="InvDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Markup" class="control-label"></label>
+                <input asp-for="Markup" class="form-control" />
+                <span asp-validation-for="Markup" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RetailPriceDisc" class="control-label"></label>
+                <input asp-for="RetailPriceDisc" class="form-control" />
+                <span asp-validation-for="RetailPriceDisc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrencyID" class="control-label"></label>
+                <input asp-for="CurrencyID" class="form-control" />
+                <span asp-validation-for="CurrencyID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+
+            <div class="form-group text-right">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

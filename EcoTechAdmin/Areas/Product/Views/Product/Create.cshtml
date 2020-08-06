@@ -26,11 +26,11 @@
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="ProductCode" class="control-label font-weight-bold"></label>
                 <input asp-for="ProductCode" class="form-control" />
                 <span asp-validation-for="ProductCode" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="ProductDesc" class="control-label font-weight-bold"></label>
                 <textarea asp-for="ProductDesc" class="form-control" rows="6"></textarea>
@@ -90,18 +90,6 @@
                 </div>
             }
 
-            <!-- Bind Door Type List-->
-            @if (ViewBag.DoorTypes != null)
-            {
-                <div class="form-group">
-                    <label asp-for="DoorTypeName" class="control-label font-weight-bold"></label>
-                    <select class="form-control" asp-for="DoorTypeID" asp-items="@(new SelectList(ViewBag.DoorTypes, "DoorTypeID", "DoorTypeName"))">
-                        <option value="null">--Select--</option>
-                    </select>
-                    <span asp-validation-for="DoorTypeID" class="text-danger"></span>
-                </div>
-            }
-
             <div class="form-group">
                 <label asp-for="GroupNumber" class="control-label font-weight-bold"></label>
                 <input asp-for="GroupNumber" class="form-control" />
@@ -131,6 +119,16 @@
                 <label asp-for="IndexNumber" class="control-label font-weight-bold"></label>
                 <input asp-for="IndexNumber" class="form-control" />
                 <span asp-validation-for="IndexNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BestQuantity" class="control-label font-weight-bold"></label>
+                <input asp-for="BestQuantity" class="form-control" min="0" />
+                <span asp-validation-for="BestQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentQuantity" class="control-label font-weight-bold"></label>
+                <input asp-for="CurrentQuantity" class="form-control" min="0" />
+                <span asp-validation-for="CurrentQuantity" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

@@ -140,6 +140,38 @@ namespace Repository
         }
         #endregion
 
+        #region [ Product Design Repository ]
+        /// <summary>
+        /// Product Design Repository
+        /// </summary>
+        private IRepository<ProductDesign> _productDesignRepo;
+        public IRepository<ProductDesign> ProductDesignRepo
+        {
+            get
+            {
+                if (_productDesignRepo == null)
+                    _productDesignRepo = new Repository<ProductDesign>(db);
+                return _productDesignRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Product Grade Repository ]
+        /// <summary>
+        /// Product Grade Repository
+        /// </summary>
+        private IRepository<ProductGrade> _productGradeRepo;
+        public IRepository<ProductGrade> ProductGradeRepo
+        {
+            get
+            {
+                if (_productGradeRepo == null)
+                    _productGradeRepo = new Repository<ProductGrade>(db);
+                return _productGradeRepo;
+            }
+        }
+        #endregion
+
         #region [ Door Type Repository ]
         /// <summary>
         /// Door Type Repository
@@ -156,34 +188,50 @@ namespace Repository
         }
         #endregion
 
-        #region [ Product Design Repository ]
+        #region [ Product Size Repository ]
         /// <summary>
-        /// Product Design Repository
+        /// Product Size Repository
         /// </summary>
-        private IRepository<ProductDesign> _productDesignRepo;
-        public IRepository<ProductDesign> ProductDesignRepo
+        private IRepository<ProductSize> _productSizeRepo;
+        public IRepository<ProductSize> ProductSizeRepo
         {
             get
             {
-                if (_productDesignRepo == null)
-                    _productDesignRepo = new Repository<ProductDesign>(db);
-                return _productDesignRepo;
+                if (_productSizeRepo == null)
+                    _productSizeRepo = new Repository<ProductSize>(db);
+                return _productSizeRepo;
             }
         }
         #endregion
 
-        #region [ Product Grade Repository ]
+        #region [ Supplier Repository ]
         /// <summary>
-        /// Product Grade Repository
+        /// Supplier Repository
         /// </summary>
-        private IRepository<ProductGrade> _productGradeRepo;
-        public IRepository<ProductGrade> ProductGradeRepo
+        private IRepository<Supplier> _supplierRepo;
+        public IRepository<Supplier> SupplierRepo
         {
             get
             {
-                if (_productGradeRepo == null)
-                    _productGradeRepo = new Repository<ProductGrade>(db);
-                return _productGradeRepo;
+                if (_supplierRepo == null)
+                    _supplierRepo = new Repository<Supplier>(db);
+                return _supplierRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Size And Price Repository ]
+        /// <summary>
+        /// Product Size And Prices Repository
+        /// </summary>
+        private IProductSizeAndPriceRepository _productSizeAndPriceRepo;
+        public IProductSizeAndPriceRepository ProductSizeAndPriceRepo
+        {
+            get
+            {
+                if (_productSizeAndPriceRepo == null)
+                    _productSizeAndPriceRepo = new ProductSizeAndPriceRepository(db);
+                return _productSizeAndPriceRepo;
             }
         }
         #endregion
