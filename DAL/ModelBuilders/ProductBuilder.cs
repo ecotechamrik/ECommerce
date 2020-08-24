@@ -51,15 +51,24 @@ namespace DAL.ModelBuilders
             modelBuilder.Entity<ProductGrade>().HasMany(c => c.Products).WithOne(c => c.ProductGrade).HasForeignKey(c => c.ProductGradeID).OnDelete(DeleteBehavior.SetNull);
 
             // Product To ProductAttributes [1 - M Relationship with Product]
-            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Product>().HasMany(p => p.ProductAttributes).WithOne(p => p.Product).HasForeignKey(p => p.ProductID).OnDelete(DeleteBehavior.Cascade);
 
-            // ProductAttributes To ProductSizeAndPrices [1 - M Relationship with ProductAttributes]
-            modelBuilder.Entity<ProductAttribute>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.ProductAttribute).HasForeignKey(p => p.ProductAttributeID).OnDelete(DeleteBehavior.SetNull);
+            // ProductAttributes To ProductAttributeThicknesses [1 - M Relationship with ProductAttributes]
+            modelBuilder.Entity<ProductAttribute>().HasMany(p => p.ProductAttributeThicknesses).WithOne(p => p.ProductAttribute).HasForeignKey(p => p.ProductAttributeID).OnDelete(DeleteBehavior.SetNull);
 
-            // ProductSize To ProductSizeAndPrices [1 - M Relationship with Product Sizes & Prices]
-            modelBuilder.Entity<ProductSize>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.ProductSize).HasForeignKey(p => p.ProductSizeID).OnDelete(DeleteBehavior.SetNull);
+            // ProductThickness To ProductAttributeThicknesses [1 - M Relationship with ProductThickness]
+            modelBuilder.Entity<ProductThickness>().HasMany(p => p.ProductAttributeThicknesses).WithOne(p => p.ProductThickness).HasForeignKey(p => p.ProductThicknessID).OnDelete(DeleteBehavior.Cascade);
 
-            // Supplier To ProductSizeAndPrices [1 - M Relationship with Product Sizes & Supplier]
+            // ProductAttributeThickness To ProductSizeAndPrices [1 - M Relationship with ProductAttributeThickness]
+            modelBuilder.Entity<ProductAttributeThickness>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.ProductAttributeThickness).HasForeignKey(p => p.ProductAttributeThicknessID).OnDelete(DeleteBehavior.Cascade);
+
+            // ProductSize To ProductSizeAndPrices [1 - M Relationship with ProductSize]
+            modelBuilder.Entity<ProductHeight>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.ProductHeight).HasForeignKey(p => p.ProductHeightID).OnDelete(DeleteBehavior.SetNull);
+
+            // ProductWidth To ProductSizeAndPrices [1 - M Relationship with ProductWidth]
+            modelBuilder.Entity<ProductWidth>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.ProductWidth).HasForeignKey(p => p.ProductWidthID).OnDelete(DeleteBehavior.SetNull);
+
+            // Supplier To ProductSizeAndPrices [1 - M Relationship with Supplier]
             modelBuilder.Entity<Supplier>().HasMany(p => p.ProductSizeAndPrices).WithOne(p => p.Supplier).HasForeignKey(p => p.SupplierID).OnDelete(DeleteBehavior.SetNull);
         }
         #endregion

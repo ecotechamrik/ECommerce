@@ -28,6 +28,22 @@ namespace Repository
         }
         #endregion
 
+        #region [ Currency Repository ]
+        /// <summary>
+        /// Currency Repository
+        /// </summary>
+        private IRepository<Currency> _currencyRepo;
+        public IRepository<Currency> CurrencyRepo
+        {
+            get
+            {
+                if (_currencyRepo == null)
+                    _currencyRepo = new Repository<Currency>(db);
+                return _currencyRepo;
+            }
+        }
+        #endregion
+
         #region [ User Repository ]
         /// <summary>
         /// User Repository
@@ -188,18 +204,82 @@ namespace Repository
         }
         #endregion
 
-        #region [ Product Size Repository ]
+        #region [ Product Attribute Repository ]
         /// <summary>
-        /// Product Size Repository
+        /// Product Attribute Repository
         /// </summary>
-        private IRepository<ProductSize> _productSizeRepo;
-        public IRepository<ProductSize> ProductSizeRepo
+        private IProductAttributeRepository _productAttributeRepo;
+        public IProductAttributeRepository ProductAttributeRepo
         {
             get
             {
-                if (_productSizeRepo == null)
-                    _productSizeRepo = new Repository<ProductSize>(db);
-                return _productSizeRepo;
+                if (_productAttributeRepo == null)
+                    _productAttributeRepo = new ProductAttributeRepository(db);
+                return _productAttributeRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Height Repository ]
+        /// <summary>
+        /// Product Height Repository
+        /// </summary>
+        private IProductHeightRepository _productHeightRepo;
+        public IProductHeightRepository ProductHeightRepo
+        {
+            get
+            {
+                if (_productHeightRepo == null)
+                    _productHeightRepo = new ProductHeightRepository(db);
+                return _productHeightRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Width Repository ]
+        /// <summary>
+        /// Product Width Repository
+        /// </summary>
+        private IRepository<ProductWidth> _productWidthRepo;
+        public IRepository<ProductWidth> ProductWidthRepo
+        {
+            get
+            {
+                if (_productWidthRepo == null)
+                    _productWidthRepo = new Repository<ProductWidth>(db);
+                return _productWidthRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Product Thickness Repository ]
+        /// <summary>
+        /// Product Thickness Repository
+        /// </summary>
+        private IProductThicknessRepository _productThicknessRepo;
+        public IProductThicknessRepository ProductThicknessRepo
+        {
+            get
+            {
+                if (_productThicknessRepo == null)
+                    _productThicknessRepo = new ProductThicknessRepository(db);
+                return _productThicknessRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Attribute Thickness Repository ]
+        /// <summary>
+        /// Supplier Repository
+        /// </summary>
+        private IRepository<ProductAttributeThickness> _productAttributeThicknessRepo;
+        public IRepository<ProductAttributeThickness> ProductAttributeThicknessRepo
+        {
+            get
+            {
+                if (_productAttributeThicknessRepo == null)
+                    _productAttributeThicknessRepo = new Repository<ProductAttributeThickness>(db);
+                return _productAttributeThicknessRepo;
             }
         }
         #endregion

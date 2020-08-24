@@ -39,7 +39,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<DoorType> GetDoorTypeDetails(int? id)
         {
-            return uow.DoorTypeRepo.GetAll().Where(c => (id != null ? c.DoorTypeID == id : c.DoorTypeID == c.DoorTypeID));            
+            return uow.DoorTypeRepo.GetAll().Where(c => (id != null ? c.DoorTypeID == id : c.DoorTypeID == c.DoorTypeID)).OrderBy(o => o.DoorTypeName);
         }
         #endregion
 

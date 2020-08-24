@@ -42,7 +42,7 @@ namespace EcoTechAPIs.Controllers
         Func<int?, List<WebsiteInfo>> websites = new Func<int?, List<WebsiteInfo>>(GetWebsiteInfoDetails);
         static List<WebsiteInfo> GetWebsiteInfoDetails(int? id)
         {
-            return uow.WebsiteInfoRepo.GetAll().Where(w => (id != null ? w.WebsiteID == id : w.WebsiteID == w.WebsiteID)).ToList();
+            return uow.WebsiteInfoRepo.GetAll().Where(w => (id != null ? w.WebsiteID == id : w.WebsiteID == w.WebsiteID)).OrderBy(o => o.WebsiteName).ToList();
         }
         #endregion
 

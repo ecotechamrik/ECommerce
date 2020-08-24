@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200709232422_Migration_0001.cs" />
-    <Compile Remove="Migrations\20200709232422_Migration_0001.Designer.cs" />
-    <Compile Remove="Migrations\20200709233336_Migration_0001.cs" />
-    <Compile Remove="Migrations\20200709233336_Migration_0001.Designer.cs" />
-    <Compile Remove="Migrations\20200709234239_Migration_0001.cs" />
-    <Compile Remove="Migrations\20200709234239_Migration_0001.Designer.cs" />
-    <Compile Remove="Migrations\20200709234651_Migration_0001.cs" />
-    <Compile Remove="Migrations\20200709234651_Migration_0001.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
   </ItemGroup>

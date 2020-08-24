@@ -107,7 +107,7 @@ namespace BAL
             string data = JsonConvert.SerializeObject(entity);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync(client.BaseAddress + apiMethod, content);            
+            var response = await client.PostAsync(client.BaseAddress + apiMethod, content);
 
             if (response.IsSuccessStatusCode)
                 return true;

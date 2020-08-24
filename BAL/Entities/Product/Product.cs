@@ -37,6 +37,6 @@ namespace BAL.Entities
         public ProductDesign ProductDesign { get; set; }
         public ProductGrade ProductGrade { get; set; }
         public ICollection<ProductAttribute> ProductAttributes { get; set; }
-        public ICollection<ProductImages> ProductImages { get; set; }
+        public ICollection<ProductImage> ProductImages { get; set; }
     }
 }

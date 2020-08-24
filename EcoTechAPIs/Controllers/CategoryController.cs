@@ -36,7 +36,7 @@ namespace EcoTechAPIs.Controllers
         [Route("{getbysectionid}/{id}")]
         public IEnumerable<CategoryViewModel> GetBySectionID(int id)
         {
-            return uow.CategoryRepo.GetCategoryWithSections().Where(c => c.SectionID == id);
+            return uow.CategoryRepo.GetCategoryWithSections().Where(c => c.SectionID == id).OrderBy(d => d.CategoryName);
         }
 
         #region [ Show all or Selected Category information ]
@@ -47,7 +47,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<CategoryViewModel> GetCategoryDetails(int? id)
         {
-            return uow.CategoryRepo.GetCategoryWithSections().Where(c => (id != null ? c.CategoryID == id : c.CategoryID == c.CategoryID));
+            return uow.CategoryRepo.GetCategoryWithSections().Where(c => (id != null ? c.CategoryID == id : c.CategoryID == c.CategoryID)).OrderBy(d => d.CategoryName);
         }
         #endregion
 

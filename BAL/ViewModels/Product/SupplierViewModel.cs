@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,20 +11,26 @@ namespace BAL.ViewModels.Product
 
         [Required(ErrorMessage = "Please Enter Supplier Name")]
         [Display(Name = "Supplier Name", Prompt = "Supplier Name")]
-        public string Name { get; set; }
+        public string SupplierName { get; set; }
 
-        [Display(Name = "Model Code")]
-        public string ModelCode { get; set; }
+        [Display(Name = "Supplier Code")]
+        public string SupplierCode { get; set; }
 
-        [Display(Name = "Inbound Cost")]
-        public double InboundCost { get; set; }
+        [Display(Name = "Basic Cost")]
+        public double InboundCost { get; set; } = 0;
+
+        [Display(Name = "Transportation Cost")]
+        public double TransportationCost { get; set; } = 0;
 
         [Display(Name = "Landed Cost")]
-        public double LandedCost { get; set; }
-
-        [Display(Name = "Supplier Cost")]
-        public double SupplierCost { get; set; }
+        public double LandedCost { get; set; } = 0;
         public DateTime CreatedDateTime { get; set; }
         public DateTime UpdatedDateTime { get; set; }
+        public bool IsActive { get; set; }
+        [JsonIgnore]
+        public string Active
+        {
+            get { return IsActive == true ? "Yes" : "No"; }
+        }
     }
 }

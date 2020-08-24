@@ -1,5 +1,7 @@
 ﻿#region [ Namespace ]
+using BAL.Entities;
 using BAL.ViewModels;
+using BAL.ViewModels.Common;
 using BAL.ViewModels.Product;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,6 +20,22 @@ namespace BAL
         public UnitOfWork(IConfiguration _config)
         {
             config = _config;
+        }
+        #endregion
+
+        #region [ Currency View Repository ]
+        /// <summary>
+        /// Currency View Repository
+        /// </summary>
+        private IGenerateAPIResponse<CurrencyViewModel> _currencyViewRepo;
+        public IGenerateAPIResponse<CurrencyViewModel> CurrencyViewRepo
+        {
+            get
+            {
+                if (_currencyViewRepo == null)
+                    _currencyViewRepo = new GenerateAPIResponse<CurrencyViewModel>(config);
+                return _currencyViewRepo;
+            }
         }
         #endregion
 
@@ -133,18 +151,50 @@ namespace BAL
         }
         #endregion
 
-        #region [ Product Size View Repository ]
+        #region [ Product Height View Repository ]
         /// <summary>
-        /// Product Size View Repository
+        /// Product Height View Repository
         /// </summary>
-        private IGenerateAPIResponse<ProductSizeViewModel> _productSizeViewRepo;
-        public IGenerateAPIResponse<ProductSizeViewModel> ProductSizeViewRepo
+        private IGenerateAPIResponse<ProductHeightViewModel> _productHeightViewRepo;
+        public IGenerateAPIResponse<ProductHeightViewModel> ProductHeightViewRepo
         {
             get
             {
-                if (_productSizeViewRepo == null)
-                    _productSizeViewRepo = new GenerateAPIResponse<ProductSizeViewModel>(config);
-                return _productSizeViewRepo;
+                if (_productHeightViewRepo == null)
+                    _productHeightViewRepo = new GenerateAPIResponse<ProductHeightViewModel>(config);
+                return _productHeightViewRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Product Width View Repository ]
+        /// <summary>
+        /// Product Width View Repository
+        /// </summary>
+        private IGenerateAPIResponse<ProductWidthViewModel> _productWidthViewRepo;
+        public IGenerateAPIResponse<ProductWidthViewModel> ProductWidthViewRepo
+        {
+            get
+            {
+                if (_productWidthViewRepo == null)
+                    _productWidthViewRepo = new GenerateAPIResponse<ProductWidthViewModel>(config);
+                return _productWidthViewRepo;
+            }
+        }
+        #endregion        
+
+        #region [ Product Thickness View Repository ]
+        /// <summary>
+        /// Product Thickness View Repository
+        /// </summary>
+        private IGenerateAPIResponse<ProductThicknessViewModel> _productThicknessViewRepo;
+        public IGenerateAPIResponse<ProductThicknessViewModel> ProductThicknessViewRepo
+        {
+            get
+            {
+                if (_productThicknessViewRepo == null)
+                    _productThicknessViewRepo = new GenerateAPIResponse<ProductThicknessViewModel>(config);
+                return _productThicknessViewRepo;
             }
         }
         #endregion        
@@ -161,6 +211,38 @@ namespace BAL
                 if (_doorTypeViewRepo == null)
                     _doorTypeViewRepo = new GenerateAPIResponse<DoorTypeViewModel>(config);
                 return _doorTypeViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Attribute View Repository ]
+        /// <summary>
+        /// Product Attribute View Repository
+        /// </summary>
+        private IProductAttributeAPIResponse _productAttributeViewRepo;
+        public IProductAttributeAPIResponse ProductAttributeViewRepo
+        {
+            get
+            {
+                if (_productAttributeViewRepo == null)
+                    _productAttributeViewRepo = new ProductAttributeAPIResponse(config);
+                return _productAttributeViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Attribute Thickness View Repository ]
+        /// <summary>
+        /// Product Attribute Thickness View Repository
+        /// </summary>
+        private IGenerateAPIResponse<ProductAttributeThicknessViewModel> _productAttributeThicknessViewRepo;
+        public IGenerateAPIResponse<ProductAttributeThicknessViewModel> ProductAttributeThicknessViewRepo
+        {
+            get
+            {
+                if (_productAttributeThicknessViewRepo == null)
+                    _productAttributeThicknessViewRepo = new GenerateAPIResponse<ProductAttributeThicknessViewModel>(config);
+                return _productAttributeThicknessViewRepo;
             }
         }
         #endregion

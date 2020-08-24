@@ -10,12 +10,9 @@ namespace BAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SupplierID { get; set; }
-        public string Name { get; set; }
-        public string ModelCode { get; set; }
-        public double InboundCost { get; set; }
-        public double LandedCost { get; set; }
-        public double SupplierCost { get; set; }
-
+        public string SupplierName { get; set; }
+        public string SupplierCode { get; set; }
+        public bool IsActive { get; set; }
 
         /* -- Navigation Properties -- */
         public DateTime CreatedDateTime { get; set; }

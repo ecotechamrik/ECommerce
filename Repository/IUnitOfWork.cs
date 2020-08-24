@@ -5,6 +5,13 @@ namespace Repository
 {
     public interface IUnitOfWork
     {
+        #region [ Common Repositories ]
+        /// <summary>
+        /// Common Repositories
+        /// </summary>
+        IRepository<Currency> CurrencyRepo { get; }
+        #endregion
+
         #region [ Product Related Repositories ]
         /// <summary>
         /// Product Related Repositories
@@ -16,10 +23,14 @@ namespace Repository
         ISubCatGalleryRepository SubCatGalleryRepo { get; }
         IProductRepository ProductRepo { get; }        
         IRepository<ProductDesign> ProductDesignRepo { get; }
-        IRepository<ProductSize> ProductSizeRepo { get; }
+        IProductHeightRepository ProductHeightRepo { get; }
+        IRepository<ProductWidth> ProductWidthRepo { get; }
+        IProductThicknessRepository ProductThicknessRepo { get; }
         IRepository<ProductGrade> ProductGradeRepo { get; }
         IRepository<DoorType> DoorTypeRepo { get; }
+        IProductAttributeRepository ProductAttributeRepo { get; }
         IRepository<Supplier> SupplierRepo { get; }
+        IRepository<ProductAttributeThickness> ProductAttributeThicknessRepo { get; }
         IProductSizeAndPriceRepository ProductSizeAndPriceRepo { get; }
         #endregion
 
@@ -36,7 +47,6 @@ namespace Repository
         /// </summary>
         IUserRepository UserRepo { get; }
         #endregion
-
         int SaveChanges();
     }
 }

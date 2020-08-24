@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form id="websiteForm" asp-action="@ViewData["Title"]" method="post">
+        <form id="frmWebsiteForm" asp-action="@ViewData["Title"]" method="post">
             @Html.AntiForgeryToken()
             <div class="form-group text-right">
                 <input type="button" value="Submit" onclick="SaveWebsiteDetails();" class="btn btn-primary" /> |

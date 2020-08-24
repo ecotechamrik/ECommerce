@@ -8,15 +8,18 @@ namespace BAL.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProductAttributeID { get; set; }        
+        public int ProductAttributeID { get; set; }
         public int? ProductID { get; set; }
-        public string Width { get; set; }
-        public int? DoorTypeID { get; set; }
+        public int? DoorTypeID { get; set; }        
+        public int? CurrencyID { get; set; }
+        public int? SupplierID { get; set; }
 
 
         /* -- Navigation Properties -- */
         public Product Product { get; set; }
         public DoorType DoorType { get; set; }
-        public ICollection<ProductSizeAndPrice> ProductSizeAndPrices { get; set; }
+        public Currency Currency { get; set; }
+        public Supplier Supplier { get; set; }
+        public ICollection<ProductAttributeThickness> ProductAttributeThicknesses { get; set; }
     }
 }

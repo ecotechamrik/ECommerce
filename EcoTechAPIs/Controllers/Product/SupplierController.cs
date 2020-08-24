@@ -39,7 +39,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<Supplier> GetSupplierDetails(int? id)
         {
-            return uow.SupplierRepo.GetAll().Where(c => (id != null ? c.SupplierID == id : c.SupplierID == c.SupplierID));            
+            return uow.SupplierRepo.GetAll().Where(c => (id != null ? c.SupplierID == id : c.SupplierID == c.SupplierID)).OrderBy(o => o.SupplierName);
         }
         #endregion
 

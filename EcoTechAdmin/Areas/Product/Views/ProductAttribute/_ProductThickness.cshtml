@@ -1,0 +1,46 @@
+﻿@model BAL.ViewModels.Product.ProductAttributeThicknessViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12 pd3">
+        <div class="row">
+            <div class="col-md-1">
+                <div class="form-group">
+                    <input type="hidden" asp-for="ProductThicknessID" />
+                    <label asp-for="ProductThicknessName" class="control-label font-weight-bold"></label>
+                    <div class="form-control" style="background-color:#8b0b0b;color:#FFF">@Html.DisplayFor(model => model.ProductThicknessName)</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="ProductCodeInitials" class="control-label font-weight-bold"></label>
+                    <input asp-for="ProductCodeInitials" class="form-control" onkeyup="InsertProductCode(this, @Model.ProductThicknessName);" />
+                    <span asp-validation-for="ProductCodeInitials" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 pd3">
+        @{
+            for (int count = 0; count < Model.ProductWidthList.Count(); count++)
+            {
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label asp-for="@Model.ProductWidthList[count].DisplayProductWidthName" class="control-label font-weight-bold"></label>
+                            <input type="hidden" asp-for="@Model.ProductWidthList[count].ProductWidthID" />
+                            <div class="form-control" style="background-color:#b57b7b;color:#FFF">@Html.DisplayFor(model => @Model.ProductWidthList[count].ProductWidthName)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-11">
+                        @Html.RenderAction("ProductThicknessHeights", "ProductAttribute", new { ProductAttributeThicknessID = Model.ProductAttributeThicknessID, ProductWidthID = Model.ProductWidthList[count].ProductWidthID, ProductThickness = Model.ProductThicknessName, ProductWidth = Model.ProductWidthList[count].ProductWidthName })
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+</div>

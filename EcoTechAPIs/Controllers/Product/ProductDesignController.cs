@@ -39,7 +39,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<ProductDesign> GetProductDesignDetails(int? id)
         {
-            return uow.ProductDesignRepo.GetAll().Where(c => (id != null ? c.ProductDesignID == id : c.ProductDesignID == c.ProductDesignID));
+            return uow.ProductDesignRepo.GetAll().Where(c => (id != null ? c.ProductDesignID == id : c.ProductDesignID == c.ProductDesignID)).OrderBy(o => o.ProductDesignName);
         }
         #endregion
 

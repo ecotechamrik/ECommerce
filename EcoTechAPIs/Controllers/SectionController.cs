@@ -39,7 +39,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<Section> GetSectionDetails(int? id)
         {
-            return uow.SectionRepo.GetAll().Where(c => (id != null ? c.SectionID == id : c.SectionID == c.SectionID));
+            return uow.SectionRepo.GetAll().Where(c => (id != null ? c.SectionID == id : c.SectionID == c.SectionID)).OrderBy(o => o.SectionName);
         }
         #endregion
 

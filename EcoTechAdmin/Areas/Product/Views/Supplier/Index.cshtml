@@ -20,20 +20,14 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.SupplierName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ModelCode)
+                    @Html.DisplayNameFor(model => model.SupplierCode)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.InboundCost)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LandedCost)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SupplierCost)
-                </th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>                
                 <th></th>
             </tr>
         </thead>
@@ -42,20 +36,14 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.SupplierName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ModelCode)
+                        @Html.DisplayFor(modelItem => item.SupplierCode)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.InboundCost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LandedCost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SupplierCost)
-                    </td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>                    
                     <td class="text-center">
                         <a href="@BAL.Common.WEBSITEPATH/product/supplier/edit/@item.SupplierID"><customicon type="edit" title="Edit Supplier"></customicon></a> |
                         <a href="@BAL.Common.WEBSITEPATH/product/supplier/details/@item.SupplierID"><customicon type="details" title="Show More Details"></customicon></a> |

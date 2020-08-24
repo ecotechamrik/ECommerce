@@ -95,7 +95,7 @@ function CRUDActions(actionName, websiteID) {
 
 // Save + Update
 function SaveWebsiteDetails() {
-    var _form = $("#websiteForm");
+    var _form = $("#frmWebsiteForm");
 
     _form.validate({
         rules: {

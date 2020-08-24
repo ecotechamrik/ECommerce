@@ -312,6 +312,8 @@ namespace EcoTechAdmin.Controllers
         #region [ Resize the Image ]
         public void ResizeImage(IFormFile source, String _filePath)
         {
+            _logger.LogInformation("_filePath: " + _filePath);
+
             // Load image.
             Image image = Image.FromStream(source.OpenReadStream());
 
@@ -373,6 +375,8 @@ namespace EcoTechAdmin.Controllers
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
+
+            _logger.LogInformation("path + filename: " + path + filename);
 
             return path + filename;
         }

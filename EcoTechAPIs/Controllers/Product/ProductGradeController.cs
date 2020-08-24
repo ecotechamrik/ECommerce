@@ -39,7 +39,7 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<ProductGrade> GetProductGradeDetails(int? id)
         {
-            return uow.ProductGradeRepo.GetAll().Where(c => (id != null ? c.ProductGradeID == id : c.ProductGradeID == c.ProductGradeID));
+            return uow.ProductGradeRepo.GetAll().Where(c => (id != null ? c.ProductGradeID == id : c.ProductGradeID == c.ProductGradeID)).OrderBy(o => o.ProductGradeName);
         }
         #endregion
 

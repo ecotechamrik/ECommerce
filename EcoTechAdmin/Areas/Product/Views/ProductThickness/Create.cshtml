@@ -1,0 +1,30 @@
+﻿@model BAL.ViewModels.Product.ProductThicknessViewModel
+
+@{
+    ViewData["Title"] = (Model != null && Model.ProductThicknessID > 0) ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <a asp-action="Index"><customicon type="back" title="Back to Product Thicknesss"></customicon></a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="@ViewData["Title"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ProductThicknessID" />
+                <label asp-for="ProductThicknessName" class="control-label"></label>
+                <input asp-for="ProductThicknessName" class="form-control" />
+                <span asp-validation-for="ProductThicknessName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

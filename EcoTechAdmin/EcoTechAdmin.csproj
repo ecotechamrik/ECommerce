@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>35f4baa8-6e3c-414a-8bfb-f2ba63b469b6</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
@@ -17,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logs\" />
+    <Folder Include="Areas\Product\Views\ProductImages\" />
     <Folder Include="wwwroot\js\user\" />
     <Folder Include="wwwroot\Logs\" />
   </ItemGroup>

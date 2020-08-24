@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using BAL;
+using System.Linq;
 #endregion
 
 namespace EcoTechAdmin.Areas.Product.Controllers
@@ -28,9 +29,9 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// Index - Load the List of Suppliers
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return await RedirectToIndex();
+            return RedirectToIndex();
         }
         #endregion
 
@@ -40,9 +41,9 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
-        private async Task<IActionResult> RedirectToIndex()
+        private IActionResult RedirectToIndex()
         {
-            IEnumerable<SupplierViewModel> _suppliers = await generateAPIResponse.SupplierViewRepo.GetAll("supplier");
+            IEnumerable<SupplierViewModel> _suppliers = generateAPIResponse.SupplierViewRepo.GetAll("supplier").Result.OrderByDescending(s => s.Active);
             return View("Index", _suppliers);
         }
         #endregion
@@ -54,7 +55,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public IActionResult Create()
         {
-            return View();
+            return View(new SupplierViewModel());
         }
         #endregion
 
@@ -134,7 +135,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 if (response)
                 {
                     ViewBag.Class = "text-success";
-                    return await RedirectToIndex();
+                    return RedirectToIndex();
                 }
                 else
                 {
@@ -166,6 +167,11 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 return RedirectToAction("Index");
         }
         #endregion
+        public IActionResult GetSupplierDetails(int id)
+        {
+            SupplierViewModel model = generateAPIResponse.SupplierViewRepo.GetByID("supplier", id).Result;
+            return Ok(model);
+        }
 
         #region [ Delete Supplier Record form DB. ]
         /// <summary>
@@ -182,7 +188,7 @@ namespace EcoTechAdmin.Areas.Product.Controllers
                 if (response)
                 {
                     ViewBag.Message = "Supplier record has been deleted successfully.";
-                    return await RedirectToIndex();
+                    return RedirectToIndex();
                 }
             }
             catch (Exception ex)

@@ -37,11 +37,13 @@ namespace DAL
         public DbSet<ProductDesign> ProductDesigns { get; set; }
         public DbSet<ProductGrade> ProductGrades { get; set; }
         public DbSet<DoorType> DoorType { get; set; }
-        public DbSet<ProductSize> ProductSizes { get; set; }
+        public DbSet<ProductHeight> ProductHeights { get; set; }
+        public DbSet<ProductWidth> ProductWidths { get; set; }
+        public DbSet<ProductThickness> ProductThicknesses { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }
         public DbSet<ProductSizeAndPrice> ProductSizeAndPrices { get; set; }        
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
         #endregion
 
         #region [ Create Website Info DB Entities ]

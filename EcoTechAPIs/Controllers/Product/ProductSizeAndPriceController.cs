@@ -1,4 +1,5 @@
 ﻿using BAL.Entities;
+using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using System;
@@ -39,15 +40,22 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<ProductSizeAndPrice> GetProductSizeAndPrices(int? id)
         {
-            return uow.ProductSizeAndPriceRepo.GetAll().Where(c => (id != null ? c.ProductAttributeID == id : c.ProductAttributeID == c.ProductAttributeID));
+            return uow.ProductSizeAndPriceRepo.GetAll().Where(c => (id != null ? c.ProductSizeAndPriceID == id : c.ProductSizeAndPriceID == c.ProductSizeAndPriceID));
         }
         #endregion
 
-        // GET: api/getbyproductid/1
-        [Route("{getbyproductid}/{pid}")]
-        public IEnumerable<ProductSizeAndPrice> GetByProductID(int? pid)
+        // GET: api/GetByProductAttributeID/1
+        [Route("{GetByProductAttributeID}/{pid}")]
+        public IEnumerable<ProductSizeAndPriceViewModel> GetByProductAttributeID(int? pid)
         {
-            return uow.ProductSizeAndPriceRepo.GetAll().Where(c => (pid != null ? c.ProductAttributeID == pid : c.ProductAttributeID == c.ProductAttributeID));
+            return uow.ProductSizeAndPriceRepo.GetByProductAttributeID(pid);
+        }
+
+        // GET: api/GetByProductAttributeID/1
+        [Route("{GetByProductWidthID}/{ProductAttributeThicknessID}/{ProductWidthID}")]
+        public IEnumerable<ProductSizeAndPriceViewModel> GetByProductWidthID(int ProductAttributeThicknessID, int ProductWidthID)
+        {
+            return uow.ProductSizeAndPriceRepo.GetByProductWidthID(ProductAttributeThicknessID, ProductWidthID);
         }
 
         // POST: api/ProductSizeAndPrice

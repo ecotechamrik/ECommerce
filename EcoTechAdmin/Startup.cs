@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Features;
 using System;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace EcoTechAdmin
 {
@@ -48,7 +49,7 @@ namespace EcoTechAdmin
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
-            
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(config =>

@@ -1,5 +1,7 @@
 ﻿#region [ Namespace ]
+using BAL.Entities;
 using BAL.ViewModels;
+using BAL.ViewModels.Common;
 using BAL.ViewModels.Product;
 using System;
 #endregion
@@ -13,11 +15,15 @@ namespace BAL
         IGenerateAPIResponse<CategoryViewModel> CategoryViewRepo { get; }
         IGenerateAPIResponse<SubCategoryViewModel> SubCategoryViewRepo { get; }
         ISubCatGalleryAPIResponse SubCatGalleryViewRepo { get; }
-        IGenerateAPIResponse<ProductViewModel> ProductViewRepo { get; }        
+        IGenerateAPIResponse<ProductViewModel> ProductViewRepo { get; }
         IGenerateAPIResponse<ProductDesignViewModel> ProductDesignViewRepo { get; }
         IGenerateAPIResponse<ProductGradeViewModel> ProductGradeViewRepo { get; }
-        IGenerateAPIResponse<ProductSizeViewModel> ProductSizeViewRepo { get; }        
+        IGenerateAPIResponse<ProductHeightViewModel> ProductHeightViewRepo { get; }
+        IGenerateAPIResponse<ProductThicknessViewModel> ProductThicknessViewRepo { get; }
+        IGenerateAPIResponse<ProductWidthViewModel> ProductWidthViewRepo { get; }
         IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo { get; }
+        IProductAttributeAPIResponse ProductAttributeViewRepo { get; }
+        IGenerateAPIResponse<ProductAttributeThicknessViewModel> ProductAttributeThicknessViewRepo { get; }
         IGenerateAPIResponse<SupplierViewModel> SupplierViewRepo { get; }
         IProductSizeAndPriceAPIResponse ProductSizeAndPriceViewRepo { get; }
         #endregion
@@ -28,6 +34,7 @@ namespace BAL
 
         #region [ Common ]
         IGenerateAPIResponse<String> CommonRepo { get; }
+        IGenerateAPIResponse<CurrencyViewModel> CurrencyViewRepo { get; }
         #endregion
     }
 }
