@@ -6,6 +6,6 @@ namespace Repository.Abstraction
 {
     public interface IProductHeightRepository : IRepository<ProductHeight>
     {
-        IEnumerable<ProductHeightViewModel> GetProductHeightNotAdded(int? ProductAttrID, int? ProductSizeAndPriceID);
+        
     }
 }

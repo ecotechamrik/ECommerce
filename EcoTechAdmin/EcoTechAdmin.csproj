@@ -25,9 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Product\Views\ProductImages\" />
     <Folder Include="wwwroot\js\user\" />
     <Folder Include="wwwroot\Logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Product\Views\ProductImages\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

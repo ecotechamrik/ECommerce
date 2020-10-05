@@ -15,8 +15,10 @@ namespace BAL.ViewModels.Product
         [MaxLength(100)]
         public string ProductThicknessName { get; set; }
         
-        [DisplayName("Key")]
+        [DisplayName("Product Code Key")]
         public string ProductCodeInitials { get; set; }
+        public bool Active { get; set; }
+        public string FormAction { get; set; }
 
         public IList<ProductWidthViewModel> ProductWidthList { get; set; }
     }

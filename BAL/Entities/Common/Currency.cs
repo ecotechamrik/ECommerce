@@ -11,5 +11,7 @@ namespace BAL.Entities
 
         [Required]
         public string CurrencyName { get; set; }
+
+        public bool IsDefault { get; set; } = false;
     }
 }

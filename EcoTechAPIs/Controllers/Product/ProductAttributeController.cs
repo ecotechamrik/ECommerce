@@ -32,18 +32,18 @@ namespace EcoTechAPIs.Controllers
             return GetProductAttributeDetails(id);
         }
 
-        // GET: api/GetByProductID/5
-        [Route("GetByProductID/{id}")]
-        public IEnumerable<ProductAttributeViewModel> GetByProductID(int id)
+        // GET: api/GetAttributesByID/5
+        [Route("GetAttributesByID/{id}")]
+        public IEnumerable<ProductAttributeViewModel> GetAttributesByID(int id)
         {
-            return uow.ProductAttributeRepo.GetByProductID(id);
+            return uow.ProductAttributeRepo.GetAttributesByID(id);
         }
 
-        // GET: api/GetProductAttrWithDoorName/5
-        [Route("GetProductAttrWithDoorName/{id}")]
-        public ProductAttributeViewModel GetProductAttrWithDoorName(int id)
+        // GET: api/GetAttributesByProductID/5
+        [Route("GetAttributesByProductID/{id}")]
+        public IEnumerable<ProductAttributeViewModel> GetAttributesByProductID(int id)
         {
-            return uow.ProductAttributeRepo.GetProductAttrWithDoorName(id);
+            return uow.ProductAttributeRepo.GetAttributesByProductID(id);
         }
 
         #region [ Show all or Selected Product Attribute information ]
@@ -68,7 +68,7 @@ namespace EcoTechAPIs.Controllers
                 uow.SaveChanges();
                 return model;
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }
@@ -76,15 +76,15 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/ProductAttribute/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductAttribute model)
+        public IActionResult Put([FromBody] ProductAttribute model)
         {
             try
             {
-                uow.ProductAttributeRepo.Update(model);
+                uow.ProductAttributeRepo.UpdateProductAttribute(model);
                 uow.SaveChanges();
                 return Created("/api/ProductAttribute", model);
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(500);
             }
@@ -100,7 +100,7 @@ namespace EcoTechAPIs.Controllers
                 uow.SaveChanges();
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return StatusCode(500);

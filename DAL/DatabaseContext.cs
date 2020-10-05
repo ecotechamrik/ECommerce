@@ -40,9 +40,11 @@ namespace DAL
         public DbSet<ProductHeight> ProductHeights { get; set; }
         public DbSet<ProductWidth> ProductWidths { get; set; }
         public DbSet<ProductThickness> ProductThicknesses { get; set; }
+        public DbSet<ProductAttributeThickness> ProductAttributeThickness { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }
         public DbSet<ProductSizeAndPrice> ProductSizeAndPrices { get; set; }        
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<ProductSupplier> ProductSuppliers { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         #endregion
 

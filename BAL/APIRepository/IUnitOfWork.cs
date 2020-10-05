@@ -23,9 +23,11 @@ namespace BAL
         IGenerateAPIResponse<ProductWidthViewModel> ProductWidthViewRepo { get; }
         IGenerateAPIResponse<DoorTypeViewModel> DoorTypeViewRepo { get; }
         IProductAttributeAPIResponse ProductAttributeViewRepo { get; }
-        IGenerateAPIResponse<ProductAttributeThicknessViewModel> ProductAttributeThicknessViewRepo { get; }
+        IProductAttributeThicknessAPIResponse ProductAttributeThicknessViewRepo { get; }
         IGenerateAPIResponse<SupplierViewModel> SupplierViewRepo { get; }
         IProductSizeAndPriceAPIResponse ProductSizeAndPriceViewRepo { get; }
+        IProductSupplierAPIResponse ProductSupplierViewRepo { get; }
+        IProductImagesAPIResponse ProductImagesViewRepo { get; }
         #endregion
 
         #region [ Website Info ]

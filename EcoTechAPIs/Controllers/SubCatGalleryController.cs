@@ -69,7 +69,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/subcatgallery/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] SubCatGallery model)
+        public IActionResult Put([FromBody] SubCatGallery model)
         {
             try
             {

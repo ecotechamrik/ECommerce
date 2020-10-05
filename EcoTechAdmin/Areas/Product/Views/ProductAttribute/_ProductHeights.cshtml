@@ -6,137 +6,195 @@
 
 @if (Model.Count() > 0)
 {
-
+    int heightCount = 0;
     @foreach (var item in Model)
     {
-        <div class="row text-center">
-            <div class="col-md-1">
-                <div class="form-group">
-                    <input type="hidden" id="@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName)" />
-                    <label asp-for="@item.ProductHeightName" class="control-label font-weight-bold"></label>
-                    <input asp-for="@item.ProductHeightName" class="form-control" style="background-color:#969696;color:#FFF" />
-                    <span asp-validation-for="@item.ProductHeightName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="@item.ProductCode" class="control-label font-weight-bold"></label>
-                    <input asp-for="@item.ProductCode" readonly class="form-control" name="ctlProductCode_@Model.First().ThicknessWidth" id="ctlProductCode_@Model.First().ThicknessWidth&@item.ProductHeightName" />
-                    <span asp-validation-for="@item.ProductCode" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="@item.PriceDate" class="control-label font-weight-bold"></label>
-                    <input asp-for="@item.PriceDate" class="form-control" />
-                    <span asp-validation-for="@item.PriceDate" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="@item.InvDate" class="control-label font-weight-bold"></label>
-                    <input id="ctlInvDate" asp-for="@item.InvDate" class="form-control" />
-                    <span asp-validation-for="@item.InvDate" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    <label asp-for="@item.Markup" class="control-label font-weight-bold"></label>
-                    <input id="@String.Concat("ctlMarkup_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName)" onkeyup="CalculatePrice(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName));" asp-for="@item.Markup" class="form-control" />
-                    <span asp-validation-for="@item.Markup" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    <label asp-for="@item.RetailPriceDisc" class="control-label font-weight-bold"></label>
-                    <input id="@String.Concat("ctlRetailDisc_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName)" asp-for="@item.RetailPriceDisc" onkeyup="CalculatePrice(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName));" class="form-control" />
-                    <span asp-validation-for="@item.RetailPriceDisc" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="@item.SellingPrice" class="control-label font-weight-bold"></label>
-                    <input id="@String.Concat("ctlSellingPrice_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName)" asp-for="@item.SellingPrice" class="form-control" />
-                    <span asp-validation-for="@item.SellingPrice" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    <label asp-for="@item.PriceVoid" class="control-label font-weight-bold"></label>
-                    <input asp-for="@item.PriceVoid" class="form-control" />
-                    <span asp-validation-for="@item.PriceVoid" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-1"></div>
-            <div class="col-md-11">
-                @{
-                    for (int count = 0; count < @Model.First().SupplierList.Count(); count++)
-                    {
-                        <div class="row backcolor">
-                            <div class="col-md-2 valign">
-                                <div class="form-group">
-                                    <label class="control-control font-weight-bold">@Model.First().SupplierList[count].SupplierName</label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    @if (@count == 0)
-                                    {<label asp-for="@Model.First().InboundCostDisplay" class="control-label font-weight-bold"></label>}
-                                    <input asp-for="@Model.First().InboundCost" value="@Model.First().SupplierList[count].InboundCost" class="form-control" id="@String.Concat("ctlInboundCost_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" onkeyup="CalculateSellingPrice(@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID));" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @if (@count == 0)
-                                    {<label asp-for="@Model.First().TransportationCostDisplay" class="control-label font-weight-bold"></label>}
-                                    <input asp-for="@Model.First().TransportationCost" value="@Model.First().SupplierList[count].TransportationCost" class="form-control" id="@String.Concat("ctlTransportationCost_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" onkeyup="CalculateSellingPrice(@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID));" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @if (@count == 0)
-                                    {<label asp-for="@Model.First().LandedCostDisplay" class="control-label font-weight-bold"></label>}
-                                    <input asp-for="@Model.First().LandedCost" value="@Model.First().SupplierList[count].LandedCost" class="form-control" id="@String.Concat("ctlLandedCost_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" onkeyup="CalculateSellingPrice(@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID));" />
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    @if (@count == 0)
-                                    {<label asp-for="@Model.First().Options" class="control-label font-weight-bold"></label>}
-                                    @if (@Model.First().SupplierList[count].SupplierID == @Model.First().SupplierList.First().SupplierID)
-                                    {
-                                        <input id="@String.Concat("chkLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" value="@Model.First().SupplierList[count].SupplierID" type="checkbox" class="form-control" checked="checked" />
-                                    }
-                                    else
-                                    {
-                                        <input id="@String.Concat("chkLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" value="@Model.First().SupplierList[count].SupplierID" type="checkbox" class="form-control" />
-                                    }
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    @if (@count == 0)
-                                    {<label asp-for="@Model.First().Live" class="control-label font-weight-bold"></label>}
-                                    @if (@Model.First().SupplierList[count].SupplierID == @Model.First().SupplierList.First().SupplierID)
-                                    {
-                                        <input name="@Model.First().ThicknessWidth&@item.ProductHeightID" onclick="CalculateSellingPrice(this.id);" id="@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" value="@Model.First().SupplierList[count].SupplierID" type="radio" class="form-control" checked="checked" />
-                                        <script>
-                                            $(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName)).val(@Model.First().SupplierList[count].SupplierID);
-                                            CalculateSellingPrice('@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)');
-                                        </script>
+        string _backColor = "";
+        if (heightCount % 2 != 0)
+        {
+            _backColor = "#F9F9FA";
+        }
+        if (heightCount == 0)
+        {
+            <script>
+                _heights = @item.ProductHeightID;
+            </script>
+        }
+        else
+        {
+            <script>
+                _heights = _heights + ',' + @item.ProductHeightID;
+            </script>
+        }
+        ++heightCount;
 
-                                    }
-                                    else
-                                    {
-                                        <input name="@Model.First().ThicknessWidth&@item.ProductHeightID" onclick="CalculateSellingPrice(this.id);" id="@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessWidth, "_", @item.ProductHeightName, "_", @Model.First().SupplierList[count].SupplierID)" value="@Model.First().SupplierList[count].SupplierID" type="radio" class="form-control" />
-                                    }
+        <!-- ID Structure: PropertyName_ProductThicknessID_ProductHeightID_ProductHeightID -->
+        <div class="row text-center" style="background:@_backColor">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="hidden" id="@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                    <input type="hidden" asp-for="@item.ProductSizeAndPriceID" id="@String.Concat("ProductSizeAndPriceID_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                    <label class="control-label font-weight-bold" asp-for="@item.ProductHeightName"></label>
+                    <input readonly asp-for="@item.ProductHeightName" id="@String.Concat("ProductHeightID_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" class="form-control" style="background-color:#969696;color:#FFF" />
+                    <span asp-validation-for="@item.ProductHeightName" class="text-danger"></span>
+                    <label class="control-label font-weight-bold" asp-for="@item.ProductHeightName">@String.Concat("(T", Model.First().ThicknessName, "_W", Model.First().WidthName, ")")</label>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="@item.ProductCode" class="control-label font-weight-bold"></label>
+                            <input asp-for="@item.ProductCode" readonly class="form-control" id="@String.Concat("ProductCode_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" name="@String.Concat("ProductCode_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                            <span asp-validation-for="@item.ProductCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label asp-for="@item.Description" class="control-label font-weight-bold"></label>
+                            <input asp-for="@item.Description" readonly class="form-control text-left" id="@String.Concat("Description_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" name="@String.Concat("Description_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                            <span asp-validation-for="@item.Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="@item.PriceDate" class="control-label font-weight-bold"></label>
+                            <input asp-for="@item.PriceDate" class="form-control" id="@String.Concat("PriceDate_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                            <span asp-validation-for="@item.PriceDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="@item.InvDate" class="control-label font-weight-bold"></label>
+                            <input asp-for="@item.InvDate" class="form-control" id="@String.Concat("InvDate_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" />
+                            <span asp-validation-for="@item.InvDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="@item.Markup" id="@String.Concat("MarkupPer_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" class="control-label font-weight-bold">@item.MarkupDisplay</label>
+                            <input id="@String.Concat("Markup_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" onkeyup="CalculatePrice(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID));" asp-for="@item.Markup" class="form-control" />
+                            <span asp-validation-for="@item.Markup" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="@item.RetailPriceDisc" id="@String.Concat("RetailPriceDiscPer_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" class="control-label font-weight-bold">@item.RetailDiscDisplay</label>
+                            <input id="@String.Concat("RetailPriceDisc_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" asp-for="@item.RetailPriceDisc" onkeyup="CalculatePrice(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID));" class="form-control" />
+                            <span asp-validation-for="@item.RetailPriceDisc" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        @{
+                            for (int count = 0; count < item.ProductSuppliers.Count(); count++)
+                            {
+                                if (count == 0)
+                                {
+                                    <script>
+                                _suppliers = @item.ProductSuppliers[count].SupplierID;
+                                    </script>
+                                }
+                                else
+                                {
+                                    <script>
+                                _suppliers = _suppliers + ',' + @item.ProductSuppliers[count].SupplierID;
+                                    </script>
+                                }
+
+                                <!-- ID Structure: PropertyName_ProductThicknessID_ProductHeightID_ProductWidthID_SupplierID -->
+                                <div class="row backcolor">
+                                    <div class="col-md-2 valign">
+                                        <div class="form-group">
+                                            <input type="hidden" id="@String.Concat("ProductSupplierID_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].ProductSupplierID" />
+                                            <input type="hidden" id="@String.Concat("SupplierID_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].SupplierID" />
+                                            <label class="control-control font-weight-bold">@item.ProductSuppliers[count].SupplierName</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    @if (@count == 0)
+                                                    {<label asp-for="@item.ProductSuppliers[count].InboundCostDisplay" class="control-label font-weight-bold"></label>}
+                                                    <input asp-for="@item.ProductSuppliers[count].InboundCost" class="form-control" id="@String.Concat("InboundCost_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" onchange="CalculateSupplierCost('@String.Concat("InboundCost_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)');" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    @if (@count == 0)
+                                                    {<label asp-for="@item.ProductSuppliers[count].TransportationCostDisplay" class="control-label font-weight-bold"></label>}
+                                                    <input asp-for="@item.ProductSuppliers[count].TransportationCost" class="form-control" id="@String.Concat("TransportationCost_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" onchange="CalculateSupplierCost('@String.Concat("TransportationCost_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)');" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    @if (@count == 0)
+                                                    {<label asp-for="@item.ProductSuppliers[count].LandedCostDisplay" class="control-label font-weight-bold"></label>}
+                                                    <input asp-for="@item.ProductSuppliers[count].LandedCost" class="form-control" id="@String.Concat("LandedCost_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" onkeyup="CalculateSellingPrice('@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)');" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            @if (@count == 0)
+                                            {<label asp-for="@item.ProductSuppliers[count].SupplierOption" class="control-label font-weight-bold"></label>}
+
+                                            @if (item.ProductSuppliers[count].IsOption)
+                                            {
+                                                <input asp-for="@item.ProductSuppliers[count].IsOption" id="@String.Concat("SupplierOption_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].SupplierID" type="checkbox" class="form-control" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="@item.ProductSuppliers[count].IsOption" id="@String.Concat("SupplierOption_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].SupplierID" type="checkbox" class="form-control" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            @if (@count == 0)
+                                            {<label asp-for="@item.ProductSuppliers[count].Live" class="control-label font-weight-bold"></label>}
+
+                                            @if (item.ProductSuppliers[count].IsLive)
+                                            {
+                                                <input asp-for="@item.ProductSuppliers[count].IsLive" name="@Model.First().ThicknessIDWidthID&@item.ProductHeightID" onclick="CalculateSellingPrice(this.id);" id="@String.Concat("LiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].SupplierID" checked="checked" type="radio" class="form-control" />
+                                                <script>
+                                                    $(@String.Concat("hdnLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)).val(@item.ProductSuppliers[count].SupplierID);
+                                                    CalculateSellingPrice('@String.Concat("rdoLiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)');
+                                                </script>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="@item.ProductSuppliers[count].IsLive" name="@Model.First().ThicknessIDWidthID&@item.ProductHeightID" onclick="CalculateSellingPrice(this.id);" id="@String.Concat("LiveSupplier_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID, "_", @item.ProductSuppliers[count].SupplierID)" value="@item.ProductSuppliers[count].SupplierID" type="radio" class="form-control" />
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
+                            }
+                        }
+                    </div>
+                    <div class="col-md-2">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="@item.SellingPrice" class="control-label font-weight-bold"></label>
+                                <input id="@String.Concat("SellingPrice_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" asp-for="@item.SellingPrice" class="form-control font-weight-bold" style="background-color:#525252;color:#FFFFFF" />
+                                <span asp-validation-for="@item.SellingPrice" class="text-danger"></span>
                             </div>
                         </div>
-                    }
-                }
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="@item.PriceVoid" class="control-label font-weight-bold"></label>
+                                <input asp-for="@item.PriceVoid" id="@String.Concat("PriceVoid_", @Model.First().ThicknessIDWidthID, "_", @item.ProductHeightID)" class="form-control font-weight-bold" style="background-color:#525252;color:#FFFFFF" />
+                                <span asp-validation-for="@item.PriceVoid" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <hr />

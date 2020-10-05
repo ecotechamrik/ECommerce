@@ -1,41 +1,56 @@
 ﻿@model BAL.ViewModels.Product.ProductAttributeViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = (Model != null && Model.ProductAttributeID > 0) ? "Edit" : "Create";
     Layout = "~/Views/Shared/_ProductLayout.cshtml";
 }
 
-<h1>Product Attribute Details</h1>
+@section scripts {
+    <script src="~/js/product/productattribute/details.js" asp-append-version="true"></script>
+}
+
+@if ((TempData["ProductName"]) != null)
+{
+    object value = TempData["ProductName"];
+    TempData.Keep("ProductName");
+    <h1>Product Attribute Details <span style="font-size:22px;">(@value)</span></h1>
+}
+else
+{
+    <h1>Product Attribute Details</h1>
+}
 
 <div>
     <a asp-action="Index" asp-route-id="@Model.ProductID"><customicon type="back" title="Back to Product Attribute"></customicon> </a>
 </div>
 
-<div class="row">
+<div id="saving-image" class="text-center hide">
+    <img src="~/img/saving.gif" />
+</div>
+
+<div class="row" id="divProductAttributes">
     <div class="col-md-12">
-        <form asp-action="@ViewData["Title"]">
+        <form id="frmPriceSizeForm" asp-action="@ViewData["Title"]" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group text-right">
+                <input type="button" name="Submit" value="Submit" onclick="SaveUpdateDetails();" class="btn btn-primary" /> |
+                <a asp-action="Index" asp-route-id="@Model.ProductID" class="btn btn-secondary">Cancel</a>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- #region [ Hidden Fields ]-->
             <div class="form-group">
-                <input type="hidden" id="ctlProductAttributeID" asp-for="ProductAttributeID" />
+                <input type="hidden" id="hdnProductAttributeID" asp-for="ProductAttributeID" />
                 <input type="hidden" id="hdnProductID" asp-for="ProductID" />
             </div>
             <!-- #endregion [ Hidden Fields ]-->
 
             <div class="row">
                 <div class="col-md-6">
-                    <!-- #region [ DoorType Section ]-->
-                    @if (Model.DoorTypeList != null)
-                    {
-                        <div class="form-group">
-                            <label asp-for="DoorTypeName" class="control-label font-weight-bold"></label>
-                            <select id="dllDoorTypes" class="form-control" asp-for="DoorTypeID" asp-items="@(new SelectList(Model.DoorTypeList, "DoorTypeID","DoorTypeName"))">
-                                <option value="">--Select--</option>
-                            </select>
-                            <span asp-validation-for="DoorTypeID" class="text-danger"></span>
-                        </div>
-                    }
-                    <!-- #endregion [ Door Type Section ]-->
+                    <div class="form-group">
+                        <label asp-for="ProductAttributeName" class="control-label font-weight-bold"></label>
+                        <input asp-for="ProductAttributeName" id="ctlProductAttributeName" class="form-control" />
+                        <span asp-validation-for="ProductAttributeName" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <!-- #region [ Currency Section ]-->
@@ -44,7 +59,7 @@
 
                         <div class="form-group">
                             <label asp-for="CurrencyName" class="control-label font-weight-bold"></label>
-                            <select id="dllCurrencies" class="form-control" asp-for="CurrencyID" asp-items="@(new SelectList(Model.CurrencyList, "CurrencyID","CurrencyName"))">
+                            <select id="ctlCurrencyID" class="form-control" asp-for="CurrencyID" asp-items="@(new SelectList(Model.CurrencyList, "CurrencyID","CurrencyName"))">
                                 <option value="">--Select--</option>
                             </select>
                             <span asp-validation-for="CurrencyID" class="text-danger"></span>
@@ -53,71 +68,110 @@
                     <!-- #endregion [ Currency Section ]-->
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label font-weight-bold"></label>
+                        <input asp-for="Description" id="ctlDescription" class="form-control" onkeyup="InsertProductDesc(this);" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="@ViewBag.ShowSupplierThickness">
-                <!-- #region [ Product Thickness Section ] -->
-                @if (Model.ProductThicknessList != null)
-                {
-                    <label class="control-label font-weight-bold">Select Product Thickness:</label>
-                    <div class="bordersection">
-                        <div class="row backcolor">
-                            @{
-                                for (int count = 0; count < Model.ProductThicknessList.Count(); count++)
-                                {
-                                    <div class="col-md-2">
-                                        @if (@Model.ProductThicknessList[count].ProductAttributeThicknessID != 0)
+            <!-- #region [ Product Thickness Section ] -->
+            @if (Model.ProductThicknessList != null)
+            {
+                <label class="control-label font-weight-bold">Select Product Thickness:</label>
+                <div class="bordersection">
+                    <div class="row backcolor">
+                        @{
+                            IDictionary<int, bool> activeThicknesses = new Dictionary<int, bool>();
+
+                            for (int count = 0; count < Model.ProductThicknessList.Count(); count++)
+                            {
+                                <div class="col-md-3" style="border-bottom:1px dashed #B36B3E;">
+                                    @if (@Model.ProductThicknessList[count].Active == true)
+                                    {
+                                        <script>countNo =@count;</script>
+                                        <!-- SET COUNT VALUE IN EDIT MODE -->
+
+                                        var kvpValue = (from kvp in activeThicknesses where kvp.Key == Model.ProductThicknessList[count].ProductThicknessID select kvp.Value).FirstOrDefault();
+
+                                        if (!kvpValue)
                                         {
-                                            <script>countNo=@count</script>
-                                            <!-- SET COUNT VALUE IN EDIT MODE -->
-                                            <input asp-for="ProductThicknessName" id="rdbProductThickness_@count" value="@Model.ProductThicknessList[count].ProductThicknessID" onclick="GetThicknessSizeDetails(this, @Model.ProductThicknessList[count].ProductThicknessID, @Model.ProductThicknessList[count].ProductAttributeThicknessID, this.checked, @Model.ProductThicknessList[count].ProductThicknessName);" type="checkbox" class="form-check-input" checked="checked" />
+                                            <input id="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID" name="@String.Concat("chkProductThickness_", Model.ProductThicknessList[count].ProductThicknessID, "[]")" value="@String.Concat(@Model.ProductThicknessList[count].ProductThicknessID, ",", @Model.ProductThicknessList[count].ProductAttributeThicknessID, ",", 1, ",", @Model.ProductThicknessList[count].ProductThicknessName)" onclick="GetThicknessSizeDetails(@Model.ProductThicknessList[count].ProductThicknessID, @Model.ProductThicknessList[count].ProductAttributeThicknessID, this.checked, @Model.ProductThicknessList[count].ProductThicknessName);" type="checkbox" class="form-control-input" checked="checked" />
+                                            <label class="control-label" for="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID">Show/Hide</label>
+
+                                            activeThicknesses.Add(Model.ProductThicknessList[count].ProductThicknessID, true);
                                         }
                                         else
                                         {
-                                            <input asp-for="ProductThicknessName" id="rdbProductThickness_@count" value="@Model.ProductThicknessList[count].ProductThicknessID" onclick="GetThicknessSizeDetails(this, @Model.ProductThicknessList[count].ProductThicknessID, @Model.ProductThicknessList[count].ProductAttributeThicknessID, this.checked, @Model.ProductThicknessList[count].ProductThicknessName);" type="checkbox" class="form-check-input" />
+                                            <input id="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID" name="@String.Concat("chkProductThickness_", Model.ProductThicknessList[count].ProductThicknessID, "[]")" value="@String.Concat(@Model.ProductThicknessList[count].ProductThicknessID, ",", @Model.ProductThicknessList[count].ProductAttributeThicknessID, ",", 1, ",", @Model.ProductThicknessList[count].ProductThicknessName)" onclick="GetThicknessSizeDetails(@Model.ProductThicknessList[count].ProductThicknessID, @Model.ProductThicknessList[count].ProductAttributeThicknessID, this.checked, @Model.ProductThicknessList[count].ProductThicknessName);" type="checkbox" class="form-control-input" />
+                                            <label class="control-label" for="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID">Show/Hide</label>
                                         }
-                                        <label class="form-check-label">@Model.ProductThicknessList[count].ProductThicknessName</label>
-                                        <span asp-validation-for="ProductThicknessName" class="text-danger"></span>
-                                    </div>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <input id="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID" name="@String.Concat("chkProductThickness_", Model.ProductThicknessList[count].ProductThicknessID, "[]")" value="@String.Concat(@Model.ProductThicknessList[count].ProductThicknessID, ",", @Model.ProductThicknessList[count].ProductAttributeThicknessID, ",", 1, ",", @Model.ProductThicknessList[count].ProductThicknessName)" onclick="GetThicknessSizeDetails(@Model.ProductThicknessList[count].ProductThicknessID, @Model.ProductThicknessList[count].ProductAttributeThicknessID, this.checked, @Model.ProductThicknessList[count].ProductThicknessName);" type="checkbox" class="form-control-input" />
+                                        <label class="control-label" for="chkProductThickness_@Model.ProductThicknessList[count].ProductThicknessID">Show/Hide</label>
+                                    }
+                                    <label class="form-check-label">@Model.ProductThicknessList[count].ProductThicknessName</label>
+
+                                    @{ if (!String.IsNullOrWhiteSpace(@Model.ProductThicknessList[count].ProductCodeInitials))
+                                        {
+                                            <span> - [@Model.ProductThicknessList[count].ProductCodeInitials]</span> }
+                                    }
+
+                                    @if (@Model.ProductThicknessList[count].Active == true)
+                                    {
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" id="chkProductThicknessActive_@count" name="@String.Concat("chkProductThicknessActive_", Model.ProductThicknessList[count].ProductThicknessID, "_", Model.ProductThicknessList[count].ProductAttributeThicknessID)" value="@Model.ProductThicknessList[count].ProductAttributeThicknessID" class="custom-control-input" checked="checked" />
+                                            <label class="custom-control-label" for="chkProductThicknessActive_@count">Active</label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" id="chkProductThicknessActive_@count" name="@String.Concat("chkProductThicknessActive_", Model.ProductThicknessList[count].ProductThicknessID, "_", Model.ProductThicknessList[count].ProductAttributeThicknessID)" value="@Model.ProductThicknessList[count].ProductAttributeThicknessID" class="custom-control-input" />
+                                            <label class="custom-control-label" for="chkProductThicknessActive_@count">Active</label>
+                                        </div>
+                                    }
+                                </div>
                             }
-                        </div>
+                        }
                     </div>
-                }
-                <!-- #endregion [ Product Thickness Section ] -->
-                <!-- #region [ Product Attribute Thickness Detail Section ] -->
-                @if (Model.ProductThicknessList != null)
-                {
-                    <div class="row">
-                        <div class="col-md-12 ThicknessSizes">
-                            @{
-                                for (int count = 0; count < Model.ProductThicknessList.Count(); count++)
-                                {
-                                    <div class="divThicknessSizes" id="divThicknessSizes_@Model.ProductThicknessList[count].ProductThicknessID"></div>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-                <!-- #endregion [ Product Attribute Thickness Detail Section ] -->
-            </div>
+                </div>
+            }
+            <!-- #endregion [ Product Thickness Section ] -->
+
             <div id="loading-image" class="text-center hide">
                 <img src="~/img/loader.gif" />
             </div>
 
-            <div id="divSubmit" class="hide">
-                <div class="form-group"><hr /></div>
-
-                <!-- #region [ Submit & Cancel Button ]-->
-                <div class="form-group">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
-                    <a asp-action="Index" asp-route-id="@Model.ProductID" class="btn btn-secondary">Cancel</a>
+            <!-- #region [ Product Attribute Thickness Detail Section ] -->
+            @if (Model.ProductThicknessList != null)
+            {
+                <div class="row">
+                    <div class="col-md-12 ThicknessSizes">
+                        @{
+                            for (int count = 0; count < Model.ProductThicknessList.Count(); count++)
+                            {
+                                <div class="divThicknessSizes" id="divThicknessSizes_@Model.ProductThicknessList[count].ProductThicknessID"></div>
+                            }
+                        }
+                    </div>
                 </div>
-                <!-- #endregion [ Submit & Cancel Button ]-->
+            }
+            <!-- #endregion [ Product Attribute Thickness Detail Section ] -->
+
+            <div class="form-group"><hr /></div>
+
+            <!-- #region [ Submit & Cancel Button ]-->
+            <div class="form-group">
+                <input type="button" name="Submit" value="Submit" onclick="SaveUpdateDetails(2);" class="btn btn-primary" /> |
+                <a asp-action="Index" asp-route-id="@Model.ProductID" class="btn btn-secondary">Cancel</a>
             </div>
+            <!-- #endregion [ Submit & Cancel Button ]-->
         </form>
     </div>
 </div>
-
-@section scripts {
-    <script src="~/js/product/productattribute/details.js" asp-append-version="true"></script>
-}

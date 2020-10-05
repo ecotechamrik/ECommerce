@@ -50,7 +50,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/ProductAttributeThickness/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductAttributeThickness model)
+        public IActionResult Put([FromBody] ProductAttributeThickness model)
         {
             try
             {

@@ -60,6 +60,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.HasKey("CurrencyID");
 
                     b.ToTable("Currencies");
@@ -71,6 +74,9 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DoorTypeCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoorTypeName")
                         .HasColumnType("nvarchar(max)");
@@ -87,12 +93,6 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BestQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BuildingCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
@@ -102,29 +102,11 @@ namespace DAL.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CurrentQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GroupNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("IPAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IndexNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LocationCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PriorityNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductDesc")
                         .HasColumnType("nvarchar(max)");
@@ -141,14 +123,8 @@ namespace DAL.Migrations
                         .HasMaxLength(500)
                         .IsUnicode(true);
 
-                    b.Property<string>("RetailBin")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("SubCategoryID")
                         .HasColumnType("int");
-
-                    b.Property<string>("WholeSaleBin")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductID");
 
@@ -173,13 +149,16 @@ namespace DAL.Migrations
                     b.Property<int?>("CurrencyID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("DoorTypeID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductID")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductAttributeName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SupplierID")
+                    b.Property<int?>("ProductID")
                         .HasColumnType("int");
 
                     b.HasKey("ProductAttributeID");
@@ -190,8 +169,6 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.HasIndex("SupplierID");
-
                     b.ToTable("ProductAttributes");
                 });
 
@@ -201,6 +178,9 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("ProductAttributeID")
                         .HasColumnType("int");
@@ -301,32 +281,75 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedDateTime")
+                    b.Property<int?>("BestQuantityNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BuildingCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("InboundCost")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("GroupNumber")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("InvDate")
+                    b.Property<int?>("IndexNumber")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("InvDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("LandedCost")
+                    b.Property<int?>("InventoryLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InventoryNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeadTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("LivePriceDisc")
                         .HasColumnType("float");
 
-                    b.Property<double>("Markup")
+                    b.Property<string>("LocationCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Markup")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("PriceDate")
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderNowNo")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("PracticalCost")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("PracticalMarkup")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("PriceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("PriceVoid")
+                    b.Property<double?>("PriceVoid")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("PriceVoidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("PriorityNumber")
                         .HasColumnType("float");
 
                     b.Property<int?>("ProductAttributeThicknessID")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductCode")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<int?>("ProductHeightID")
                         .HasColumnType("int");
@@ -334,20 +357,26 @@ namespace DAL.Migrations
                     b.Property<int?>("ProductWidthID")
                         .HasColumnType("int");
 
-                    b.Property<double>("RetailPriceDisc")
+                    b.Property<string>("RetailBin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("RetailMarkupDisc")
                         .HasColumnType("float");
 
-                    b.Property<double>("SellingPrice")
+                    b.Property<double?>("RetailPrice")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SupplierID")
-                        .HasColumnType("int");
-
-                    b.Property<double>("TransportationCost")
+                    b.Property<double?>("RetailPriceDisc")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("UpdatedDateTime")
+                    b.Property<double?>("SellingPrice")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("UpdatedDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("WholeSaleBin")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductSizeAndPriceID");
 
@@ -357,9 +386,44 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProductWidthID");
 
+                    b.ToTable("ProductSizeAndPrices");
+                });
+
+            modelBuilder.Entity("BAL.Entities.ProductSupplier", b =>
+                {
+                    b.Property<int>("ProductSupplierID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("InboundCost")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsLive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOption")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("LandedCost")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("ProductSizeAndPriceID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SupplierID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TransportationCost")
+                        .HasColumnType("float");
+
+                    b.HasKey("ProductSupplierID");
+
+                    b.HasIndex("ProductSizeAndPriceID");
+
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("ProductSizeAndPrices");
+                    b.ToTable("ProductSuppliers");
                 });
 
             modelBuilder.Entity("BAL.Entities.ProductThickness", b =>
@@ -485,6 +549,9 @@ namespace DAL.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("SubCategoryCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubCategoryName")
                         .IsRequired()
@@ -693,12 +760,12 @@ namespace DAL.Migrations
                     b.HasOne("BAL.Entities.ProductDesign", "ProductDesign")
                         .WithMany("Products")
                         .HasForeignKey("ProductDesignID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BAL.Entities.ProductGrade", "ProductGrade")
                         .WithMany("Products")
                         .HasForeignKey("ProductGradeID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BAL.Entities.SubCategory", "SubCategory")
                         .WithMany("Products")
@@ -721,10 +788,6 @@ namespace DAL.Migrations
                         .WithMany("ProductAttributes")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BAL.Entities.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierID");
                 });
 
             modelBuilder.Entity("BAL.Entities.ProductAttributeThickness", b =>
@@ -732,7 +795,7 @@ namespace DAL.Migrations
                     b.HasOne("BAL.Entities.ProductAttribute", "ProductAttribute")
                         .WithMany("ProductAttributeThicknesses")
                         .HasForeignKey("ProductAttributeID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BAL.Entities.ProductThickness", "ProductThickness")
                         .WithMany("ProductAttributeThicknesses")
@@ -745,7 +808,7 @@ namespace DAL.Migrations
                     b.HasOne("BAL.Entities.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BAL.Entities.ProductSizeAndPrice", b =>
@@ -758,17 +821,25 @@ namespace DAL.Migrations
                     b.HasOne("BAL.Entities.ProductHeight", "ProductHeight")
                         .WithMany("ProductSizeAndPrices")
                         .HasForeignKey("ProductHeightID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BAL.Entities.ProductWidth", "ProductWidth")
                         .WithMany("ProductSizeAndPrices")
                         .HasForeignKey("ProductWidthID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BAL.Entities.ProductSupplier", b =>
+                {
+                    b.HasOne("BAL.Entities.ProductSizeAndPrice", "ProductSizeAndPrice")
+                        .WithMany("ProductSuppliers")
+                        .HasForeignKey("ProductSizeAndPriceID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BAL.Entities.Supplier", "Supplier")
-                        .WithMany("ProductSizeAndPrices")
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("SupplierID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BAL.Entities.SubCatGallery", b =>

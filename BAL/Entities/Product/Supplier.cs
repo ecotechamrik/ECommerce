@@ -17,6 +17,6 @@ namespace BAL.Entities
         /* -- Navigation Properties -- */
         public DateTime CreatedDateTime { get; set; }
         public DateTime UpdatedDateTime { get; set; }
-        public ICollection<ProductSizeAndPrice> ProductSizeAndPrices { get; set; }
+        public ICollection<ProductSupplier> ProductSuppliers { get; set; }
     }
 }

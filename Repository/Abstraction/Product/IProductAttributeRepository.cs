@@ -6,8 +6,8 @@ namespace Repository.Abstraction
 {
     public interface IProductAttributeRepository : IRepository<ProductAttribute>
     {
-        IEnumerable<ProductAttributeViewModel> GetByProductID(int? id);
-
-        ProductAttributeViewModel GetProductAttrWithDoorName(int? id);
+        IEnumerable<ProductAttributeViewModel> GetAttributesByID(int? id);
+        IEnumerable<ProductAttributeViewModel> GetAttributesByProductID(int? id);
+        void UpdateProductAttribute(ProductAttribute model);
     }
 }

@@ -10,5 +10,6 @@ namespace BAL.ViewModels.Product
         [Required(ErrorMessage ="Please Enter Door Type Name")]
         [DisplayName("Door Type Name")]
         public string DoorTypeName { get; set; }
+        public string DoorTypeCode { get; set; }
     }
 }

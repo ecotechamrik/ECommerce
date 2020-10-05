@@ -3,6 +3,8 @@ using BAL.ViewModels.Product;
 using DAL;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Repository.Abstraction;
 using System;
 using System.Collections.Generic;
@@ -24,87 +26,78 @@ namespace Repository.Implementation
         {
 
         }
-        public string SafeGetString(DbDataReader reader, string column)
-        {
-            if (!reader.IsDBNull(reader.GetOrdinal(column)))
-                return reader.GetString(reader.GetOrdinal(column));
-            return string.Empty;
-        }
 
-        public int SafeGetInt(DbDataReader reader, string column)
+        #region [ Update Price Void ]
+        /// <summary>
+        /// Update Image Order
+        /// </summary>
+        /// <param name="ProductSizeAndPriceID"></param>
+        /// <param name="PriceVoid"></param>
+        public void UpdatePriceVoid(int ProductSizeAndPriceID, double PriceVoid)
         {
-            if (!reader.IsDBNull(reader.GetOrdinal(column)))
-                return reader.GetInt32(reader.GetOrdinal(column));
-            return 0;
+            var productSizeAndPrice = (from prodprisize in Context.ProductSizeAndPrices
+                                where prodprisize.ProductSizeAndPriceID == ProductSizeAndPriceID
+                                       select prodprisize).FirstOrDefault();
+            productSizeAndPrice.PriceVoid = PriceVoid;
+            Context.Update(productSizeAndPrice);
         }
-
-        public double SafeGetDouble(DbDataReader reader, string column)
-        {
-            if (!reader.IsDBNull(reader.GetOrdinal(column)))
-                return reader.GetDouble(reader.GetOrdinal(column));
-            return 0;
-        }
-        public DateTime SafeGetDate(DbDataReader reader, string column)
-        {
-            if (!reader.IsDBNull(reader.GetOrdinal(column)))
-                return reader.GetDateTime(reader.GetOrdinal(column));
-            return DateTime.Now;
-        }
-
+        #endregion
         public IEnumerable<ProductSizeAndPriceViewModel> GetByProductWidthID(int ProductAttributeThicknessID, int ProductWidthID)
         {
-            IList<ProductSizeAndPriceViewModel> _productSizeAndPrices = new List<ProductSizeAndPriceViewModel>();
-            using (var command = Context.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = "sp_getProductHeightDetails";
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+            var ProductSizeAndPrices = (from prodheights in Context.ProductHeights
 
-                var parameter1 = new SqlParameter("ProductAttributeThicknessID", ProductAttributeThicknessID);
-                var parameter2 = new SqlParameter("ProductWidthID", ProductWidthID);
-                command.Parameters.Add(parameter1);
-                command.Parameters.Add(parameter2);
-                this.Context.Database.OpenConnection();
+                                        join prodSizePrices in Context.ProductSizeAndPrices.Where(PSP => PSP.ProductAttributeThicknessID == ProductAttributeThicknessID && PSP.ProductWidthID == ProductWidthID)
+                                        on prodheights.ProductHeightID equals prodSizePrices.ProductHeightID into prodAttributes
+                                        from PSP in prodAttributes.DefaultIfEmpty()  // Left Outer Join of Product Heights to Product Size And Prices
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ProductSizeAndPriceViewModel _productSizeAndPrice = new ProductSizeAndPriceViewModel
-                        {
-                            ProductSizeAndPriceID = SafeGetInt(reader, "ProductSizeAndPriceID"),                            
-                            ProductAttributeThicknessID = SafeGetInt(reader, "ProductAttributeThicknessID"),
-                            ProductCode = SafeGetString(reader, "ProductCode"),
-                            PriceDate = SafeGetDate(reader, "PriceDate"),
-                            InvDate = SafeGetDate(reader, "InvDate"),
-                            RetailPriceDisc = Math.Round(SafeGetDouble(reader, "RetailPriceDisc"), 2),
-                            PriceVoid = Math.Round(SafeGetDouble(reader, "PriceVoid"), 2),
-                            Markup = Math.Round(SafeGetDouble(reader, "Markup"), 2),
-                            SellingPrice = Math.Round(SafeGetDouble(reader, "SellingPrice"), 2),
-                            CreatedDateTime = SafeGetDate(reader, "CreatedDateTime"),
-                            UpdatedDateTime = SafeGetDate(reader, "UpdatedDateTime"),
-                            ProductHeightID = SafeGetInt(reader, "ProductHeightID"),
-                            ProductHeightName = SafeGetString(reader, "ProductHeightName"),
-                            SupplierID = SafeGetInt(reader, "SupplierID"),
-                            SupplierName = SafeGetString(reader, "SupplierName"),
-                            InboundCost = Math.Round(SafeGetDouble(reader, "InboundCost"), 2),
-                            TransportationCost = Math.Round(SafeGetDouble(reader, "TransportationCost"), 2),
-                            LandedCost = Math.Round(SafeGetDouble(reader, "LandedCost"), 2)
-                        };
-                        _productSizeAndPrices.Add(_productSizeAndPrice);
-                    }
-                }
-                this.Context.Database.CloseConnection();
-            }
+                                        select new ProductSizeAndPriceViewModel
+                                        {
+                                            ProductSizeAndPriceID = PSP.ProductSizeAndPriceID,
+                                            ProductCode = PSP.ProductCode,
+                                            Description = PSP.Description,
+                                            ProductAttributeThicknessID = PSP.ProductAttributeThicknessID,
+                                            ProductHeightID = prodheights.ProductHeightID,
+                                            ProductHeightName = prodheights.ProductHeightName,
+                                            ProductWidthID = ProductWidthID,
+                                            PriceDate = PSP.PriceDate,
+                                            InvDate = PSP.InvDate,
+                                            RetailPriceDisc = PSP.RetailPriceDisc,
+                                            PriceVoid = PSP.PriceVoid,
+                                            Markup = PSP.Markup,
+                                            SellingPrice = PSP.SellingPrice,
+                                            CreatedDateTime = PSP.CreatedDateTime,
+                                            UpdatedDateTime = PSP.UpdatedDateTime,
 
-            return _productSizeAndPrices;
+                                            PriorityNumber = PSP.PriorityNumber,
+                                            InventoryNumber = PSP.InventoryNumber,
+                                            Notes = PSP.Notes,
+                                            GroupNumber = PSP.GroupNumber,
+                                            BuildingCode = PSP.BuildingCode,
+                                            LocationCode = PSP.LocationCode,
+                                            InventoryLevel = PSP.InventoryLevel,
+                                            LeadTime = PSP.LeadTime,
+                                            BestQuantityNo = PSP.BestQuantityNo,
+                                            OrderNowNo = PSP.OrderNowNo,
+                                            RetailBin = PSP.RetailBin,
+                                            WholeSaleBin = PSP.WholeSaleBin,
+                                            IndexNumber = PSP.IndexNumber
+                                        });
+
+            return ProductSizeAndPrices;
         }
 
-        public IEnumerable<ProductSizeAndPriceViewModel> GetByProductAttributeID(int? ProductAttributeID)
+        #region [ Get Product Attribute Details by ProductAttributeID ]
+        /// <summary>
+        /// Get Product Attribute Details by ProductAttributeID
+        /// </summary>
+        /// <param name="ProductAttributeID"></param>
+        /// <returns></returns>
+        public IEnumerable<ProductSizeAndPriceViewModel> ProductAttributeDetails(int ProductAttributeID)
         {
             IList<ProductSizeAndPriceViewModel> _productSizeAndPrices = new List<ProductSizeAndPriceViewModel>();
             using (var command = Context.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "sp_getByProductAttributeID";
+                command.CommandText = "sp_getProductAttributeDetails";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 var parameter = new SqlParameter("ProductAttributeID", ProductAttributeID);
@@ -117,32 +110,13 @@ namespace Repository.Implementation
                     {
                         ProductSizeAndPriceViewModel _productSizeAndPrice = new ProductSizeAndPriceViewModel
                         {
-                            ProductSizeAndPriceID = reader.GetInt32(reader.GetOrdinal("ProductSizeAndPriceID")),
-                            ProductAttributeID = reader.GetInt32(reader.GetOrdinal("ProductAttributeID")),
-                            ProductCode = reader.GetString(reader.GetOrdinal("ProductCode")),
-
-                            PriceDate = reader.GetDateTime(reader.GetOrdinal("PriceDate")),
-                            InvDate = reader.GetDateTime(reader.GetOrdinal("InvDate")),
-                            RetailPriceDisc = Math.Round(reader.GetDouble(reader.GetOrdinal("RetailPriceDisc")), 2),
-                            PriceVoid = Math.Round(reader.GetDouble(reader.GetOrdinal("PriceVoid")), 2),
-                            Markup = Math.Round(reader.GetDouble(reader.GetOrdinal("Markup")), 2),
-                            SellingPrice = Math.Round(reader.GetDouble(reader.GetOrdinal("SellingPrice")), 2),
-                            CreatedDateTime = reader.GetDateTime(reader.GetOrdinal("CreatedDateTime")),
-                            UpdatedDateTime = reader.GetDateTime(reader.GetOrdinal("UpdatedDateTime")),
-
-                            ProductHeightID = reader.GetInt32(reader.GetOrdinal("ProductHeightID")),
-                            ProductHeightName = reader.GetString(reader.GetOrdinal("ProductHeightName")),
-
-                            SupplierID = reader.GetInt32(reader.GetOrdinal("SupplierID")),
-                            SupplierName = reader.GetString(reader.GetOrdinal("SupplierName")),
-                            InboundCost = Math.Round(reader.GetDouble(reader.GetOrdinal("InboundCost")), 2),
-                            TransportationCost = Math.Round(reader.GetDouble(reader.GetOrdinal("TransportationCost")), 2),
-                            LandedCost = Math.Round(reader.GetDouble(reader.GetOrdinal("LandedCost")), 2),
-
-                            CurrencyID = reader.GetInt32(reader.GetOrdinal("CurrencyID")),
-                            CurrencyName = reader.GetString(reader.GetOrdinal("CurrencyName")),
-
-                            MoreProductSizes = reader.GetInt32(reader.GetOrdinal("MoreProductSizes")),
+                            Description = Common.SafeGetString(reader, "Description"),
+                            ProductThicknessName = Common.SafeGetString(reader, "ProductThicknessName"),
+                            Column80 = Common.SafeGetString(reader, "80"),
+                            Column84 = Common.SafeGetString(reader, "84"),
+                            Column90 = Common.SafeGetString(reader, "90"),
+                            Column96 = Common.SafeGetString(reader, "96"),
+                            Column108 = Common.SafeGetString(reader, "108"),                            
                         };
                         _productSizeAndPrices.Add(_productSizeAndPrice);
                     }
@@ -152,5 +126,6 @@ namespace Repository.Implementation
 
             return _productSizeAndPrices;
         }
+        #endregion
     }
 }

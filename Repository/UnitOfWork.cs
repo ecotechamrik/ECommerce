@@ -224,17 +224,17 @@ namespace Repository
         /// <summary>
         /// Product Height Repository
         /// </summary>
-        private IProductHeightRepository _productHeightRepo;
-        public IProductHeightRepository ProductHeightRepo
+        private IRepository<ProductHeight> _productHeightRepo;
+        public IRepository<ProductHeight> ProductHeightRepo
         {
             get
             {
                 if (_productHeightRepo == null)
-                    _productHeightRepo = new ProductHeightRepository(db);
+                    _productHeightRepo = new Repository<ProductHeight>(db);
                 return _productHeightRepo;
             }
         }
-        #endregion
+        #endregion        
 
         #region [ Product Width Repository ]
         /// <summary>
@@ -264,6 +264,22 @@ namespace Repository
                 if (_productThicknessRepo == null)
                     _productThicknessRepo = new ProductThicknessRepository(db);
                 return _productThicknessRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Supplier Repository ]
+        /// <summary>
+        /// Product Supplier Repository
+        /// </summary>
+        private IProductSupplierRepository _productSupplierRepo;
+        public IProductSupplierRepository ProductSupplierRepo
+        {
+            get
+            {
+                if (_productSupplierRepo == null)
+                    _productSupplierRepo = new ProductSupplierRepository(db);
+                return _productSupplierRepo;
             }
         }
         #endregion
@@ -315,6 +331,22 @@ namespace Repository
             }
         }
         #endregion
+
+        #region [ Product Images Repository ]
+        /// <summary>
+        /// Product Images Repository
+        /// </summary>
+        private IProductImagesRepository _productImagesRepo;
+        public IProductImagesRepository ProductImagesRepo
+        {
+            get
+            {
+                if (_productImagesRepo == null)
+                    _productImagesRepo = new ProductImagesRepository(db);
+                return _productImagesRepo;
+            }
+        }
+        #endregion        
 
         #region [ Final Save Changes ]
         /// <summary>

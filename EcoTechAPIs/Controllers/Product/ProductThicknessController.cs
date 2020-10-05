@@ -45,10 +45,10 @@ namespace EcoTechAPIs.Controllers
         #endregion
 
         // GET: api/GetWithAttributeThicknessID/1
-        [Route("{GetWithAttributeThicknessID}/{did}")]
-        public IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? did)
+        [Route("{GetWithAttributeThicknessID}/{ProductAttributeID}")]
+        public IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? ProductAttributeID)
         {
-            return uow.ProductThicknessRepo.GetWithAttributeThicknessID(did);
+            return uow.ProductThicknessRepo.GetWithAttributeThicknessID(ProductAttributeID);
         }
 
         // POST: api/productThickness
@@ -69,7 +69,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/productThickness/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductThickness model)
+        public IActionResult Put([FromBody] ProductThickness model)
         {
             try
             {

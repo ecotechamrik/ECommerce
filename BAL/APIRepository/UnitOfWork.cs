@@ -235,17 +235,17 @@ namespace BAL
         /// <summary>
         /// Product Attribute Thickness View Repository
         /// </summary>
-        private IGenerateAPIResponse<ProductAttributeThicknessViewModel> _productAttributeThicknessViewRepo;
-        public IGenerateAPIResponse<ProductAttributeThicknessViewModel> ProductAttributeThicknessViewRepo
+        private IProductAttributeThicknessAPIResponse _productAttributeThicknessViewRepo;
+        public IProductAttributeThicknessAPIResponse ProductAttributeThicknessViewRepo
         {
             get
             {
                 if (_productAttributeThicknessViewRepo == null)
-                    _productAttributeThicknessViewRepo = new GenerateAPIResponse<ProductAttributeThicknessViewModel>(config);
+                    _productAttributeThicknessViewRepo = new ProductAttributeThicknessAPIResponse(config);
                 return _productAttributeThicknessViewRepo;
             }
         }
-        #endregion
+        #endregion        
 
         #region [ Supplier View Repository ]
         /// <summary>
@@ -275,6 +275,38 @@ namespace BAL
                 if (_productSizeAndPriceViewRepo == null)
                     _productSizeAndPriceViewRepo = new ProductSizeAndPriceAPIResponse(config);
                 return _productSizeAndPriceViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Supplier View Repository ]
+        /// <summary>
+        /// Product Supplier View Repository
+        /// </summary>
+        private IProductSupplierAPIResponse _productSupplierViewRepo;
+        public IProductSupplierAPIResponse ProductSupplierViewRepo
+        {
+            get
+            {
+                if (_productSupplierViewRepo == null)
+                    _productSupplierViewRepo = new ProductSupplierAPIResponse(config);
+                return _productSupplierViewRepo;
+            }
+        }
+        #endregion
+
+        #region [ Product Images View Repository ]
+        /// <summary>
+        /// Product Images View Repository
+        /// </summary>
+        private IProductImagesAPIResponse _productImagesViewRepo;
+        public IProductImagesAPIResponse ProductImagesViewRepo
+        {
+            get
+            {
+                if (_productImagesViewRepo == null)
+                    _productImagesViewRepo = new ProductImagesAPIResponse(config);
+                return _productImagesViewRepo;
             }
         }
         #endregion

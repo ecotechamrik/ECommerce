@@ -6,6 +6,6 @@ namespace Repository.Abstraction
 {
     public interface IProductThicknessRepository : IRepository<ProductThickness>
     {
-        IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? DoorTypeID);
+        IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? ProductAttributeID);
     }
 }

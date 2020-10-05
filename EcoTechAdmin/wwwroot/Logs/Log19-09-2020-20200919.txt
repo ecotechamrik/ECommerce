@@ -1,0 +1,3 @@
+2020-09-19T23:39:59.9343998-04:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-09-19T23:39:59.9441663-04:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-09-19T23:39:59.9443573-04:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)

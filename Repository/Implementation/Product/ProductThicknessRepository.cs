@@ -4,9 +4,7 @@ using DAL;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repository.Abstraction;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Repository.Implementation
 {
@@ -28,9 +26,9 @@ namespace Repository.Implementation
         /// <summary>
         /// Get Product Thickness Details with ProductAttributeThicknessID
         /// </summary>
-        /// <param name="DoorTypeID"></param>
+        /// <param name="ProductAttributeID"></param>
         /// <returns></returns>
-        public IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? DoorTypeID)
+        public IEnumerable<ProductThicknessViewModel> GetWithAttributeThicknessID(int? ProductAttributeID)
         {
             IList<ProductThicknessViewModel> _productThicknesses = new List<ProductThicknessViewModel>();
             using (var command = Context.Database.GetDbConnection().CreateCommand())
@@ -38,7 +36,7 @@ namespace Repository.Implementation
                 command.CommandText = "sp_getWithAttributeThicknessID";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                var parameter = new SqlParameter("DoorTypeID", DoorTypeID);
+                var parameter = new SqlParameter("ProductAttributeID", ProductAttributeID);
                 command.Parameters.Add(parameter);
                 this.Context.Database.OpenConnection();
 
@@ -48,9 +46,11 @@ namespace Repository.Implementation
                     {
                         ProductThicknessViewModel _productThickness = new ProductThicknessViewModel
                         {
-                            ProductThicknessID = reader.GetInt32(reader.GetOrdinal("ProductThicknessID")),
-                            ProductThicknessName = reader.GetString(reader.GetOrdinal("ProductThicknessName")),
-                            ProductAttributeThicknessID = reader.GetInt32(reader.GetOrdinal("ProductAttributeThicknessID")),
+                            ProductThicknessID = Common.SafeGetInt(reader, "ProductThicknessID"),
+                            ProductThicknessName = Common.SafeGetString(reader, "ProductThicknessName"),
+                            ProductCodeInitials = Common.SafeGetString(reader, "ProductCodeInitials"),
+                            ProductAttributeThicknessID = Common.SafeGetInt(reader, "ProductAttributeThicknessID"),
+                            Active = Common.SafeGetBoolean(reader, "Active"),
                         };
                         _productThicknesses.Add(_productThickness);
                     }

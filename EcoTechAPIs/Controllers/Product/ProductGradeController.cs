@@ -61,7 +61,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/productgrade/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductGrade model)
+        public IActionResult Put([FromBody] ProductGrade model)
         {
             try
             {

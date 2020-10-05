@@ -1,0 +1,112 @@
+2020-08-31T16:53:17.0790619-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T16:53:17.0936287-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T16:53:17.0939703-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:10:50.6834393-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:10:50.6902109-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:10:50.6925714-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:11:15.5666404-07:00 80000014-0002-b700-b63f-84710c7967bb [ERR] The view '"Create"' was not found. Searched locations: ["/Areas/Product/Views/ProductAttribute/Create.cshtml", "/Areas/Product/Views/Shared/Create.cshtml", "/Views/Shared/Create.cshtml"] (9bb2756c)
+2020-08-31T17:11:16.4987115-07:00 80000014-0002-b700-b63f-84710c7967bb [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.InvalidOperationException: The view 'Create' was not found. The following locations were searched:
+/Areas/Product/Views/ProductAttribute/Create.cshtml
+/Areas/Product/Views/Shared/Create.cshtml
+/Views/Shared/Create.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at EcoTechAdmin.Startup.<>c.<<Configure>b__5_0>d.MoveNext() in F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin\Startup.cs:line 108
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-08-31T17:12:02.3596635-07:00 80000024-0001-c300-b63f-84710c7967bb [ERR] The view '"Create"' was not found. Searched locations: ["/Areas/Product/Views/ProductAttribute/Create.cshtml", "/Areas/Product/Views/Shared/Create.cshtml", "/Views/Shared/Create.cshtml"] (9bb2756c)
+2020-08-31T17:12:02.3659785-07:00 80000024-0001-c300-b63f-84710c7967bb [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.InvalidOperationException: The view 'Create' was not found. The following locations were searched:
+/Areas/Product/Views/ProductAttribute/Create.cshtml
+/Areas/Product/Views/Shared/Create.cshtml
+/Views/Shared/Create.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at EcoTechAdmin.Startup.<>c.<<Configure>b__5_0>d.MoveNext() in F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin\Startup.cs:line 108
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-08-31T17:12:22.4449865-07:00 80000099-0002-9c00-b63f-84710c7967bb [ERR] The view '"Create"' was not found. Searched locations: ["/Areas/Product/Views/ProductAttribute/Create.cshtml", "/Areas/Product/Views/Shared/Create.cshtml", "/Views/Shared/Create.cshtml"] (9bb2756c)
+2020-08-31T17:12:22.4489561-07:00 80000099-0002-9c00-b63f-84710c7967bb [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.InvalidOperationException: The view 'Create' was not found. The following locations were searched:
+/Areas/Product/Views/ProductAttribute/Create.cshtml
+/Areas/Product/Views/Shared/Create.cshtml
+/Views/Shared/Create.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at EcoTechAdmin.Startup.<>c.<<Configure>b__5_0>d.MoveNext() in F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin\Startup.cs:line 108
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-08-31T17:14:15.2197379-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:14:15.2301083-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:14:15.2302553-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:21:34.0059942-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:21:34.0139487-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:21:34.0141153-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:22:11.1308016-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:22:11.1352945-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:22:11.1354530-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:22:54.2392746-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:22:54.2476545-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:22:54.2477934-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:23:58.0184308-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:23:58.0240565-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:23:58.0242602-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:24:48.0050257-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:24:48.0123728-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:24:48.0125570-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:25:36.3755386-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:25:36.3811287-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:25:36.3812915-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:26:06.5658796-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:26:06.5722214-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:26:06.5723628-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:27:00.0325854-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:27:00.0385442-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:27:00.0386781-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-08-31T17:27:31.2174777-07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-08-31T17:27:31.2246935-07:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-08-31T17:27:31.2248405-07:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)

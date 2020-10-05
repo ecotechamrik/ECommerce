@@ -23,15 +23,17 @@ namespace Repository
         ISubCatGalleryRepository SubCatGalleryRepo { get; }
         IProductRepository ProductRepo { get; }        
         IRepository<ProductDesign> ProductDesignRepo { get; }
-        IProductHeightRepository ProductHeightRepo { get; }
+        IRepository<ProductHeight> ProductHeightRepo { get; }
         IRepository<ProductWidth> ProductWidthRepo { get; }
         IProductThicknessRepository ProductThicknessRepo { get; }
+        IProductSupplierRepository ProductSupplierRepo { get; }
         IRepository<ProductGrade> ProductGradeRepo { get; }
         IRepository<DoorType> DoorTypeRepo { get; }
         IProductAttributeRepository ProductAttributeRepo { get; }
         IRepository<Supplier> SupplierRepo { get; }
         IRepository<ProductAttributeThickness> ProductAttributeThicknessRepo { get; }
         IProductSizeAndPriceRepository ProductSizeAndPriceRepo { get; }
+        IProductImagesRepository ProductImagesRepo { get; }
         #endregion
 
         #region [ Website Related Repositories ]

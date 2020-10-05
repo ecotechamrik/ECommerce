@@ -40,16 +40,9 @@ namespace EcoTechAPIs.Controllers
         /// <returns></returns>
         public IEnumerable<ProductHeight> GetProductHeightDetails(int? id)
         {
-            return uow.ProductHeightRepo.GetAll().Where(c => (id != null ? c.ProductHeightID == id : c.ProductHeightID == c.ProductHeightID)).OrderBy(o => o.ProductHeightName);
+            return uow.ProductHeightRepo.GetAll().Where(c => (id != null ? c.ProductHeightID == id : c.ProductHeightID == c.ProductHeightID));
         }
         #endregion
-
-        // GET: api/GetProductHeightNotAdded/1
-        [Route("{GetProductHeightNotAdded}/{pattrid}/{_priceHeightPriceID}")]
-        public IEnumerable<ProductHeightViewModel> GetProductHeightNotAdded(int? pAttrID, int? _priceHeightPriceID)
-        {
-            return uow.ProductHeightRepo.GetProductHeightNotAdded(pAttrID, _priceHeightPriceID);
-        }
 
         // POST: api/productHeight
         [HttpPost]
@@ -69,7 +62,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/productHeight/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductHeight model)
+        public IActionResult Put([FromBody] ProductHeight model)
         {
             try
             {

@@ -1,8 +1,10 @@
 ﻿using BAL.Entities;
 using BAL.ViewModels.Product;
 using DAL;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repository.Abstraction;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,31 +23,52 @@ namespace Repository.Implementation
         {
 
         }
-        public IEnumerable<ProductAttributeViewModel> GetByProductID(int? id)
+
+        public IEnumerable<ProductAttributeViewModel> GetAttributesByID(int? id)
         {
             var ProductAttributes = (from prodAttr in Context.ProductAttributes
-                                     where prodAttr.ProductID == id
-                                     
-                                     join door in Context.DoorType
-                                     on prodAttr.DoorTypeID equals door.DoorTypeID into prodAttrDoors
-                                     from door in prodAttrDoors.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Doors
+                                     where prodAttr.ProductAttributeID == id
 
-                                     join supplier in Context.Suppliers
-                                     on prodAttr.SupplierID equals supplier.SupplierID into prodAttrSupplier
-                                     from supplier in prodAttrSupplier.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Supplier
+                                     join doorType in Context.DoorType
+                                     on prodAttr.DoorTypeID equals doorType.DoorTypeID into prodAttrDoroType
+                                     from doorType in prodAttrDoroType.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Door Types
 
                                      join currency in Context.Currencies
                                      on prodAttr.CurrencyID equals currency.CurrencyID into prodAttrCurrency
-                                     from currency in prodAttrCurrency.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Supplier
+                                     from currency in prodAttrCurrency.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Currency
 
                                      select new ProductAttributeViewModel
                                      {
                                          ProductAttributeID = prodAttr.ProductAttributeID,
+                                         ProductAttributeName = doorType.DoorTypeName,
+                                         Description = prodAttr.Description,
                                          ProductID = prodAttr.ProductID,
-                                         DoorTypeID = door.DoorTypeID,
-                                         DoorTypeName = door.DoorTypeName,
-                                         SupplierID = supplier.SupplierID,
-                                         SupplierName = supplier.SupplierName,
+                                         CurrencyID = currency.CurrencyID,
+                                         CurrencyName = currency.CurrencyName
+                                     }).ToList();
+
+            return ProductAttributes;
+        }
+
+        public IEnumerable<ProductAttributeViewModel> GetAttributesByProductID(int? id)
+        {
+            var ProductAttributes = (from prodAttr in Context.ProductAttributes
+                                     where prodAttr.ProductID == id
+
+                                     join doorType in Context.DoorType
+                                     on prodAttr.DoorTypeID equals doorType.DoorTypeID into prodAttrDoroType
+                                     from doorType in prodAttrDoroType.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Door Types
+
+                                     join currency in Context.Currencies
+                                     on prodAttr.CurrencyID equals currency.CurrencyID into prodAttrCurrency
+                                     from currency in prodAttrCurrency.DefaultIfEmpty()  // Left Outer Join of Product Attributes to Currency
+
+                                     select new ProductAttributeViewModel
+                                     {
+                                         ProductAttributeID = prodAttr.ProductAttributeID,
+                                         ProductAttributeName = doorType.DoorTypeName,
+                                         Description = prodAttr.Description,
+                                         ProductID = prodAttr.ProductID,
                                          CurrencyID = currency.CurrencyID,
                                          CurrencyName = currency.CurrencyName
 
@@ -54,24 +77,28 @@ namespace Repository.Implementation
             return ProductAttributes;
         }
 
-        public ProductAttributeViewModel GetProductAttrWithDoorName(int? id)
+        public void UpdateProductAttribute(ProductAttribute model)
         {
-            var ProductAttribute = (from prodAttr in Context.ProductAttributes
-                                    where prodAttr.ProductAttributeID == id
-                                    join door in Context.DoorType
-                                    on prodAttr.DoorTypeID equals door.DoorTypeID into prodAttrDoors
-                                    from door in prodAttrDoors.DefaultIfEmpty()  // Left Outer Join
+            using (var command = Context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "sp_UpdateProductAttribute";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                                    select new ProductAttributeViewModel
-                                    {
+                SqlParameter[] _parameters =
+                {
+                  new SqlParameter("ProductAttributeID", model.ProductAttributeID),
+                  new SqlParameter("CurrencyID", model.CurrencyID),
+                  new SqlParameter("ProductAttributeName", model.ProductAttributeName),
+                  new SqlParameter("Description", model.Description),
+                  new SqlParameter("DoorTypeID", model.DoorTypeID),
+                  new SqlParameter("ProductActiveAttributes", model.ProductActiveAttributes)
+                };
 
-                                        ProductAttributeID = prodAttr.ProductAttributeID,
-                                        ProductID = prodAttr.ProductID,
-                                        DoorTypeID = door.DoorTypeID,
-                                        DoorTypeName = door.DoorTypeName
-                                    }).FirstOrDefault();
-
-            return ProductAttribute;
+                command.Parameters.AddRange(_parameters);
+                Context.Database.OpenConnection();
+                command.ExecuteNonQuery();
+                Context.Database.CloseConnection();
+            }
         }
     }
 }

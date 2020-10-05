@@ -11,5 +11,8 @@ namespace BAL.ViewModels.Product
         [DisplayName("Product Height Name")]
         [MaxLength(100)]
         public string ProductHeightName { get; set; }
+
+        [DisplayName("Height")]
+        public string DisplayProductHeightName { get; set; }
     }
 }

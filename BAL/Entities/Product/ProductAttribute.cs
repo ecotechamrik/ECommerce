@@ -9,17 +9,18 @@ namespace BAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductAttributeID { get; set; }
-        public int? ProductID { get; set; }
-        public int? DoorTypeID { get; set; }        
+        public string ProductAttributeName { get; set; }
+        public int? DoorTypeID { get; set; }
+        public string Description { get; set; }
+        public string ProductActiveAttributes { get; set; }
+        public int? ProductID { get; set; }        
         public int? CurrencyID { get; set; }
-        public int? SupplierID { get; set; }
 
 
         /* -- Navigation Properties -- */
-        public Product Product { get; set; }
         public DoorType DoorType { get; set; }
-        public Currency Currency { get; set; }
-        public Supplier Supplier { get; set; }
+        public Product Product { get; set; }        
+        public Currency Currency { get; set; }        
         public ICollection<ProductAttributeThickness> ProductAttributeThicknesses { get; set; }
     }
 }

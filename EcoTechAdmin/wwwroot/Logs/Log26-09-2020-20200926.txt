@@ -1,0 +1,6 @@
+2020-09-26T23:21:20.7460287-04:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-09-26T23:21:20.7554606-04:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-09-26T23:21:20.7556972-04:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)
+2020-09-26T23:27:26.5783711-04:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-09-26T23:27:26.5826978-04:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-09-26T23:27:26.5828402-04:00  [INF] Content root path: "F:\Workspc\EcoTechDoors\ECommerce\EcoTechAdmin" (b5d60022)

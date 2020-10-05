@@ -7,14 +7,13 @@ namespace BAL.ViewModels.Product
     public class ProductAttributeViewModel
     {
         public int ProductAttributeID { get; set; }
-        public int? ProductID { get; set; }
-        
-        [Display(Name = "Door Type")]
-        [Required(ErrorMessage = "Select Door Type")]
-        public int? DoorTypeID { get; set; }
 
         [Display(Name = "Door Type Name")]
-        public string DoorTypeName { get; set; }
+        [Required(ErrorMessage = "Enter Door Name")]
+        public string ProductAttributeName { get; set; }
+        public string Description { get; set; }
+        public string ProductActiveAttributes { get; set; }
+        public int? ProductID { get; set; }
 
         [Display(Name = "Currency Name")]
         [Required(ErrorMessage = "Select Currency")]
@@ -22,13 +21,11 @@ namespace BAL.ViewModels.Product
 
         [Display(Name = "Currency Name")]
         public string CurrencyName { get; set; }
+        public int? DoorTypeID { get; set; }
 
-        [Display(Name = "Supplier Name")]
-        [Required(ErrorMessage = "Select Supplier")]
-        public int? SupplierID { get; set; }
+        [Display(Name = "Door Type Name")]
+        public string DoorTypeName { get; set; }
 
-        [Display(Name = "Supplier Name")]
-        public string SupplierName { get; set; }
         [Display(Name = "Basic Cost")]
         public double InboundCostDisplay { get; set; }
         public double InboundCost { get; set; }
@@ -41,8 +38,7 @@ namespace BAL.ViewModels.Product
         public double LandedCostDisplay { get; set; }
         public double LandedCost { get; set; }
 
-        public string ProductThicknessName { get; set; }
-        public IList<DoorTypeViewModel> DoorTypeList { get; set; }
+        public string ProductThicknessName { get; set; }        
         public IList<CurrencyViewModel> CurrencyList { get; set; }
         public IList<SupplierViewModel> SupplierList { get; set; }
         public IList<ProductThicknessViewModel> ProductThicknessList { get; set; }

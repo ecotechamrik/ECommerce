@@ -11,7 +11,8 @@ namespace BAL.Entities
         public int ProductAttributeThicknessID { get; set; }
         public int? ProductAttributeID { get; set; }
         public int? ProductThicknessID { get; set; }
-        public string ProductCodeInitials { get; set; }        
+        public string ProductCodeInitials { get; set; }
+        public bool Active { get; set; }
 
         /* -- Navigation Properties -- */
         public ProductAttribute ProductAttribute { get; set; }

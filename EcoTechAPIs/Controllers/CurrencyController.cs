@@ -61,7 +61,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/Currency/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Currency model)
+        public IActionResult Put([FromBody] Currency model)
         {
             try
             {

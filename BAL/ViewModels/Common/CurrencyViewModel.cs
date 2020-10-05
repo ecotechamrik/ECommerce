@@ -10,5 +10,9 @@ namespace BAL.ViewModels.Common
         [Required(ErrorMessage = "Please enter Currency Name")]
         [DisplayName("Currency Name")]
         public string CurrencyName { get; set; }
+
+
+        [DisplayName("Is Default Currency?")]
+        public bool IsDefault { get; set; } = false;
     }
 }

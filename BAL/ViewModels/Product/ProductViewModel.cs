@@ -27,35 +27,8 @@ namespace BAL.ViewModels.Product
             }
         }
 
-        //[Display(Name = "Product Code", Prompt = "Product Code")]
-        //public string ProductCode { get; set; }
-
         [Display(Name = "Product Description", Prompt = "Product Description")]
         public string ProductDesc { get; set; }
-
-        [Display(Name = "Priority Number", Prompt = "Priority Number")]
-        public string PriorityNumber { get; set; }
-
-        [Display(Name = "Notes", Prompt = "Notes")]
-        public string Notes { get; set; }
-
-        [Display(Name = "Group Number", Prompt = "Group Number")]
-        public string GroupNumber { get; set; }
-
-        [Display(Name = "Building Code", Prompt = "Building Code")]
-        public string BuildingCode { get; set; }
-
-        [Display(Name = "Location Code", Prompt = "Location Code")]
-        public string LocationCode { get; set; }
-
-        [Display(Name = "Retail Bin", Prompt = "Retail Bin")]
-        public string RetailBin { get; set; }
-
-        [Display(Name = "Whole Sale Bin", Prompt = "Whole Sale Bin")]
-        public string WholeSaleBin { get; set; }
-
-        [Display(Name = "Index Number", Prompt = "Index Number")]
-        public string IndexNumber { get; set; }
 
         [Display(Name = "Category ID")]
         public int? CategoryID { get; set; }
@@ -81,17 +54,14 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Product Grade Name")]
         public string ProductGradeName { get; set; }
 
-        [Display(Name = "Best Quantity")]
-        public int BestQuantity { get; set; }
-
-        [Display(Name = "Current Quantity")]
-        public int CurrentQuantity { get; set; }
-
         [Display(Name = "IP Address")]
         public string IPAddress { get; set; }
 
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
+
+        [JsonIgnore]
+        public string ProductCode { get; set; }
 
         [JsonIgnore]
         public string Active

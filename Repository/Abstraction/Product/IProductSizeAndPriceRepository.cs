@@ -6,7 +6,8 @@ namespace Repository.Abstraction
 {
     public interface IProductSizeAndPriceRepository : IRepository<ProductSizeAndPrice>
     {
-        IEnumerable<ProductSizeAndPriceViewModel> GetByProductAttributeID(int? ProductAttributeID);
+        void UpdatePriceVoid(int ProductSizeAndPriceID, double OrderNo);
         IEnumerable<ProductSizeAndPriceViewModel> GetByProductWidthID(int ProductAttributeThicknessID, int ProductWidthID);
+        IEnumerable<ProductSizeAndPriceViewModel> ProductAttributeDetails(int ProductAttributeID);
     }
 }

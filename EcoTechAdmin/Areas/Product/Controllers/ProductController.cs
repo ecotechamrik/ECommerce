@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BAL.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Net.Http;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using BAL;
@@ -30,9 +30,9 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         /// Index - Load the List of Products
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return await RedirectToIndex();
+            return View();
         }
         #endregion
 
@@ -46,6 +46,105 @@ namespace EcoTechAdmin.Areas.Product.Controllers
         {
             IEnumerable<ProductViewModel> _products = await generateAPIResponse.ProductViewRepo.GetAll("product");
             return View("Index", _products);
+        }
+        #endregion
+
+        #region [ Search the particular product ]
+        /// <summary>
+        /// Search the selected product
+        /// </summary>
+        /// <param name="currentFilter"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Search(String currentFilter, String search)
+        {
+            if (search == null && !string.IsNullOrEmpty(currentFilter))
+            {
+                search = currentFilter;
+            }
+            ViewData["CurrentFilter"] = search;
+            return PartialView("_ProductsList", await SearchResult(search));
+        }
+
+        /// <summary>
+        /// Search Product Results
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<ProductViewModel>> SearchResult(string search)
+        {
+            var searchResults = await GetAllProductDataAsync(search);
+            if (searchResults.Count() > 0)
+                ViewBag.HaveRecords = true;
+            else
+                ViewBag.HaveRecords = false;
+            return searchResults;
+        }
+
+        /// <summary>
+        /// Get All Products List from All Properties of the product
+        /// </summary>
+        /// <returns></returns>
+        private async Task<IEnumerable<ProductViewModel>> GetAllProductDataAsync(String _search)
+        {
+            IEnumerable<ProductViewModel> _products = await generateAPIResponse.ProductViewRepo.GetAll("product");
+
+            // Search product details into all properties
+            if (!String.IsNullOrEmpty(_search))
+            {
+                _products = _products.Where(p =>
+                                          (p.ProductName != null ? p.ProductName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (p.CategoryName != null ? p.CategoryName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (p.ProductDesc != null ? p.ProductDesc.ToLower().Contains(_search.ToLower()) : false)
+                                       || (p.ProductDesignName != null ? p.ProductDesignName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (p.ProductGradeName != null ? p.ProductGradeName.ToLower().Contains(_search.ToLower()) : false)
+                                       || (p.SubCategoryName != null ? p.SubCategoryName.ToLower().Contains(_search.ToLower()) : false)
+                                       ).ToList();
+            }
+            return _products;
+        }
+        #endregion
+
+        #region [ Search the particular product by ProductCode ]
+        /// <summary>
+        /// Search the selected product
+        /// </summary>
+        /// <param name="currentFilter"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SearchByCode(String currentFilter, String search)
+        {
+            if (search == null && !string.IsNullOrEmpty(currentFilter))
+            {
+                search = currentFilter;
+            }
+            ViewData["CurrentFilter"] = search;
+            return PartialView("_ProductsList", await SearchResultByCode(search));
+        }
+
+        /// <summary>
+        /// Search Product Results
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<ProductViewModel>> SearchResultByCode(string search)
+        {
+            var searchResults = await GetAllProductByCodeDataAsync(search);
+            if (searchResults.Count() > 0)
+                ViewBag.HaveRecords = true;
+            else
+                ViewBag.HaveRecords = false;
+            return searchResults;
+        }
+
+        /// <summary>
+        /// Get All Products List from All Properties of the product
+        /// </summary>
+        /// <returns></returns>
+        private async Task<IEnumerable<ProductViewModel>> GetAllProductByCodeDataAsync(String _search)
+        {
+            IEnumerable<ProductViewModel> _products = await generateAPIResponse.ProductViewRepo.GetAll("product/SearchProducts/" + _search);
+            return _products;
         }
         #endregion
 
@@ -83,20 +182,6 @@ namespace EcoTechAdmin.Areas.Product.Controllers
             }
         }
         #endregion
-
-        //#region [ Get All Door Types - Bind Door Types Drop Down List ]
-        ///// <summary>
-        ///// Get All Door Types - Bind Door Types Drop Down List
-        ///// </summary>
-        //private void GetDoorTypes()
-        //{
-        //    IEnumerable<DoorTypeViewModel> _doorTypes = generateAPIResponse.DoorTypeViewRepo.GetAll("doortype").Result;
-        //    if (_doorTypes != null)
-        //    {
-        //        ViewBag.DoorTypes = _doorTypes;
-        //    }
-        //}
-        //#endregion
 
         #region [ Get All Product Designs - Bind Product Designs Drop Down List ]
         /// <summary>

@@ -44,18 +44,18 @@ namespace EcoTechAPIs.Controllers
         }
         #endregion
 
-        // GET: api/GetByProductAttributeID/1
-        [Route("{GetByProductAttributeID}/{pid}")]
-        public IEnumerable<ProductSizeAndPriceViewModel> GetByProductAttributeID(int? pid)
-        {
-            return uow.ProductSizeAndPriceRepo.GetByProductAttributeID(pid);
-        }
-
-        // GET: api/GetByProductAttributeID/1
+        // GET: api/GetByProductWidthID/1
         [Route("{GetByProductWidthID}/{ProductAttributeThicknessID}/{ProductWidthID}")]
         public IEnumerable<ProductSizeAndPriceViewModel> GetByProductWidthID(int ProductAttributeThicknessID, int ProductWidthID)
         {
             return uow.ProductSizeAndPriceRepo.GetByProductWidthID(ProductAttributeThicknessID, ProductWidthID);
+        }
+
+        // GET: api/ProductAttributeDetails/1
+        [Route("{ProductAttributeDetails}/{ProductAttributeID}")]
+        public IEnumerable<ProductSizeAndPriceViewModel> ProductAttributeDetails(int ProductAttributeID)
+        {
+            return uow.ProductSizeAndPriceRepo.ProductAttributeDetails(ProductAttributeID);
         }
 
         // POST: api/ProductSizeAndPrice
@@ -76,7 +76,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/ProductSizeAndPrice/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductSizeAndPrice model)
+        public IActionResult Put([FromBody] ProductSizeAndPrice model)
         {
             try
             {
@@ -99,6 +99,23 @@ namespace EcoTechAPIs.Controllers
                 uow.ProductSizeAndPriceRepo.DeleteByID(id);
                 uow.SaveChanges();
                 return Ok();
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+
+        // UPDATE ORDER: api/ProductSizeAndPrice/UpdatePriceVoid/5/100
+        [Route("UpdatePriceVoid/{id}/{PriceVoid}")]
+        public IActionResult UpdatePriceVoid(int id, double PriceVoid)
+        {
+            try
+            {
+                uow.ProductSizeAndPriceRepo.UpdatePriceVoid(id, PriceVoid);
+                uow.SaveChanges();
+                return Ok("UpdateOrder(int id, int orderNo)");
             }
             catch (Exception)
             {

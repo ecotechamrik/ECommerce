@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<h1>Product Images</h1>
+
+<p>
+    <a href="@BAL.Common.WEBSITEPATH/Product/Product/index/"><customicon type="back" title="Back to Products"></customicon></a> |
+    <a href="@BAL.Common.WEBSITEPATH/Product/ProductImages/create/@ViewBag.ProductID"><customicon type="add" title="Add New Product Images"></customicon></a>
+</p>
+
+<div id="loading-image" class="text-center">
+    <img src="~/img/loader.gif" />
+</div>
+<input type="hidden" id="hdnProductID" value="@ViewBag.ProductID" />
+
+<div id="divProductImagesList"></div>
+
+@section scripts{
+    <script src="~/js/product/productimages/index.js" asp-append-version="true"></script>
+}

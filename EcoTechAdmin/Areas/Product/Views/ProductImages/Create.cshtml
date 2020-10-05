@@ -1,0 +1,57 @@
+﻿@model BAL.ViewModels.Product.ProductImageViewModel
+
+@{
+    ViewData["Title"] = (Model != null && Model.ProductImageID > 0) ? "Edit" : "Create";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div id="main-form">
+    <div>
+        <a href="@BAL.Common.WEBSITEPATH/product/productimages/index/@ViewBag.ProductID"><customicon type="back" title="Back to Product Images"></customicon></a>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form id="uploadForm" asp-action="FileUpload" enctype="multipart/form-data" method="post">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="ProductID" value="@ViewBag.ProductID" />
+                <input type="hidden" asp-for="ProductImageID" />
+
+                <!-- Multiple Upload -->
+                <div class="form-group">
+                    <div class="buttons">
+                        <div class="upload-button">
+                            <div class="label">Upload Multiple Files!</div>
+                            <input id="files" name="files" type="file" accept=".png, .jpg, .jpeg" multiple />
+                        </div>
+                    </div>
+                    <div class="text-warning">*You can upload maximum 10 files at one time.</div>
+                    <div id="file-upload-filename"></div>
+                </div>
+                <!-- Submit/Cancel Buttons -->
+                <div class="form-group">
+                    <input type="button" id="btnSubmit" value="Submit" onclick="SavProductImagesDetails('files');" class="btn btn-primary" />
+                    <a class="btn btn-secondary" href="@BAL.Common.WEBSITEPATH/product/productimages/index/@ViewBag.ProductID">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a href="@BAL.Common.WEBSITEPATH/product/productimages/index/@ViewBag.ProductID"><customicon type="back" title="Back to Product Images"></customicon></a>
+    </div>
+</div>
+
+<div class="row hide" id="loading-image">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="~/img/loader.gif" />
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/product/productimages/create.js" asp-append-version="true"></script>
+}

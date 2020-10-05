@@ -1,0 +1,115 @@
+﻿@model IEnumerable<BAL.ViewModels.Product.ProductSizeAndPriceViewModel>
+
+@{
+    Layout = null;
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table productattribute">
+        <thead>
+            <tr>
+                <th width="43%">
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th width="1%">
+                    @Html.DisplayNameFor(model => model.ProductThicknessName)
+                </th>
+                <th align="center" width="14%">
+                    @Html.DisplayNameFor(model => model.Column80)
+                </th>
+                <th align="center" width="14%">
+                    @Html.DisplayNameFor(model => model.Column84)
+                </th>
+                <th align="center" width="14%">
+                    @Html.DisplayNameFor(model => model.Column90)
+                </th>
+                <th align="center" width="14%">
+                    @Html.DisplayNameFor(model => model.Column96)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="@item.Description" class="form-control productattribute" />
+                    </td>
+                    <td>
+                        <input asp-for="@item.ProductThicknessName" class="form-control productattribute" />
+                    </td>
+                    <td>
+                        @{
+                            if (!string.IsNullOrEmpty(@item.Column80))
+                            {
+                                string[] _Column80 = @item.Column80.Split('_');
+                                if (_Column80 != null)
+                                {
+                                    <input type="hidden" id="@String.Concat("hdnProductSizeAndPriceID_", _Column80[0])" />
+                                    <input type="hidden" id="@String.Concat("hdnProductCode_", _Column80[1])" />
+                                    <div class="row">
+                                        <div class="col-md-9"><input alt="@_Column80[1]" title="@_Column80[1]" onfocus="$.fn.focus(this);" onblur="UpdateOrder(this, 'divLoader_' + @_Column80[0], @_Column80[0]);" asp-for="@_Column80[2]" class="form-control hidearrows productattribute" min="1" onkeypress="return disallowNegativeNumber(event);" /></div>
+                                        <div class="col-md-3 mt-2 pl-0 hide" id="@("divLoader_" + @_Column80[0])"><customicon type="loading"></customicon></div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (!string.IsNullOrEmpty(@item.Column84))
+                            {
+                                string[] _Column84 = @item.Column84.Split('_');
+                                if (_Column84 != null)
+                                {
+                                <input type="hidden" id="@String.Concat("hdnProductSizeAndPriceID_", _Column84[0])" />
+                                <input type="hidden" id="@String.Concat("hdnProductCode_", _Column84[1])" />
+                                <div class="row">
+                                    <div class="col-md-9"><input alt="@_Column84[1]" title="@_Column84[1]" onfocus="$.fn.focus(this);" onblur="UpdateOrder(this, 'divLoader_' + @_Column84[0], @_Column84[0]);" asp-for="@_Column84[2]" class="form-control hidearrows productattribute" min="1" onkeypress="return disallowNegativeNumber(event);" /></div>
+                                    <div class="col-md-3 mt-2 pl-0 hide" id="@("divLoader_" + @_Column84[0])"><customicon type="loading"></customicon></div>
+                                </div>
+                                    }
+                                }
+                            }
+                    </td>
+                    <td>
+                        @{
+                            if (!string.IsNullOrEmpty(@item.Column90))
+                            {
+                                string[] _Column90 = @item.Column90.Split('_');
+                                if (_Column90 != null)
+                                {
+                                <input type="hidden" id="@String.Concat("hdnProductSizeAndPriceID_", _Column90[0])" />
+                                <input type="hidden" id="@String.Concat("hdnProductCode_", _Column90[1])" />
+                                <div class="row">
+                                    <div class="col-md-9"><input alt="@_Column90[1]" title="@_Column90[1]" onfocus="$.fn.focus(this);" onblur="UpdateOrder(this, 'divLoader_' + @_Column90[0], @_Column90[0]);" asp-for="@_Column90[2]" class="form-control hidearrows productattribute" min="1" onkeypress="return disallowNegativeNumber(event);" /></div>
+                                    <div class="col-md-3 mt-2 pl-0 hide" id="@("divLoader_" + @_Column90[0])"><customicon type="loading"></customicon></div>
+                                </div>
+                                    }
+                                }
+                            }
+                    </td>
+                    <td>
+                        @{
+                            if (!string.IsNullOrEmpty(@item.Column96))
+                            {
+                                string[] _Column96 = @item.Column96.Split('_');
+                                if (_Column96 != null)
+                                {
+                                <input type="hidden" id="@String.Concat("hdnProductSizeAndPriceID_", _Column96[0])" />
+                                <input type="hidden" id="@String.Concat("hdnProductCode_", _Column96[1])" />
+                                <div class="row">
+                                    <div class="col-md-9"><input alt="@_Column96[1]" title="@_Column96[1]" onfocus="$.fn.focus(this);" onblur="UpdateOrder(this, 'divLoader_' + @_Column96[0], @_Column96[0]);" asp-for="@_Column96[2]" class="form-control hidearrows productattribute" min="1" onkeypress="return disallowNegativeNumber(event);" /></div>
+                                    <div class="col-md-3 mt-2 pl-0 hide" id="@("divLoader_" + @_Column96[0])"><customicon type="loading"></customicon></div>
+                                </div>
+                                    }
+                                }
+                            }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

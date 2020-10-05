@@ -26,27 +26,12 @@
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="ProductCode" class="control-label font-weight-bold"></label>
-                <input asp-for="ProductCode" class="form-control" />
-                <span asp-validation-for="ProductCode" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <label asp-for="ProductDesc" class="control-label font-weight-bold"></label>
                 <textarea asp-for="ProductDesc" class="form-control" rows="6"></textarea>
                 <span asp-validation-for="ProductDesc" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PriorityNumber" class="control-label font-weight-bold"></label>
-                <input asp-for="PriorityNumber" class="form-control" />
-                <span asp-validation-for="PriorityNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label font-weight-bold"></label>
-                <textarea asp-for="Notes" class="form-control" rows="6"></textarea>
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-
+            
             <!-- Bind Category List-->
             @if (ViewBag.Categories != null)
             {
@@ -90,46 +75,6 @@
                 </div>
             }
 
-            <div class="form-group">
-                <label asp-for="GroupNumber" class="control-label font-weight-bold"></label>
-                <input asp-for="GroupNumber" class="form-control" />
-                <span asp-validation-for="GroupNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BuildingCode" class="control-label font-weight-bold"></label>
-                <input asp-for="BuildingCode" class="form-control" />
-                <span asp-validation-for="BuildingCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LocationCode" class="control-label font-weight-bold"></label>
-                <input asp-for="LocationCode" class="form-control" />
-                <span asp-validation-for="LocationCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RetailBin" class="control-label font-weight-bold"></label>
-                <input asp-for="RetailBin" class="form-control" />
-                <span asp-validation-for="RetailBin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WholeSaleBin" class="control-label font-weight-bold"></label>
-                <input asp-for="WholeSaleBin" class="form-control" />
-                <span asp-validation-for="WholeSaleBin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IndexNumber" class="control-label font-weight-bold"></label>
-                <input asp-for="IndexNumber" class="form-control" />
-                <span asp-validation-for="IndexNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BestQuantity" class="control-label font-weight-bold"></label>
-                <input asp-for="BestQuantity" class="form-control" min="0" />
-                <span asp-validation-for="BestQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrentQuantity" class="control-label font-weight-bold"></label>
-                <input asp-for="CurrentQuantity" class="form-control" min="0" />
-                <span asp-validation-for="CurrentQuantity" class="text-danger"></span>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)

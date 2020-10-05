@@ -11,6 +11,7 @@ namespace BAL.ViewModels.Product
         [Display(Name = "Sub Category Name", Prompt = "Sub Category Name")]
         [Required(ErrorMessage = "Enter Sub Category Name")]
         public string SubCategoryName { get; set; }
+        public string SubCategoryCode { get; set; }
 
         [Display(Name = "Sub Category Description", Prompt = "Sub Category Description")]
         public string Description { get; set; }

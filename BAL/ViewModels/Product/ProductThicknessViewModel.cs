@@ -13,6 +13,8 @@ namespace BAL.ViewModels.Product
         [DisplayName("Product Thickness Name")]
         [MaxLength(100)]
         public string ProductThicknessName { get; set; }
+        public string ProductCodeInitials { get; set; }
         public int ProductAttributeThicknessID { get; set; }
+        public bool Active { get; set; }
     }
 }

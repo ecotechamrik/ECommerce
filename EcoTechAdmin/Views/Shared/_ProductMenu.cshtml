@@ -1,9 +1,9 @@
 ﻿<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
     <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "Product,ProductAttribute,ProductSizeAndPrice")" asp-area="Product" asp-controller="Product" asp-action="Index">Products</a>
+        <li class="nav-item backcolor">
+            <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit", controllers: "Product,ProductAttribute,ProductSizeAndPrice,ProductImages")" asp-area="Product" asp-controller="Product" asp-action="Index">Products</a>
         </li>
-        <li>
+        @*<li>
             <hr />
         </li>
         <li class="backcolor font-weight-bold text-center">
@@ -26,7 +26,7 @@
         </li>
         <li class="nav-item backcolor">
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "ProductThickness")" asp-area="Product" asp-controller="ProductThickness" asp-action="Index">Product Thicknesses</a>
-        </li>
+        </li>*@
         <li class="nav-item backcolor">
             <a class="nav-link text-dark @Html.IsSelected(actions: "Index,Details,Create,Edit,", controllers: "Supplier")" asp-area="Product" asp-controller="Supplier" asp-action="Index">Suppliers</a>
         </li>

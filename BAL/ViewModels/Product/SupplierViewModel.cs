@@ -7,7 +7,7 @@ namespace BAL.ViewModels.Product
 {
     public class SupplierViewModel
     {
-        public int SupplierID { get; set; }
+        public int SupplierID { get; set; } 
 
         [Required(ErrorMessage = "Please Enter Supplier Name")]
         [Display(Name = "Supplier Name", Prompt = "Supplier Name")]

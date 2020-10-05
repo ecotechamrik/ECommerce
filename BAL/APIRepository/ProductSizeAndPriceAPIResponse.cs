@@ -30,6 +30,47 @@ namespace BAL
         }
         #endregion
 
-        
+        #region [ Save Entity ]
+        /// <summary>
+        /// Save Entity Record into DB
+        /// </summary>
+        /// <param name="baseAddress"></param>
+        /// <returns></returns>
+        public async Task<ProductSizeAndPriceViewModel> SaveModel(String apiMethod, ProductSizeAndPriceViewModel entity)
+        {
+            string entitydata = JsonConvert.SerializeObject(entity);
+            StringContent content = new StringContent(entitydata, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(client.BaseAddress + apiMethod, content);
+
+            ProductSizeAndPriceViewModel model = new ProductSizeAndPriceViewModel();
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<ProductSizeAndPriceViewModel>(data);
+            }
+
+            return model;
+        }
+        #endregion
+
+        #region [ Update Price Void ]
+        /// <summary>
+        /// Update Price Void
+        /// </summary>
+        /// <param name="apiMethod"></param>
+        /// <param name="id"></param>
+        /// <param name="pricevoid"></param>
+        /// <returns></returns>
+        public async Task<Boolean> UpdatePriceVoid(string apiMethod, int id, double pricevoid)
+        {
+            var response = await client.GetAsync(client.BaseAddress + apiMethod + "/" + id + "/" + pricevoid);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        #endregion
     }
 }

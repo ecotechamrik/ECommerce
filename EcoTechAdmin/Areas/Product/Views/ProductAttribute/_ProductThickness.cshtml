@@ -9,16 +9,17 @@
         <div class="row">
             <div class="col-md-1">
                 <div class="form-group">
-                    <input type="hidden" asp-for="ProductThicknessID" />
+                    <input type="hidden" id="ProductAttributeThicknessID_@Model.ProductThicknessID" asp-for="ProductAttributeThicknessID" />
                     <label asp-for="ProductThicknessName" class="control-label font-weight-bold"></label>
-                    <div class="form-control" style="background-color:#8b0b0b;color:#FFF">@Html.DisplayFor(model => model.ProductThicknessName)</div>
+                    <input class="form-control" style="background-color:#8b0b0b;color:#FFF" value="@Model.ProductThicknessName" id="ProductThicknessID_@Model.ProductThicknessID" />
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label asp-for="ProductCodeInitials" class="control-label font-weight-bold"></label>
-                    <input asp-for="ProductCodeInitials" class="form-control" onkeyup="InsertProductCode(this, @Model.ProductThicknessName);" />
+                    <input asp-for="ProductCodeInitials" class="form-control" id="ProductCodeInitials_@Model.ProductThicknessID" onkeyup="InsertProductCode(this, @Model.ProductThicknessID);" />
                     <span asp-validation-for="ProductCodeInitials" class="text-danger"></span>
+                    <script>InsertProductCode($('#ProductCodeInitials_' + @Model.ProductThicknessID), @Model.ProductThicknessID);</script>
                 </div>
             </div>
         </div>
@@ -27,16 +28,28 @@
         @{
             for (int count = 0; count < Model.ProductWidthList.Count(); count++)
             {
+                if (count == 0)
+                {
+                    <script>
+                        _widths = @Model.ProductWidthList[count].ProductWidthID;
+                    </script>
+                }
+                else
+                {
+                    <script>
+                        _widths = _widths + ',' + @Model.ProductWidthList[count].ProductWidthID;
+                    </script>
+                }
+                <!-- ID Structure: PropertyName_ProductThicknessID_ProductWidthID -->
                 <div class="row">
                     <div class="col-md-1">
                         <div class="form-group">
                             <label asp-for="@Model.ProductWidthList[count].DisplayProductWidthName" class="control-label font-weight-bold"></label>
-                            <input type="hidden" asp-for="@Model.ProductWidthList[count].ProductWidthID" />
-                            <div class="form-control" style="background-color:#b57b7b;color:#FFF">@Html.DisplayFor(model => @Model.ProductWidthList[count].ProductWidthName)</div>
+                            <input id="@String.Concat("ProductWidthID_", @Model.ProductThicknessID, "_", @Model.ProductWidthList[count].ProductWidthID)" class="form-control" style="background-color:#b57b7b;color:#FFF" value="@Model.ProductWidthList[count].ProductWidthName" />
                         </div>
                     </div>
                     <div class="col-md-11">
-                        @Html.RenderAction("ProductThicknessHeights", "ProductAttribute", new { ProductAttributeThicknessID = Model.ProductAttributeThicknessID, ProductWidthID = Model.ProductWidthList[count].ProductWidthID, ProductThickness = Model.ProductThicknessName, ProductWidth = Model.ProductWidthList[count].ProductWidthName })
+                        @Html.RenderAction("ProductThicknessHeights", "ProductAttribute", new { ProductAttributeThicknessID = Model.ProductAttributeThicknessID, ProductThicknessID = Model.ProductThicknessID, ProductWidthID = Model.ProductWidthList[count].ProductWidthID, ProductThickness = Model.ProductThicknessName, ProductWidth = Model.ProductWidthList[count].ProductWidthName })
                     </div>
                 </div>
             }

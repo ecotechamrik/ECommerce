@@ -30,29 +30,6 @@ namespace BAL
         }
         #endregion
 
-        #region [ Get Product Attribute Details With DoorName ]
-        /// <summary>
-        /// Get Product Attribute Details With DoorName
-        /// </summary>
-        /// <param name="apiMethod"></param>
-        /// <param name="id"></param>
-        /// <param name="orderno"></param>
-        /// <returns></returns>
-        public async Task<ProductAttributeViewModel> GetProductAttrWithDoorName(string apiMethod, int id)
-        {
-            var response = await client.GetAsync(client.BaseAddress + apiMethod + "/" + id);
-
-            ProductAttributeViewModel model = new ProductAttributeViewModel();
-            if (response.IsSuccessStatusCode)
-            {
-                string data = response.Content.ReadAsStringAsync().Result;
-                model = JsonConvert.DeserializeObject<ProductAttributeViewModel>(data);
-            }
-
-            return model;
-        }
-        #endregion
-
         #region [ Save Entity ]
         /// <summary>
         /// Save Entity Record into DB

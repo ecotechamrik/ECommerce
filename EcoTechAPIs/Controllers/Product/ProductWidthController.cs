@@ -62,7 +62,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/productWidth/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductWidth model)
+        public IActionResult Put([FromBody] ProductWidth model)
         {
             try
             {

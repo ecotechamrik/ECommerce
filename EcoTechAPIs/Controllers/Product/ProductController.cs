@@ -42,6 +42,13 @@ namespace EcoTechAPIs.Controllers
             return GetProductDetails(id);
         }
 
+        // GET: api/product/SearchProducts
+        [Route("SearchProducts/{search?}")]
+        public IEnumerable<ProductViewModel> SearchProducts(String search)
+        {
+            return uow.ProductRepo.SearchProducts(search);
+        }
+
         #region [ Show all or Selected Door Type information ]
         /// <summary>
         /// Show all or selected Door Type information
@@ -72,7 +79,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/product/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Product model)
+        public IActionResult Put([FromBody] Product model)
         {
             try
             {

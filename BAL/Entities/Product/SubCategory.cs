@@ -13,6 +13,7 @@ namespace BAL.Entities
         [Required]
         //[Column(TypeName = "nvarchar(100)")]
         public string SubCategoryName { get; set; }
+        public string SubCategoryCode { get; set; }
 
         //[Column(TypeName = "nvarchar(500)")]
         public string Description { get; set; }

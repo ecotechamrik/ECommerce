@@ -10,7 +10,6 @@ using System.IO;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
-using System.Reflection;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 #endregion

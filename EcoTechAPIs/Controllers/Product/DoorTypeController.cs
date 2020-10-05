@@ -61,7 +61,7 @@ namespace EcoTechAPIs.Controllers
 
         // PUT: api/doortype/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] DoorType model)
+        public IActionResult Put([FromBody] DoorType model)
         {
             try
             {
